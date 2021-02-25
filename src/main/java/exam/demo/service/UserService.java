@@ -4,6 +4,7 @@ import exam.demo.entity.Role;
 import exam.demo.entity.User;
 import exam.demo.entity.enums.EntityStatus;
 import exam.demo.payload.Result;
+import exam.demo.payload.ResultModel;
 import exam.demo.payload.admin.UserEdit;
 import exam.demo.payload.admin.UserRequest;
 import exam.demo.repository.RoleRepository;
@@ -118,11 +119,12 @@ public class UserService {
         return user.get();
     }
 
-    public Result checkUser(String userName) {
-        Result result = new Result();
+    public ResultModel checkUser(String userName) {
+        ResultModel result = new ResultModel();
         Optional<User> user = userRepository.findByUserName(userName);
         if (user.isPresent()) {
             result.setSuccess(false);
+            result.setObject(user.get());
             result.setMessage("Ushbu user mavjud");
             return result;
         }

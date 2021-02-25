@@ -1,5 +1,6 @@
 package exam.demo.repository.bot;
 
+
 import exam.demo.entity.bot.Attachment;
 import exam.demo.entity.bot.Client;
 import exam.demo.entity.enums.FileType;
@@ -12,6 +13,6 @@ import java.util.Optional;
 @Repository
 public interface AttachmentRepository extends JpaRepository<Attachment, Long> {
 
-    List<Attachment> findByClientAndType(Client client,FileType picture);
+    List<Attachment> findByClientAndTypeAndDelete(Client client, FileType picture, Boolean delete);
     Optional <Attachment> findById(Long id);
  }

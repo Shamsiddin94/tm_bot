@@ -22,7 +22,6 @@ import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
-
 @Component
 public class TelegramBot extends TelegramLongPollingBot {
     private  String token = getBotToken();
@@ -40,11 +39,12 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     @Override
     public String getBotToken() {
-        return "992636417:AAGKl06nmI37nRxGYqA0kcnTK5YZzUFia3k";
+        return botToken;
     }
 
     @Override
     public void onUpdateReceived(Update update) {
+
         Message message = update.getMessage();
         SendMessage sendMessage = new SendMessage();
         String xabar;
@@ -57,7 +57,12 @@ public class TelegramBot extends TelegramLongPollingBot {
                 client= (Client) result.getObject();
                 System.out.println(client.toString() ) ;
                 if (message.hasText()) {
+
                     String text = message.getText();
+                    System.out.println("1---"+text);
+                    String text1 = message.getText();
+                    System.out.println("2---"+text1);
+                    botService.saveMessage(client,text);
                     switch (text) {
                         case "start":
                             xabar="Assalomu aleykum \n" +client.getUser().getFullName()+"\n"+
@@ -79,8 +84,7 @@ public class TelegramBot extends TelegramLongPollingBot {
 
                    xabar="" +client.getUser().getFullName()+"\n"+
                             "Sizning  rasmlaringiz yuklandi.\n Ularni tizimdan yuklab olishlaringiz mumkin"+"\n";
-                    sendMessage.setText(photoResult.getSuccess()?xabar:"Fayl   5 mb rasm yoki 20 mb document bo'lishi zarur" +
-                            "Administratorga murojaat qiling\n admin:  @X_Shamsiddin");
+                    sendMessage.setText(photoResult.getSuccess()?xabar:AppConstants.error_picture);
                 }
 
                 /**/
@@ -88,9 +92,7 @@ public class TelegramBot extends TelegramLongPollingBot {
                    Result docDocresult= botService.documentUpload(message.getDocument());
                     xabar="" +client.getUser().getFullName()+"\n"+
                             "Sizning  hujjatlaringiz yuklandi.\n Ularni tizimdan yuklab olishlaringiz mumkin"+"\n";
-                    sendMessage.setText(docDocresult.getSuccess()?xabar:"Yuklashda xatolik sodir bo'ldi\n " +
-                            "Fayl   5 mb rasm yoki 20 mb document bo'lishi zarur\n"+
-                            "Administratorga murojaat qiling\n admin:  @X_Shamsiddin");
+                    sendMessage.setText(docDocresult.getSuccess()?xabar:AppConstants.error_file);
                 }
 
 
@@ -99,7 +101,10 @@ public class TelegramBot extends TelegramLongPollingBot {
                 xabar ="Siz ro'yxatdan o'tmagansiz!!! \nIltimos kalitni adminga yuboring \n admin:  @X_Shamsiddin";
                 sendMessage.setText("Assalomu aleykum\n"+xabar+"\n Kalit:  "+message.getChatId()+"\n");
             }
-        }else {
+        }
+
+
+        else {
          xabar ="Iltimos kalit adminga yuboring \n admin:  @X_Shamsiddin";
             sendMessage.setText("Assalomu aleykum\n"+"\n"+xabar+"Kalit:  "+message.getChatId());
         }

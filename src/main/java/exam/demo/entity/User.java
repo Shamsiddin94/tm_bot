@@ -33,6 +33,11 @@ public class User extends AbsEntity implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = true)
+    private boolean canSend = false;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<UserLog> logs;
 
 
     /*tizim*/
@@ -50,8 +55,8 @@ public class User extends AbsEntity implements UserDetails {
 
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_role",joinColumns = {@JoinColumn(name = "user_id")},
-        inverseJoinColumns = {@JoinColumn(name = "role_id")})
+    @JoinTable(name = "user_role", joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id")})
     private List<Role> roles;
 
 
@@ -64,10 +69,10 @@ public class User extends AbsEntity implements UserDetails {
 
 
     /*Security*/
-    private Boolean accountNonExpired=true;
-    private Boolean accountNonLocked =true;
-    private Boolean credentialNonExpired =true;
-    private Boolean enabled=true;
+    private Boolean accountNonExpired = true;
+    private Boolean accountNonLocked = true;
+    private Boolean credentialNonExpired = true;
+    private Boolean enabled = true;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

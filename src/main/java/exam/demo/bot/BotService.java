@@ -3,11 +3,14 @@ package exam.demo.bot;
 import com.google.gson.Gson;
 import exam.demo.entity.bot.Attachment;
 import exam.demo.entity.bot.Client;
+import exam.demo.entity.bot.Message;
 import exam.demo.entity.enums.FileType;
 import exam.demo.payload.Result;
 import exam.demo.payload.ResultModel;
 import exam.demo.repository.bot.AttachmentRepository;
 import exam.demo.repository.bot.ClientRepository;
+import exam.demo.repository.bot.MessageRepository;
+import exam.demo.utils.AppConstants;
 import jdk.nashorn.internal.parser.JSONParser;
 import net.bytebuddy.asm.Advice;
 import org.json.JSONObject;
@@ -41,8 +44,20 @@ public class BotService {
      @Autowired
      private ClientRepository clientRepository;
      @Autowired
+     private MessageRepository messageRepository;
+     @Autowired
      private AttachmentRepository attachmentRepository;
+
      private Client client;
+
+
+     public void saveMessage(Client client, String m){
+         Message message=new Message();
+         message.setMessage(m);
+         message.setClient(client);
+         messageRepository.save(message);
+
+     }
      @Transactional()
      public ResultModel existUser(Long chatId){
           ResultModel result=new ResultModel();
@@ -89,9 +104,7 @@ public class BotService {
           {
                e.printStackTrace();
                result.setSuccess(false);
-               result.setMessage("Fayl yuklashda xatolik sodir bo'ldi\n " +
-                       "Fayl   5 mb rasm yoki 20 mb document bo'lishi zarur \n"+
-                       "Iltimos administratorga murojaat qiling");
+               result.setMessage(AppConstants.error_picture);
                return result;
           }
           result.setSuccess(true);
@@ -100,7 +113,7 @@ public class BotService {
 
 
      public Result documentUpload(Document document){
-          Result result=new Result();
+         Result result=new Result();
          String name=UUID.randomUUID().toString() ;
          Attachment attachment=new Attachment();
          System.out.println(document);
@@ -121,8 +134,7 @@ public class BotService {
           {
               e.printStackTrace();
               result.setSuccess(false);
-              result.setMessage("Fayl yuklashda xatolik sodir bo'ldi\n " +
-                      "Iltimos administratorga murojaat qiling");
+              result.setMessage(AppConstants.error_file);
               return result;
 
           }

@@ -42,8 +42,8 @@
             <th>Id</th>
             <th>Rasm Nomi</th>
             <th>Kelgan Sana</th>
-            <th> Turi</th>
-            <th> O'lchami</th>
+            <th>Turi</th>
+            <th>O'lchami</th>
 
             <th>Yuklash</th>
         </tr>
@@ -57,7 +57,7 @@
 
                 <td th:text="${picture.id}"></td>
                 <td th:text="${picture.fileName}"></td>
-                    <td th:text="${#dates.format(picture.createdAt, 'dd-MMM-yyyy')}"></td>
+                    <td th:text="${#dates.format(picture.createdAt, 'dd-MM-yyyy HH:mm')}"></td>
                 <td th:text="${picture.type}"></td>
                 <td th:text="${picture.size}"></td>
 
@@ -65,6 +65,8 @@
                 <td>
                     <a th:href="${'/telegram/picture/get/'+picture.id}"
                        class="btn btn-success  btn-sm "><i class="fa fa-download"></i> Yuklash </a>
+                    <a th:href="${'/telegram/picture/delete/'+picture.id}"
+                       class="btn btn-danger   btn-sm "> <i class="fa fa-trash"></i> O'chirish </a>
                 </td>
             </tr>
         </th:block>

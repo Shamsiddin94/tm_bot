@@ -18,6 +18,9 @@ public class Attachment extends AbsEntity {
     private  String fileUrl;
     private String fileName;
     private String contentType;
+    @Column(nullable = true)
+    private boolean delete=false;
+
     @Enumerated(EnumType.STRING)
     private FileType type;
     private  String size;

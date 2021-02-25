@@ -3,7 +3,7 @@
 
 # Log file
 *.log
-
+/botFiles/received
 # BlueJ files
 *.ctxt
 

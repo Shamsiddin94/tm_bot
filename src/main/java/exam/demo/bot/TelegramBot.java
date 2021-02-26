@@ -25,7 +25,7 @@ import java.util.*;
 @Component
 public class TelegramBot extends TelegramLongPollingBot {
     private  String token = getBotToken();
-    public static final String botToken="992636417:AAGKl06nmI37nRxGYqA0kcnTK5YZzUFia3k";
+    public static final String botToken="992636417:AAGPsOF3jsRLYKR_k53CFEs2_HDmVuYWMWI";
     public static final String upPath = AppConstants.botFiles.toString();
 
     @Autowired

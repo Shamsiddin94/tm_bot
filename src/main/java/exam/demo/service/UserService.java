@@ -1,6 +1,5 @@
 package exam.demo.service;
 
-import exam.demo.entity.Role;
 import exam.demo.entity.User;
 import exam.demo.entity.enums.EntityStatus;
 import exam.demo.payload.Result;
@@ -9,6 +8,7 @@ import exam.demo.payload.admin.UserEdit;
 import exam.demo.payload.admin.UserRequest;
 import exam.demo.repository.RoleRepository;
 import exam.demo.repository.UserRepository;
+import exam.demo.service.admin.AdminSercive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,7 +17,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +31,9 @@ public class UserService {
     @Autowired
     private RoleRepository roleRepository;
 
+    @Autowired
+    private AdminSercive adminSercive;
+
     public List<User> getAll() {
         return userRepository.findAllByState(EntityStatus.ACTIVE);
     }
@@ -45,10 +47,7 @@ public class UserService {
           user.setUserName(userRequest.getUserName());
           user.setFullName(userRequest.getFullName());
           user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
-           List<Role> roles=new ArrayList<>();
-           Role role=roleRepository.getOne(userRequest.getRole());
-           roles.add(role);
-           user.setRoles(roles);
+           user.setRoles(adminSercive.getRoleListFromId(userRequest.getList()));
            userRepository.save(user);
 
        }
@@ -90,10 +89,7 @@ public class UserService {
         user.setFullName(userRequest.getFullName());
         user.setUserName(userRequest.getUserName());
         user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
-        List<Role> roles=new ArrayList<>();
-        Role role=roleRepository.getOne(userRequest.getRole());
-        roles.add(role);
-        user.setRoles(roles);
+        user.setRoles(adminSercive.getRoleListFromId(userRequest.getList()));
        try {
            userRepository.save(user);
            result.setMessage("User saqlandi");

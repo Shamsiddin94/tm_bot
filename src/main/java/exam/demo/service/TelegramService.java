@@ -66,7 +66,6 @@ public class TelegramService {
 
     }
 
-
     public void deleteAttachment(User user,Long id){
 
        List<Attachment> attachments=allPictures(user);
@@ -83,6 +82,9 @@ public class TelegramService {
 
     }
 
+
+
+    //ReceiveFiles
     public List<Attachment> allPictures(User user) {
         List<Client> clients = clientRepository.findByUser(user);
         List<Attachment> attachments = new ArrayList<>();
@@ -183,6 +185,112 @@ public class TelegramService {
         resultModel.setMessage("");
         return resultModel;
     }
+
+    //SendFiles
+
+    public List<Attachment> allSendPictures(User user) {
+        List<Client> clients = clientRepository.findByUser(user);
+        List<Attachment> attachments = new ArrayList<>();
+        clients.forEach(client -> {
+            attachments.addAll(attachmentRepository.findByClientAndTypeAndDelete(client, FileType.SENDPIC,false));
+        });
+        return attachments;
+    }
+
+    public ResultModel getSendPicture(Long id, User user) {
+        List<Attachment> attachments = allSendPictures(user);
+        ResultModel resultModel = new ResultModel();
+        Optional<Attachment> attachmentOptional = attachmentRepository.findById(id);
+        Map<String, String> map = new HashMap<>();
+        if (attachmentOptional.isPresent()) {
+            Attachment attachment = attachmentOptional.get();
+            attachment.setOpen(true);
+            attachmentRepository.save(attachment);
+            if (attachments.contains(attachment)) {
+                map.put("type", attachment.getContentType());
+                Path file = AppConstants.botFiles.resolve(attachment.getFileUrl());
+                try {
+                    Resource resource = new UrlResource(file.toUri());
+                    if (resource.exists() || resource.isReadable()) {
+                        resultModel.setSuccess(true);
+                        resultModel.setData(map);
+                        resultModel.setMessage(attachment.getFileUrl());
+                        resultModel.setObject(resource);
+                        return resultModel;
+                    } else {
+                        throw new StorageFileNotFoundException(
+                                "Could not read file: " + attachment.getFileUrl());
+
+                    }
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+
+
+                resultModel.setSuccess(false);
+                resultModel.setData(map);
+                resultModel.setMessage(attachment.getFileUrl());
+                return resultModel;
+            }
+        }
+        resultModel.setSuccess(false);
+        resultModel.setMessage("");
+        return resultModel;
+    }
+
+    public List<Attachment> getAllSendDocs(User user) {
+        List<Client> clients = clientRepository.findByUser(user);
+        List<Attachment> attachments = new ArrayList<>();
+        clients.forEach(client -> {
+            attachments.addAll(attachmentRepository.findByClientAndTypeAndDelete(client, FileType.SENDDOC,false));
+        });
+        return attachments;
+    }
+
+    public ResultModel getSendDoc(Long id, User user) {
+        List<Attachment> attachments = getAllSendDocs(user);
+        ResultModel resultModel = new ResultModel();
+        Map<String, String> map = new HashMap<>();
+        Optional<Attachment> attachmentOptional = attachmentRepository.findById(id);
+        if (attachmentOptional.isPresent()) {
+            Attachment attachment = attachmentOptional.get();
+            attachment.setOpen(true);
+            attachmentRepository.save(attachment);
+            if (attachments.contains(attachment)) {
+                Path file = AppConstants.botFiles.resolve(attachment.getFileUrl());
+                try {
+                    Resource resource = new UrlResource(file.toUri());
+                    if (resource.exists() || resource.isReadable()) {
+                        map.put("type", attachment.getContentType());
+                        map.put("size", attachment.getSize());
+                        resultModel.setSuccess(true);
+                        resultModel.setData(map);
+
+                        resultModel.setMessage(attachment.getFileName());
+                        resultModel.setObject(resource);
+                        return resultModel;
+                    } else {
+                        throw new StorageFileNotFoundException(
+                                "Could not read file: " + attachment.getFileUrl());
+
+                    }
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+
+
+                resultModel.setSuccess(false);
+                resultModel.setMessage(attachment.getFileName());
+                return resultModel;
+            }
+        }
+        resultModel.setSuccess(false);
+        resultModel.setMessage("");
+        return resultModel;
+    }
+
+
+
 
     public Result addClient(ClientRequest clientRequest) {
         if (clientRepository.findByChatId(clientRequest.getChatId()).isPresent()) {

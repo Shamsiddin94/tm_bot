@@ -108,6 +108,7 @@ public class AdminController {
     public String addUser(@Valid UserRequest request,BindingResult bindingResult,Model model){
 
            if (bindingResult.hasErrors()){
+
                model.addAttribute("roles", adminSercive.getRoles());
                model.addAttribute("result",new Result(false,""));
                return "admin/users/add";
@@ -129,7 +130,7 @@ public class AdminController {
             return "redirect:/admin/users";
         }
         User user=userOptional.get();
-        UserRequest userRequest=new UserRequest(user.getFullName(),user.getUsername(),user.getRoles().get(0).getId());
+        UserRequest userRequest=new UserRequest(user.getFullName(),user.getUsername(),adminSercive.getIdsFromRole(user.getRoles()));
         model.addAttribute("userRequest",userRequest);
         model.addAttribute("roles",adminSercive.getRoles());
         model.addAttribute("result",new Result(false,""));

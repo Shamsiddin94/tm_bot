@@ -1,29 +1,37 @@
 package exam.demo.bot;
 
 import com.google.gson.Gson;
+import exam.demo.entity.User;
 import exam.demo.entity.bot.Attachment;
 import exam.demo.entity.bot.Client;
 import exam.demo.entity.bot.Message;
 import exam.demo.entity.enums.FileType;
+import exam.demo.entity.hujjat.Bajarish;
+import exam.demo.entity.hujjat.Hujjat;
+import exam.demo.entity.hujjat.HujjatFile;
+import exam.demo.exception.StorageException;
+import exam.demo.payload.AttachmentRequest;
 import exam.demo.payload.Result;
 import exam.demo.payload.ResultModel;
+import exam.demo.payload.kanselyariya.HujjatRequest;
 import exam.demo.repository.bot.AttachmentRepository;
 import exam.demo.repository.bot.ClientRepository;
 import exam.demo.repository.bot.MessageRepository;
 import exam.demo.utils.AppConstants;
 import jdk.nashorn.internal.parser.JSONParser;
 import net.bytebuddy.asm.Advice;
+import org.apache.commons.io.FilenameUtils;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.sql.Date;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +39,10 @@ import java.util.UUID;
 
 import static exam.demo.bot.TelegramBot.botToken;
 import static exam.demo.bot.TelegramBot.upPath;
+
+import org.springframework.web.multipart.MultipartFile;
+import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 
@@ -47,8 +59,55 @@ public class BotService {
      private MessageRepository messageRepository;
      @Autowired
      private AttachmentRepository attachmentRepository;
+     @Autowired
+     private TelegramLongPollingBot pollingBot;
 
      private Client client;
+
+
+    public Result saveSendFile(AttachmentRequest request) throws StorageException {
+        Result result=new Result();
+        if (client==null){
+            result.setSuccess(false);
+            result.setMessage("Botdan fayl yuklash uchun  oldin botga xabar yuboring");
+            return result;
+        }
+        for (MultipartFile file: request.getFiles() ) {
+           Attachment attachment=new Attachment();
+           attachment.setFileName(file.getOriginalFilename());
+           attachment.setType(FileType.SENDDOC);
+            attachment.setSize(String.valueOf(file.getSize()/1024));
+            attachment.setContentType(file.getContentType());
+            attachment.setClient(client);
+            String fileName=UUID.randomUUID()+"."+ FilenameUtils.getExtension(file.getOriginalFilename());
+           attachment.setFileUrl(fileName);
+
+            try {
+                if (file.isEmpty()) {
+                    throw new StorageException("Failed to store empty file " + fileName);
+                }
+                if (fileName.contains("..")) {
+                    // This is a security check
+                    throw new StorageException(
+                            "Cannot store file with relative path outside current directory "
+                                    + fileName);
+                }
+                try (InputStream inputStream = file.getInputStream()) {
+                    Files.copy(inputStream, AppConstants.botFileSend.resolve(fileName),
+                            StandardCopyOption.REPLACE_EXISTING);
+                }
+            } catch (IOException e) {
+                throw new StorageException("Failed to store file " + fileName, e);
+
+            }
+            attachmentRepository.save(attachment);
+
+        }
+        result.setSuccess(true);
+        result.setMessage("Hujjat saqlandi");
+        return result;
+    }
+
 
 
      public void saveMessage(Client client, String m){
@@ -167,7 +226,7 @@ public class BotService {
         return new Result(true,file_name);
     }
 
-    public String getContentType(String path){
+      public String getContentType(String path){
         MimetypesFileTypeMap mimeTypesMap = new MimetypesFileTypeMap();
 
         String contentType = mimeTypesMap.getContentType(path);

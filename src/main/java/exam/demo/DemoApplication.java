@@ -19,7 +19,7 @@ public class DemoApplication {
 
         /*Telegram bot*/
 
-       ApiContextInitializer.init();
+      // ApiContextInitializer.init();
 
 
         if (!Files.exists(AppConstants.botFiles)) {
@@ -33,7 +33,17 @@ public class DemoApplication {
             }
 
         }
+        if (!Files.exists(AppConstants.botFileSend)) {
+            try {
 
+                Files.createDirectories(AppConstants.botFileSend);
+                System.out.println(AppConstants.botFileSend+"--papka yaratildi");
+
+            } catch (IOException e) {
+                throw new StorageException("Papka yaritshda xatolik", e);
+            }
+
+        }
 
 
         if (!Files.exists(AppConstants.hujjat)) {

@@ -1,15 +1,14 @@
 package exam.demo.controller;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import exam.demo.entity.User;
-import exam.demo.entity.bot.Attachment;
+import exam.demo.payload.AttachmentRequest;
+import exam.demo.payload.Result;
 import exam.demo.payload.ResultModel;
 import exam.demo.security.CurrentUser;
 import exam.demo.service.TelegramService;
 import exam.demo.service.kanselyariya.HujjatService;
-import org.jvnet.hk2.internal.Collector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -17,9 +16,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.jws.WebParam;
+import javax.validation.Valid;
 import java.net.URLEncoder;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -32,6 +32,36 @@ public class TelegramController {
     private TelegramService telegramService;
     @Autowired
     private HujjatService service;
+
+    @GetMapping(value = {"/send"})
+    public String sendIndex(@CurrentUser User user, Model model) {
+        model.addAttribute("documents", telegramService.getAllSendDocs(user));
+
+     return  "telegram/send/index";
+    }
+
+    @GetMapping(value = {"/send/file"})
+    public String sendFile(@CurrentUser User user, Model model) {
+        model.addAttribute("attachmentRequest", new AttachmentRequest());
+        model.addAttribute("savpath","/telegram/send/file");
+        model.addAttribute("result",new Result(false, ""));
+        return  "telegram/send/file";
+
+    }
+
+    @PostMapping(value = {"/send/file"})
+    public String sendFile(@CurrentUser User user, @Valid AttachmentRequest request, BindingResult bindingResult, Model model) {
+
+        Result result=new Result(false, "");
+        if (bindingResult.hasErrors()){
+            model.addAttribute("result",result);
+            return  "telegram/send/file";
+        }
+        System.out.println(request.toString());
+
+        return  "redirect:/telegram/send";
+    }
+
 
 
     @GetMapping(value = {"/document/delete/{id}"})

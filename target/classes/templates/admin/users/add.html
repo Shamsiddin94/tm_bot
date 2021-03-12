@@ -75,11 +75,11 @@
         <div class="form-group">
             <label for="role" class="col-sm-2 control-label">Role</label>
             <div class="col-sm-10">
-            <select class="form-control" th:field="*{role}" id="role" >
-                <option value="">Tanlang..</option>
+            <select class="form-control" th:field="*{list}" id="list" multiple="multiple" >
+
                 <option th:each="role:${roles}" th:value="${role.id}" th:text="${role.name}"></option>
             </select>
-                <p class="text-danger" th:if="${#fields.hasErrors('role')}" th:errors="*{role}" ></p>
+                <p class="text-danger" th:if="${#fields.hasErrors('list')}" th:errors="*{list}" ></p>
             </div>
 
 

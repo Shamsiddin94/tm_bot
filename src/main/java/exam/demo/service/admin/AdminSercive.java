@@ -14,12 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +30,17 @@ public class AdminSercive {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    public  List<Role> getRoleListFromId(List<Integer> ids){
+
+        return  roleRepository.findAllById(ids);
+    }
+    public List<Integer> getIdsFromRole(List<Role> roles){
+        List<Integer> tempId=new ArrayList<>();
+        roles.forEach(role -> {
+            tempId.add(role.getId());
+        });
+        return  tempId;
+    }
     public List<Role> getRoles(){
         return roleRepository.findAll();
     }
@@ -72,13 +81,12 @@ public class AdminSercive {
             result.setMessage("Ushbu nomli user mavjud");
             return result;
         }
-        List<Role> roles=new ArrayList<>();
+
         //System.out.println(userRequest.toString());
-        roles.add(roleRepository.findById(userRequest.getRole()).get());
-        User user=new User(userRequest.getFullName(),
+              User user=new User(userRequest.getFullName(),
                 userRequest.getUserName(),
                 passwordEncoder.encode(userRequest.getPassword()),
-                roles);
+                getRoleListFromId(userRequest.getList()));
       //  System.out.println(user.toString());
         userRepository.save(user );
                 result.setSuccess(true);
@@ -96,12 +104,11 @@ public class AdminSercive {
             return result;
         }
        User user=userRepository.getOne(uuid);
-        List<Role> roles=new ArrayList<>();
-        roles.add(roleRepository.findById(userRequest.getRole()).get());
+
         user.setFullName(userRequest.getFullName());
         user.setUserName( userRequest.getUserName());
         user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
-        user.setRoles(roles);
+        user.setRoles( getRoleListFromId(userRequest.getList()));
         userRepository.save(user );
 
         System.out.println(userRepository.findById(uuid).get().toString());

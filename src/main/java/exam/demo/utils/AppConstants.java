@@ -11,6 +11,7 @@ public interface AppConstants {
     Path hujjat = Paths.get("storage/hujjat");
 
     Path botFiles = Paths.get("botFiles/received");
+    Path botFileSend = Paths.get("botFiles/send");
 
     String error_file="Ushbu fayl qabul qilinmadi. Fayl xajmi 20 mb dan oshmasligi zarur !!!";
     String error_picture="Ushbu rasm qabul qilinmadi. Rasm xajmi 5 mb dan oshmasligi zarur !!!";

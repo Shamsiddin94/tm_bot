@@ -99,13 +99,16 @@ public class BotService {
         }
 
 
-    public Result saveSendFile(AttachmentRequest request) throws StorageException {
+    public Result saveSendFile(AttachmentRequest request,User user) throws StorageException {
         Result result=new Result();
-        if (client==null){
+         List<Client>  clients=clientRepository.findByUser(user);
+         client=clients.get(0);
+        if (clients.isEmpty()){
             result.setSuccess(true);
-            result.setMessage("Botdan fayl yuklash uchun  oldin botga xabar yuboring");
+            result.setMessage("Siz botdan foydalanish uchun ro'yxatdan o'tmagansiz");
             return result;
         }
+        System.out.println(request.getFiles().toString());
         for (MultipartFile file: request.getFiles() ) {
            Attachment attachment=new Attachment();
            attachment.setFileName(file.getOriginalFilename());
@@ -115,6 +118,8 @@ public class BotService {
             attachment.setClient(client);
             String fileName=UUID.randomUUID()+"."+ FilenameUtils.getExtension(file.getOriginalFilename());
            attachment.setFileUrl(fileName);
+            System.out.println(FilenameUtils.getExtension(file.getOriginalFilename()));
+            System.out.println(file.getOriginalFilename());
 
             try {
                 if (file.isEmpty()) {

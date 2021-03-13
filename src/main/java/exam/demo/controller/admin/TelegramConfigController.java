@@ -24,6 +24,7 @@ public class TelegramConfigController {
     private TelegramService service;
     @Autowired
     private UserService userService;
+
     @GetMapping(value = {"/"})
     public String index(Model model){
         model.addAttribute("clients",service.allClients());

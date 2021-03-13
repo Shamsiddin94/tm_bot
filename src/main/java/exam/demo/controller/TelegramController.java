@@ -56,7 +56,8 @@ public class TelegramController {
     }
 
     @PostMapping(value = {"/send/file"})
-    public String sendFile(@CurrentUser User user, @Valid AttachmentRequest request, BindingResult bindingResult, Model model) {
+    public String sendFile( @Valid @ModelAttribute("attachmentRequest") AttachmentRequest request, BindingResult bindingResult,
+                            @CurrentUser User user, Model model) {
 
         Result result=new Result(false , "");
         if (bindingResult.hasErrors()){
@@ -68,9 +69,15 @@ public class TelegramController {
             model.addAttribute("savpath","/telegram/send/file");
              model.addAttribute("result",result);
             return  "telegram/send/file";
+        }else if (botService.saveSendFile(request,user).getSuccess()) {
+            result.setMessage("Fayl yuborilmadi qayta urinib ko'ring");
+            result.setSuccess(true);
+            model.addAttribute("savpath", "/telegram/send/file");
+            model.addAttribute("result", result);
+            return "telegram/send/file";
         }
-
         System.out.println(request.toString());
+
 
         return  "redirect:/telegram/send";
     }

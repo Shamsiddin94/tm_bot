@@ -30,7 +30,7 @@ public class HujjatRequest {
     @NotEmpty(message = "Malumot kiriting")
     private String mazmuni;
 
-    @NotEmpty(message = "Chiqish sanasini kiriting")
+    @NotNull(message = "Chiqish sanasini kiriting")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate outDate;
 

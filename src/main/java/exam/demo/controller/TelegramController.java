@@ -2,6 +2,7 @@ package exam.demo.controller;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import exam.demo.bot.BotService;
 import exam.demo.entity.User;
 import exam.demo.payload.AttachmentRequest;
 import exam.demo.payload.Result;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 
 import javax.validation.Valid;
 import java.net.URLEncoder;
@@ -32,6 +34,10 @@ public class TelegramController {
     private TelegramService telegramService;
     @Autowired
     private HujjatService service;
+    @Autowired
+    private BotService botService;
+
+
 
     @GetMapping(value = {"/send"})
     public String sendIndex(@CurrentUser User user, Model model) {
@@ -52,11 +58,18 @@ public class TelegramController {
     @PostMapping(value = {"/send/file"})
     public String sendFile(@CurrentUser User user, @Valid AttachmentRequest request, BindingResult bindingResult, Model model) {
 
-        Result result=new Result(false, "");
+        Result result=new Result(false , "");
         if (bindingResult.hasErrors()){
             model.addAttribute("result",result);
             return  "telegram/send/file";
+        } else if (botService.checkClient().getSuccess()) {
+            result.setMessage(botService.checkClient().getMessage());
+            result.setSuccess(true);
+            model.addAttribute("savpath","/telegram/send/file");
+             model.addAttribute("result",result);
+            return  "telegram/send/file";
         }
+
         System.out.println(request.toString());
 
         return  "redirect:/telegram/send";

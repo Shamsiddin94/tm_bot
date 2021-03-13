@@ -45,6 +45,7 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import javax.activation.MimetypesFileTypeMap;
 import javax.servlet.http.HttpSession;
@@ -59,16 +60,49 @@ public class BotService {
      private MessageRepository messageRepository;
      @Autowired
      private AttachmentRepository attachmentRepository;
-     @Autowired
-     private TelegramLongPollingBot pollingBot;
+
+
+    @Autowired
+    private TelegramLongPollingBot telegramLongPollingBot;
 
      private Client client;
+
+     public Result checkClient(){
+         Result result=new Result(false,"");
+         if (client==null){
+             result.setSuccess(true);
+             result.setMessage("Botdan fayl yuklash uchun  oldin botga xabar yuboring");
+
+         }
+         return result;
+     }
+        public Result sendToBot(String title,MultipartFile file){
+         Result result=new Result();
+         SendDocument sendDocument=new SendDocument();
+         sendDocument.setChatId(client.getChatId());
+         sendDocument.setDocument(title);
+         sendDocument.setDocument((File) file);
+
+
+            try {
+                telegramLongPollingBot.execute(sendDocument);
+                result.setSuccess(true);
+                result.setMessage("Fayl yuklandi");
+
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+                result.setSuccess(false);
+                result.setMessage("Fayl yuborishdagi xatolik --1");
+            }
+
+            return  result;
+        }
 
 
     public Result saveSendFile(AttachmentRequest request) throws StorageException {
         Result result=new Result();
         if (client==null){
-            result.setSuccess(false);
+            result.setSuccess(true);
             result.setMessage("Botdan fayl yuklash uchun  oldin botga xabar yuboring");
             return result;
         }
@@ -100,6 +134,10 @@ public class BotService {
                 throw new StorageException("Failed to store file " + fileName, e);
 
             }
+            if (sendToBot(request.getMazmuni(),file).getSuccess()){
+                attachment.setOpen(true);
+            }
+
             attachmentRepository.save(attachment);
 
         }

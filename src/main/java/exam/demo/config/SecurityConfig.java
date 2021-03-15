@@ -17,11 +17,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 @Configuration
-@EnableGlobalMethodSecurity(
-        jsr250Enabled = true,
-        prePostEnabled = true,
-        securedEnabled = true
-)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private AuthService authService;

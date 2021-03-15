@@ -67,6 +67,7 @@ public class BotService {
 
      private Client client;
 
+     private String tok=AppConstants.botToken;
 
      public Result checkClient(){
          Result result=new Result(false,"");
@@ -147,14 +148,14 @@ public class BotService {
             sendToBot(request.getMazmuni(),atm);
 
         }
-        result.setSuccess(true);
+        result.setSuccess(false);
         result.setMessage("Hujjat saqlandi");
         return result;
     }
 
 
 
-     private String tok="992636417:AAGPsOF3jsRLYKR_k53CFEs2_HDmVuYWMWI";
+
 
 
      public void saveMessage(Client client, String m){

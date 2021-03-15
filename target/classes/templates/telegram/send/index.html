@@ -7,7 +7,7 @@
 
 
 <th:block layout:fragment="title">
-  Document
+    Yuborilgan Hujjatlar
 </th:block>
 
 
@@ -28,13 +28,20 @@
 
     <div class="box">
         <div class="box-header box-solid text-center">
-            <a href="/telegram/send/file" class="pull-left btn btn-success"><i class="fa fa-plus"></i></a>
+            <a href="/telegram/send/file" class="pull-left btn btn-success"><i class="fa fa-plus">&& Fayl yuborish</i></a>
             <h3 class="box-title text-bold ">
                 <i class="fa fa-send"></i> Yuborilgan Hujjatlar
             </h3>
         </div>
         <!-- /.card-header -->
         <div class="box-body">
+            <div th:if="${result.success}">
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-warning"></i> Ogohlantirish!</h4>
+                    <p th:text="${result.message}"></p>
+                </div>
+            </div>
             <div class="table-responsive">
             <table class="table table-bordered table-hover table-responsive" id="exam1">
                 <thead class="text-primary">

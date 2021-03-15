@@ -25,7 +25,7 @@ import java.util.*;
 @Component
 public class TelegramBot extends TelegramLongPollingBot {
     private  String token = getBotToken();
-    public static final String botToken="1628959755:AAFm-DntbUW1QHJ0V11mCgw4ZE7QKKMEfE8";
+    public static final String botToken=AppConstants.botToken;
     public static final String upPath = AppConstants.botFiles.toString();
 
     @Autowired
@@ -34,7 +34,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     private Client client;
     @Override
     public String getBotUsername() {
-        return "omqpBot";
+        return AppConstants.botName;
     }
 
     @Override

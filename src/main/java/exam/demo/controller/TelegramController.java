@@ -43,12 +43,13 @@ public class TelegramController {
     @GetMapping(value = {"/send"})
     public String sendIndex(@CurrentUser User user, Model model) {
         model.addAttribute("documents", telegramService.getAllSendDocs(user));
-
+        model.addAttribute( new Result(false , ""));
      return  "telegram/send/index";
     }
     @PreAuthorize("hasRole('ROLE_FILESEND')")
     @GetMapping(value = {"/send/file"})
     public String sendFile(@CurrentUser User user, Model model) {
+
         model.addAttribute("attachmentRequest", new AttachmentRequest());
         model.addAttribute("savpath","/telegram/send/file");
         model.addAttribute("result",new Result(false, ""));
@@ -78,9 +79,10 @@ public class TelegramController {
             return "telegram/send/file";
         }
         System.out.println(request.toString());
+        result.setSuccess(true);
+        result.setMessage("Hujjatingiz yuborildi");
 
-
-        return  "redirect:/telegram/send";
+        return  "telegram/send/index";
     }
 
 

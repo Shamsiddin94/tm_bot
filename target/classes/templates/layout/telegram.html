@@ -25,6 +25,21 @@
                             </a>
                         </li>
                     </th:block>
+
+                    <!--File Send-->
+                    <th:block sec:authorize="hasRole('ROLE_FILESEND')">
+                        <li>
+                            <a href="/telegram/send">
+                                <i class="fa fa-minus-circle"></i>
+                                Fayl yuborish
+
+                                <!--<span class="label label-danger pull-right tmPicture"></span>-->
+
+                            </a>
+                        </li>
+                    </th:block>
+
+
                     <li>
                         <a href="/telegram/picture">
                             <i class="fa fa-minus-circle"></i>

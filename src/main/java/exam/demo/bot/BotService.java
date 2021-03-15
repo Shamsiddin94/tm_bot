@@ -76,12 +76,12 @@ public class BotService {
          }
          return result;
      }
-        public Result sendToBot(String title,MultipartFile file){
+        public Result sendToBot(String title,Attachment attachment){
          Result result=new Result();
          SendDocument sendDocument=new SendDocument();
          sendDocument.setChatId(client.getChatId());
-         sendDocument.setDocument(title);
-         sendDocument.setDocument((File) file);
+         sendDocument.setCaption(attachment.getFileName()+"\n \n"+title);
+         sendDocument.setDocument(new File(AppConstants.botFileSend+"/"+attachment.getFileUrl()));
 
 
             try {
@@ -91,7 +91,7 @@ public class BotService {
 
             } catch (TelegramApiException e) {
                 e.printStackTrace();
-                result.setSuccess(false);
+                result.setSuccess(true);
                 result.setMessage("Fayl yuborishdagi xatolik --1");
             }
 
@@ -118,6 +118,7 @@ public class BotService {
             attachment.setClient(client);
             String fileName=UUID.randomUUID()+"."+ FilenameUtils.getExtension(file.getOriginalFilename());
            attachment.setFileUrl(fileName);
+            System.out.println(attachment);
             System.out.println(FilenameUtils.getExtension(file.getOriginalFilename()));
             System.out.println(file.getOriginalFilename());
 
@@ -139,11 +140,10 @@ public class BotService {
                 throw new StorageException("Failed to store file " + fileName, e);
 
             }
-            if (sendToBot(request.getMazmuni(),file).getSuccess()){
-                attachment.setOpen(true);
-            }
 
-            attachmentRepository.save(attachment);
+
+            Attachment atm=attachmentRepository.save(attachment);
+            sendToBot(request.getMazmuni(),atm);
 
         }
         result.setSuccess(true);

@@ -4,6 +4,7 @@
 # Log file
 *.log
 /botFiles/received
+/botFiles/send
 # BlueJ files
 *.ctxt
 

@@ -15,6 +15,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -45,7 +46,7 @@ public class TelegramController {
 
      return  "telegram/send/index";
     }
-
+    @PreAuthorize("hasRole('ROLE_FILESEND')")
     @GetMapping(value = {"/send/file"})
     public String sendFile(@CurrentUser User user, Model model) {
         model.addAttribute("attachmentRequest", new AttachmentRequest());
@@ -54,11 +55,11 @@ public class TelegramController {
         return  "telegram/send/file";
 
     }
-
+    @PreAuthorize("hasRole('ROLE_FILESEND')")
     @PostMapping(value = {"/send/file"})
     public String sendFile( @Valid @ModelAttribute("attachmentRequest") AttachmentRequest request, BindingResult bindingResult,
                             @CurrentUser User user, Model model) {
-
+        System.out.println("test for request"+request.toString());
         Result result=new Result(false , "");
         if (bindingResult.hasErrors()){
             model.addAttribute("result",result);

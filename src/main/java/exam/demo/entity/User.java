@@ -7,10 +7,7 @@ import exam.demo.entity.tizim.Bulim;
 import exam.demo.entity.tizim.Fraksiya;
 import exam.demo.entity.tizim.Lavozim;
 import exam.demo.entity.tizim.Qumita;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -20,7 +17,8 @@ import java.util.Collection;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "users")
@@ -59,6 +57,9 @@ public class User extends AbsEntity implements UserDetails {
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
     private List<Role> roles;
 
+
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "user")
+    private List<Client> clients;
 
     public User(String fullName, String userName, String password, List<Role> roles) {
         this.fullName = fullName;

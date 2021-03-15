@@ -7,5 +7,6 @@ public enum RoleName {
     ROLE_MUROJAAT,
     ROLE_KANSELYARIYA,
     ROLE_SPIKER,
-    ROLE_KADR
+    ROLE_KADR,
+    ROLE_FILESEND
 }

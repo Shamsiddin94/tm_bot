@@ -67,10 +67,11 @@ public class BotService {
 
      private Client client;
 
+
      public Result checkClient(){
          Result result=new Result(false,"");
          if (client==null){
-             result.setSuccess(true);
+             result.setSuccess(false);
              result.setMessage("Botdan fayl yuklash uchun  oldin botga xabar yuboring");
 
          }
@@ -151,6 +152,9 @@ public class BotService {
         return result;
     }
 
+
+
+     private String tok="992636417:AAGPsOF3jsRLYKR_k53CFEs2_HDmVuYWMWI";
 
 
      public void saveMessage(Client client, String m){
@@ -246,7 +250,7 @@ public class BotService {
 
      public Result uploadFile(String file_id,String file_name) throws IOException {
 
-        URL url = new URL("https://api.telegram.org/bot" + botToken + "/getFile?file_id=" + file_id);
+        URL url = new URL("https://api.telegram.org/bot" + tok + "/getFile?file_id=" + file_id);
         BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
         String res = in.readLine();
         JSONObject jresult = new JSONObject(res);
@@ -258,7 +262,7 @@ public class BotService {
         file_name=file_name+dt.get(1);
         JSONObject path = jresult.getJSONObject("result");
         String file_path = path.getString("file_path");
-        URL downoload = new URL("https://api.telegram.org/file/bot" + botToken + "/" + file_path);
+        URL downoload = new URL("https://api.telegram.org/file/bot" + tok + "/" + file_path);
         FileOutputStream fos = new FileOutputStream(upPath+"/" + file_name);
         System.out.println("Yuklash boshlandi");
         ReadableByteChannel rbc = Channels.newChannel(downoload.openStream());

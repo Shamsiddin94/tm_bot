@@ -25,6 +25,7 @@ public class LoginListener implements ApplicationListener<AuthenticationSuccessE
     @Autowired
     private UserLogRepository userLogRepository;
 
+
     private static final Logger LOG = LoggerFactory.getLogger(LoginListener.class);
     @Override
     public void onApplicationEvent(AuthenticationSuccessEvent authenticationSuccessEvent) {

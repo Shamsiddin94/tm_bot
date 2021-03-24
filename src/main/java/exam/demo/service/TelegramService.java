@@ -154,7 +154,7 @@ public class TelegramService {
             attachment.setOpen(true);
             attachmentRepository.save(attachment);
             if (attachments.contains(attachment)) {
-                Path file = AppConstants.botFiles.resolve(attachment.getFileUrl());
+                Path file = (attachment.getType().name().equals("SENDDOC"))?AppConstants.botFileSend.resolve(attachment.getFileUrl()):AppConstants.botFiles.resolve(attachment.getFileUrl());
                 try {
                     Resource resource = new UrlResource(file.toUri());
                     if (resource.exists() || resource.isReadable()) {

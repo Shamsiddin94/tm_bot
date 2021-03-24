@@ -79,10 +79,32 @@ public class TelegramController {
             return "telegram/send/file";
         }
         System.out.println(request.toString());
+        model.addAttribute("attachmentRequest", new AttachmentRequest());
         result.setSuccess(true);
+        result.setType(true);
         result.setMessage("Hujjatingiz yuborildi");
+        model.addAttribute("result",result);
 
-        return  "telegram/send/index";
+        return  "telegram/send/file";
+    }
+    @GetMapping(value = {"/send/get/{id}"})
+    @ResponseBody
+    public ResponseEntity<Resource> getDocSend(@PathVariable("id") Long id, @CurrentUser User user) {
+        ResultModel resultModel = telegramService.getDoc(id, user);
+        System.out.println(resultModel.toString());
+        if (resultModel.getSuccess()) {
+
+            Resource file = (Resource) resultModel.getObject();
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType(resultModel.getData().get("type")))
+                    .header(HttpHeaders.CONTENT_DISPOSITION,
+                            "attachment; filename=\"" + URLEncoder.encode(resultModel.getMessage())).body(file);
+        }
+        Resource file = (Resource) resultModel.getObject();
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + URLEncoder.encode(resultModel.getMessage()))
+                .contentType(MediaType.parseMediaType("application/octet-stream") )
+                .body(file);
     }
 
 

@@ -22,7 +22,7 @@ import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
-@Component
+//@Component
 public class TelegramBot extends TelegramLongPollingBot {
     private  String token = getBotToken();
     public static final String botToken=AppConstants.botToken;

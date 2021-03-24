@@ -19,7 +19,7 @@ public class DemoApplication {
 
         /*Telegram bot*/
 
-      ApiContextInitializer.init();
+     // ApiContextInitializer.init();
 
 
         if (!Files.exists(AppConstants.botFiles)) {

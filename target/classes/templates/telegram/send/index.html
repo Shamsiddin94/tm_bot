@@ -35,13 +35,7 @@
         </div>
         <!-- /.card-header -->
         <div class="box-body">
-            <div th:if="${result.success}">
-                <div class="alert alert-success alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <h4><i class="icon fa fa-warning"></i> Ogohlantirish!</h4>
-                    <p th:text="${result.message}"></p>
-                </div>
-            </div>
+
             <div class="table-responsive">
             <table class="table table-bordered table-hover table-responsive" id="exam1">
                 <thead class="text-primary">
@@ -54,6 +48,8 @@
                     <th> O'lchami</th>
                     <th>Yuklash</th>
                 </tr>
+
+
                                </thead>
                 <tbody class="table-responsive">
                 <th:block th:if="${documents!=null}">
@@ -65,10 +61,10 @@
                     <td th:text="${doc.type}"></td>
                     <td th:text="${doc.size}"></td>
                     <td>
-                        <a th:href="${'/telegram/document/get/'+doc.id}"
+                       <!-- <a th:href="${'/telegram/send/get/'+doc.id}"
                            class="btn btn-success  btn-sm ">  <i class="fa fa-download"></i> Yuklash </a>
-                        <a th:href="${'/telegram/document/delete/'+doc.id}"
-                           class="btn btn-danger   btn-sm "> <i class="fa fa-trash"></i> O'chirish </a>
+                        <a th:href="${'/telegram/send/delete/'+doc.id}"
+                           class="btn btn-danger   btn-sm "> <i class="fa fa-trash"></i> O'chirish </a>-->
                     </td>
 
                 </tr>

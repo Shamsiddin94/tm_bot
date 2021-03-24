@@ -62,8 +62,8 @@ public class BotService {
      private AttachmentRepository attachmentRepository;
 
 
-    @Autowired
-    private TelegramLongPollingBot telegramLongPollingBot;
+  /*  @Autowired
+    private TelegramLongPollingBot telegramLongPollingBot;*/
 
      private Client client;
 
@@ -85,9 +85,9 @@ public class BotService {
          sendDocument.setCaption(attachment.getFileName()+"\n \n"+title);
          sendDocument.setDocument(new File(AppConstants.botFileSend+"/"+attachment.getFileUrl()));
 
-
+/*
             try {
-                telegramLongPollingBot.execute(sendDocument);
+               // telegramLongPollingBot.execute(sendDocument);
                 result.setSuccess(true);
                 result.setMessage("Fayl yuklandi");
 
@@ -95,7 +95,7 @@ public class BotService {
                 e.printStackTrace();
                 result.setSuccess(true);
                 result.setMessage("Fayl yuborishdagi xatolik --1");
-            }
+            }*/
 
             return  result;
         }

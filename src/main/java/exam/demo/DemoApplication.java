@@ -5,7 +5,7 @@ import exam.demo.exception.StorageException;
 import exam.demo.utils.AppConstants;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.telegram.telegrambots.ApiContextInitializer;
+
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
@@ -19,7 +19,7 @@ public class DemoApplication {
 
         /*Telegram bot*/
 
-     // ApiContextInitializer.init();
+
 
 
         if (!Files.exists(AppConstants.botFiles)) {

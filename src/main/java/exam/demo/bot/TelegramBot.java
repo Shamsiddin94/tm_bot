@@ -22,7 +22,7 @@ import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
-//@Component
+@Component
 public class TelegramBot extends TelegramLongPollingBot {
     private  String token = getBotToken();
     public static final String botToken=AppConstants.botToken;
@@ -45,78 +45,95 @@ public class TelegramBot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
 
-        Message message = update.getMessage();
-        SendMessage sendMessage = new SendMessage();
-        String xabar;
+        new Thread(new Runnable() {
 
-       sendMessage.setChatId(message.getChatId());
+            @Override
+            public void run() {
+                if (update.hasMessage()) {
+                    // code goes here.
 
-        if (message.getChatId() != null) {
-            ResultModel result = botService.existUser(message.getChatId());
-            if (result.getSuccess()){
-                client= (Client) result.getObject();
-                System.out.println(client.toString() ) ;
-                if (message.hasText()) {
 
-                    String text = message.getText();
-                    System.out.println("1---"+text);
-                    String text1 = message.getText();
-                    System.out.println("2---"+text1);
-                    botService.saveMessage(client,text);
-                    switch (text) {
-                        case "start":
-                            xabar="Assalomu aleykum \n" +client.getUser().getFullName()+"\n"+
-                                    "Siz  hujjat va rasmlaringizni yuborishingiz mumkin"+"\n";
-                            sendMessage.setText(xabar+"\n Tizimdagi kalitingiz:"+message.getChatId());
-                            break;
-                        default:
-                            xabar="Assalomu aleykum \n" +client.getUser().getFullName()+"\n"+
-                            "Siz  hujjat va rasmlaringizni yuborishingiz mumkin"+"\n";
-                            sendMessage.setText(xabar+"Tizimdagi kalitingiz:"+message.getChatId());
+                    Message message = update.getMessage();
+                    SendMessage sendMessage = new SendMessage();
+                    String xabar;
+
+                    sendMessage.setChatId(String.valueOf(message.getChatId()));
+
+                    if (message.getChatId() != null) {
+                        ResultModel result = botService.existUser(message.getChatId());
+                        if (result.getSuccess()){
+                            client= (Client) result.getObject();
+                            System.out.println(client.toString() ) ;
+                            if (message.hasText()) {
+
+                                String text = message.getText();
+                                System.out.println("1---"+text);
+                                String text1 = message.getText();
+                                System.out.println("2---"+text1);
+                                botService.saveMessage(client,text);
+                                switch (text) {
+                                    case "start":
+                                        xabar="Assalomu aleykum \n" +client.getUser().getFullName()+"\n"+
+                                                "Siz  hujjat va rasmlaringizni yuborishingiz mumkin"+"\n";
+                                        sendMessage.setText(xabar+"\n Tizimdagi kalitingiz:"+message.getChatId());
+                                        break;
+                                    default:
+                                        xabar="Assalomu aleykum \n" +client.getUser().getFullName()+"\n"+
+                                                "Siz  hujjat va rasmlaringizni yuborishingiz mumkin"+"\n";
+                                        sendMessage.setText(xabar+"Tizimdagi kalitingiz:"+message.getChatId());
+                                }
+
+                            }
+
+
+                            if (message.hasPhoto()) {
+                                List<PhotoSize> photoSizeList = message.getPhoto();
+                                Result photoResult= botService.pictureUpload(photoSizeList);
+
+                                xabar="" +client.getUser().getFullName()+"\n"+
+                                        "Sizning  rasmlaringiz yuklandi.\n Ularni tizimdan yuklab olishlaringiz mumkin"+"\n";
+                                sendMessage.setText(photoResult.getSuccess()?xabar:AppConstants.error_picture);
+                            }
+
+                            /**/
+                            if (message.hasDocument()){
+                                Result docDocresult= botService.documentUpload(message.getDocument());
+                                xabar="" +client.getUser().getFullName()+"\n"+
+                                        "Sizning  hujjatlaringiz yuklandi.\n Ularni tizimdan yuklab olishlaringiz mumkin"+"\n";
+                                sendMessage.setText(docDocresult.getSuccess()?xabar:AppConstants.error_file);
+                            }
+
+
+                        }
+                        else {
+                            xabar ="Siz ro'yxatdan o'tmagansiz!!! \nIltimos kalitni adminga yuboring \n admin:  @X_Shamsiddin";
+                            sendMessage.setText("Assalomu aleykum\n"+xabar+"\n Kalit:  "+message.getChatId()+"\n");
+                        }
                     }
 
+
+                    else {
+                        xabar ="Iltimos kalit adminga yuboring \n admin:  @X_Shamsiddin";
+                        sendMessage.setText("Assalomu aleykum\n"+"\n"+xabar+"Kalit:  "+message.getChatId());
+                    }
+
+
+
+
+                    try {
+                        execute(sendMessage);
+                    } catch (TelegramApiException e) {
+                        e.printStackTrace();
+                    }
+
+
+
+
                 }
-
-
-                if (message.hasPhoto()) {
-                    List<PhotoSize> photoSizeList = message.getPhoto();
-                   Result photoResult= botService.pictureUpload(photoSizeList);
-
-                   xabar="" +client.getUser().getFullName()+"\n"+
-                            "Sizning  rasmlaringiz yuklandi.\n Ularni tizimdan yuklab olishlaringiz mumkin"+"\n";
-                    sendMessage.setText(photoResult.getSuccess()?xabar:AppConstants.error_picture);
-                }
-
-                /**/
-                if (message.hasDocument()){
-                   Result docDocresult= botService.documentUpload(message.getDocument());
-                    xabar="" +client.getUser().getFullName()+"\n"+
-                            "Sizning  hujjatlaringiz yuklandi.\n Ularni tizimdan yuklab olishlaringiz mumkin"+"\n";
-                    sendMessage.setText(docDocresult.getSuccess()?xabar:AppConstants.error_file);
-                }
-
-
             }
-            else {
-                xabar ="Siz ro'yxatdan o'tmagansiz!!! \nIltimos kalitni adminga yuboring \n admin:  @X_Shamsiddin";
-                sendMessage.setText("Assalomu aleykum\n"+xabar+"\n Kalit:  "+message.getChatId()+"\n");
-            }
-        }
+        }).start();
 
 
-        else {
-         xabar ="Iltimos kalit adminga yuboring \n admin:  @X_Shamsiddin";
-            sendMessage.setText("Assalomu aleykum\n"+"\n"+xabar+"Kalit:  "+message.getChatId());
-        }
-
-
-
-
-        try {
-            execute(sendMessage);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
 
 
     }

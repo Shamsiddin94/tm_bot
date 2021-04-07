@@ -44,6 +44,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.objects.Document;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
@@ -62,8 +63,8 @@ public class BotService {
      private AttachmentRepository attachmentRepository;
 
 
-  /*  @Autowired
-    private TelegramLongPollingBot telegramLongPollingBot;*/
+    @Autowired
+    private TelegramLongPollingBot telegramLongPollingBot;
 
      private Client client;
 
@@ -78,16 +79,17 @@ public class BotService {
          }
          return result;
      }
-        public Result sendToBot(String title,Attachment attachment){
+        public Result sendToBot(String title,Attachment attachment) throws FileNotFoundException {
          Result result=new Result();
          SendDocument sendDocument=new SendDocument();
-         sendDocument.setChatId(client.getChatId());
+         sendDocument.setChatId(String.valueOf(client.getChatId()));
          sendDocument.setCaption(attachment.getFileName()+"\n \n"+title);
-         sendDocument.setDocument(new File(AppConstants.botFileSend+"/"+attachment.getFileUrl()));
+         //sendDocument.setDocument(new File(AppConstants.botFileSend+"/"+attachment.getFileUrl()));
+         sendDocument.setDocument(new InputFile(new File(AppConstants.botFileSend+"/"+attachment.getFileUrl())));
 
-/*
+
             try {
-               // telegramLongPollingBot.execute(sendDocument);
+                telegramLongPollingBot.execute(sendDocument);
                 result.setSuccess(true);
                 result.setMessage("Fayl yuklandi");
 
@@ -95,13 +97,13 @@ public class BotService {
                 e.printStackTrace();
                 result.setSuccess(true);
                 result.setMessage("Fayl yuborishdagi xatolik --1");
-            }*/
+            }
 
             return  result;
         }
 
 
-    public Result saveSendFile(AttachmentRequest request,User user) throws StorageException {
+    public Result saveSendFile(AttachmentRequest request,User user) throws StorageException, FileNotFoundException {
         Result result=new Result();
          List<Client>  clients=clientRepository.findByUser(user);
          client=clients.get(0);

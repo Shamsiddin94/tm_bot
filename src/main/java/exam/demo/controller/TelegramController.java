@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 
 import javax.validation.Valid;
+import java.io.FileNotFoundException;
 import java.net.URLEncoder;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -59,7 +60,7 @@ public class TelegramController {
     @PreAuthorize("hasRole('ROLE_FILESEND')")
     @PostMapping(value = {"/send/file"})
     public String sendFile( @Valid @ModelAttribute("attachmentRequest") AttachmentRequest request, BindingResult bindingResult,
-                            @CurrentUser User user, Model model) {
+                            @CurrentUser User user, Model model) throws FileNotFoundException {
         System.out.println("test for request"+request.toString());
         Result result=new Result(false , "");
         if (bindingResult.hasErrors()){

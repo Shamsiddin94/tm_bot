@@ -15,7 +15,7 @@ public interface AppConstants {
 
 
     //String botToken="1717566005:AAFllcz2SrdGX-6U9LrI_c5AHyQHPEVzW3U";
-    String botToken="1603310063:AAGVD7h5lBk-VleQV6_JguntO9TM7PF6TiA";
+    String botToken="1603310063:AAGiwYJrWZ3uJAlvKSVGMyC6IHKzLbDE3Og";
    // String botName="omqpBot";
     String botName="OmqpFileBot";
 

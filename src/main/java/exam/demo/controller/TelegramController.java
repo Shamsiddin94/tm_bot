@@ -40,7 +40,7 @@ public class TelegramController {
     private BotService botService;
 
 
-
+    @PreAuthorize("hasRole('ROLE_FILESEND')")
     @GetMapping(value = {"/send"})
     public String sendIndex(@CurrentUser User user, Model model) {
         model.addAttribute("documents", telegramService.getAllSendDocs(user));
@@ -88,6 +88,8 @@ public class TelegramController {
 
         return  "telegram/send/file";
     }
+
+    @PreAuthorize("hasRole('ROLE_FILESEND')")
     @GetMapping(value = {"/send/get/{id}"})
     @ResponseBody
     public ResponseEntity<Resource> getDocSend(@PathVariable("id") Long id, @CurrentUser User user) {
@@ -108,6 +110,16 @@ public class TelegramController {
                 .body(file);
     }
 
+
+    @PreAuthorize("hasRole('ROLE_FILESEND')")
+    @GetMapping(value = {"/send/delete/{id}"})
+
+    public String  sendDelete(@PathVariable("id") Long id, @CurrentUser User user,Model model) {
+        telegramService.deleteAttachment(user, id);
+        model.addAttribute("documents", telegramService.getAllSendDocs(user));
+        model.addAttribute( new Result(false , ""));
+        return  "telegram/send/index";
+    }
 
 
     @GetMapping(value = {"/document/delete/{id}"})

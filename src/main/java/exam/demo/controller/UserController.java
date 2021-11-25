@@ -29,43 +29,51 @@ public class UserController {
     @Autowired
     private TelegramService telegramService;
 
-    @GetMapping(value = {"","/"})
-    public String getIndex(@CurrentUser User user, Model model){
-        model.addAttribute("admin","admin");
-        model.addAttribute("newDoc",telegramService.getAllDocs(user).stream().filter(attachment -> { return attachment.isOpen()==false;})
-        .collect(Collectors.toList())   );
-        model.addAttribute("newImg",telegramService.allPictures(user).stream().
-                filter(attachment -> {return attachment.isOpen()==false; }).collect(Collectors.toList()));
+    @GetMapping(value = {"", "/"})
+    public String getIndex(@CurrentUser User user, Model model) {
+        model.addAttribute("admin", "admin");
+        model.addAttribute("newDoc", telegramService.getAllDocs(user).stream().filter(attachment -> {
+            return attachment.isOpen() == false;
+        })
+                .collect(Collectors.toList()));
+        model.addAttribute("newImg", telegramService.allPictures(user).stream().
+                filter(attachment -> {
+                    return attachment.isOpen() == false;
+                }).collect(Collectors.toList()));
         return "user/index";
     }
-    @GetMapping(value = "/edit")
-    public  String edit(@CurrentUser User user, Model model){
 
-        model.addAttribute("savePath","/user/edit");
-        UserEdit userEdit=new UserEdit();
+    @GetMapping(value = "/edit")
+    public String edit(@CurrentUser User user, Model model) {
+
+        model.addAttribute("savePath", "/user/edit");
+        UserEdit userEdit = new UserEdit();
         userEdit.setFullName(user.getFullName());
         userEdit.setUserName(user.getUsername());
-        model.addAttribute("userEdit",userEdit);
-        model.addAttribute("result",new Result(false,""));
+        model.addAttribute("userEdit", userEdit);
+        model.addAttribute("result", new Result(false, ""));
         return "user/profile/edit";
     }
 
     @PostMapping(value = "/edit")
-    public String edit(@CurrentUser User user, @Valid UserEdit userEdit, BindingResult result, Model model){
-        if (result.hasErrors() || !userEdit.isValid()){
-            model.addAttribute("savePath","/user/edit");
+    public String edit(@CurrentUser User user, @Valid UserEdit userEdit, BindingResult result, Model model) {
+        if (result.hasErrors() || !userEdit.isValid()) {
+            model.addAttribute("savePath", "/user/edit");
             if (!userEdit.isValid()) {
-                model.addAttribute("result",  new Result(true, "Parollar bir xil emas"));
+                model.addAttribute("result", new Result(true, "Parollar bir xil emas"));
             } else {
-                model.addAttribute("result",new Result(false, ""));
+                model.addAttribute("result", new Result(false, ""));
             }
 
             return "user/profile/edit";
         }
 
-        model.addAttribute("result",new Result(true,true,userService.EditSelf(userEdit,user).getMessage()));
+        model.addAttribute("result", new Result(true, true, userService.EditSelf(userEdit, user).getMessage()));
         return "user/profile/edit";
     }
 
-
+    @GetMapping(value = "/info")
+    public String regPage() {
+        return "user/reg";
+    }
 }

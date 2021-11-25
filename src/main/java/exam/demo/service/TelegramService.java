@@ -4,6 +4,7 @@ import exam.demo.entity.User;
 import exam.demo.entity.bot.Attachment;
 import exam.demo.entity.bot.Client;
 import exam.demo.entity.bot.Message;
+import exam.demo.entity.enums.EntityStatus;
 import exam.demo.entity.enums.FileType;
 import exam.demo.exception.StorageFileNotFoundException;
 import exam.demo.payload.Result;
@@ -41,7 +42,7 @@ public class TelegramService {
 
 
     public List<Message> allMessage(User user) {
-        List<Client> clients = clientRepository.findByUser(user);
+        List<Client> clients = clientRepository.findByUserAndState(user, EntityStatus.ACTIVE);
         List<Message> messages = new ArrayList<>();
         clients.forEach(client -> {
             messages.addAll(messageRepository.findByClientAndDelete(client,false));
@@ -51,7 +52,7 @@ public class TelegramService {
 
     public void deleteMessage(User user,Long id){
 
-        List<Client> clients = clientRepository.findByUser(user);
+        List<Client> clients = clientRepository.findByUserAndState(user, EntityStatus.ACTIVE);;
         List<Message> messages = new ArrayList<>();
         clients.forEach(client -> {
             messages.addAll(messageRepository.findByClientAndDelete(client,false));
@@ -86,7 +87,7 @@ public class TelegramService {
 
     //ReceiveFiles
     public List<Attachment> allPictures(User user) {
-        List<Client> clients = clientRepository.findByUser(user);
+        List<Client> clients = clientRepository.findByUserAndState(user, EntityStatus.ACTIVE);
         List<Attachment> attachments = new ArrayList<>();
         clients.forEach(client -> {
             attachments.addAll(attachmentRepository.findByClientAndTypeAndDelete(client, FileType.PICTURE,false));
@@ -136,7 +137,7 @@ public class TelegramService {
     }
 
     public List<Attachment> getAllDocs(User user) {
-        List<Client> clients = clientRepository.findByUser(user);
+        List<Client> clients = clientRepository.findByUserAndState(user, EntityStatus.ACTIVE);
         List<Attachment> attachments = new ArrayList<>();
         clients.forEach(client -> {
             attachments.addAll(attachmentRepository.findByClientAndTypeAndDelete(client, FileType.DOCUMENT,false));
@@ -189,7 +190,7 @@ public class TelegramService {
     //SendFiles
 
     public List<Attachment> allSendPictures(User user) {
-        List<Client> clients = clientRepository.findByUser(user);
+        List<Client> clients = clientRepository.findByUserAndState(user, EntityStatus.ACTIVE);
         List<Attachment> attachments = new ArrayList<>();
         clients.forEach(client -> {
             attachments.addAll(attachmentRepository.findByClientAndTypeAndDelete(client, FileType.SENDPIC,false));
@@ -239,7 +240,7 @@ public class TelegramService {
     }
 
     public List<Attachment> getAllSendDocs(User user) {
-        List<Client> clients = clientRepository.findByUser(user);
+        List<Client> clients = clientRepository.findByUserAndState(user, EntityStatus.ACTIVE);
         List<Attachment> attachments = new ArrayList<>();
         clients.forEach(client -> {
             attachments.addAll(attachmentRepository.findByClientAndTypeAndDelete(client, FileType.SENDDOC,false));

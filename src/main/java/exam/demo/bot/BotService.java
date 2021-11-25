@@ -5,6 +5,7 @@ import exam.demo.entity.User;
 import exam.demo.entity.bot.Attachment;
 import exam.demo.entity.bot.Client;
 import exam.demo.entity.bot.Message;
+import exam.demo.entity.enums.EntityStatus;
 import exam.demo.entity.enums.FileType;
 import exam.demo.entity.hujjat.Bajarish;
 import exam.demo.entity.hujjat.Hujjat;
@@ -105,7 +106,7 @@ public class BotService {
 
     public Result saveSendFile(AttachmentRequest request,User user) throws StorageException, FileNotFoundException {
         Result result=new Result();
-         List<Client>  clients=clientRepository.findByUser(user);
+         List<Client>  clients=clientRepository.findByUserAndState(user, EntityStatus.ACTIVE);
          client=clients.get(0);
         if (clients.isEmpty()){
             result.setSuccess(true);

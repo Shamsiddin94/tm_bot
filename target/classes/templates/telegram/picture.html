@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/core}">
+
+
+<th:block layout:fragment="title">
+  Picture
+</th:block>
+
+
+<th:block layout:fragment="styles">
+    <link rel="stylesheet" href="/assets/bower_components/Ionicons/css/ionicons.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="/assets/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <!-- DataTables -->
+
+</th:block>
+
+
+<th:block layout:fragment="page_content">
+
+
+
+
+
+    <div class="box">
+        <!-- /.card-header -->
+        <div class="box-header box-solid">
+            <h3 class="box-title text-bold">
+                <i class="fa fa-image "></i> Rasmlar
+            </h3>
+        </div>
+        <div class="box-body">
+<div class="table-responsive">
+    <table class="table table-bordered table-hover " id="exam1">
+        <thead class="text-primary">
+
+        <tr>
+            <th>Id</th>
+            <th>Rasm Nomi</th>
+            <th>Kelgan Sana</th>
+            <th>Turi</th>
+            <th>O'lchami</th>
+
+            <th>Yuklash</th>
+        </tr>
+        </thead>
+        <tbody class="table-responsive">
+        <th:block th:if="${pictures!=null}">
+
+                <tr th:each="picture:${pictures}" th:classappend="${!picture.open} ? 'invalid CellWithComment' : ''"
+                    th:title="${!picture.isOpen()}?'Yuklanmagan':'Yuklangan'">
+
+
+                <td th:text="${picture.id}"></td>
+                <td th:text="${picture.fileName}"></td>
+                    <td th:text="${#dates.format(picture.createdAt, 'dd-MM-yyyy HH:mm')}"></td>
+                <td th:text="${picture.type}"></td>
+                <td th:text="${picture.size}"></td>
+
+
+                <td>
+                    <a th:href="${'/telegram/picture/get/'+picture.id}"
+                       class="btn btn-success  btn-sm "><i class="fa fa-download"></i> Yuklash </a>
+                    <a th:href="${'/telegram/picture/delete/'+picture.id}"
+                       class="btn btn-danger   btn-sm "> <i class="fa fa-trash"></i> O'chirish </a>
+                </td>
+            </tr>
+        </th:block>
+        </tbody>
+
+    </table>
+</div>
+
+
+
+
+        </div>
+        <!-- /.card-body -->
+    </div>
+
+
+</th:block>
+
+
+<!--Scripts-->
+<th:block layout:fragment="scripts">
+
+   <script type="text/javascript">
+       $(document).ready(function () {
+          //var jami=parseInt($('.tmAll').text());
+          var jami=$('.tmAll').text();
+          console.log(jami);
+           /*$.ajax({
+               url: "/telegram/getJson",
+               method: "GET",
+               success: function (data) {
+
+
+
+               },
+               error: function (e) {
+                   console.log(e);
+               }
+          }) ;
+*/
+       });
+    </script>
+
+<!--
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#tbs1").keyup(function () {
+            var tbs1 = $(this).val();
+
+
+            $.ajax({
+                url: "/admin/users?search="+tbs1,
+                method: "GET",
+
+                success: function (data) {
+                    console.log(data);
+
+
+                }
+
+            });
+           console.log(tbs1);
+
+        });
+    });
+
+</script>
+-->
+
+<!--    $.get("/admin/users", {term: $('#tbs1').val()}, function(data) {
+    // do your data manipulation and transformation here
+    });-->
+
+</th:block>
+
+
+</html>

@@ -67,6 +67,24 @@ public class TelegramService {
 
     }
 
+    public void deleteSendAttachment(User user, Long id) {
+        List<Attachment> attachments=getAllSendDocs(user);
+
+
+
+        attachments.forEach(atm->{
+            if (Objects.equals(atm.getId(), id)){
+                System.out.println(id+"ok");
+                atm.setDelete(true);
+                attachmentRepository.save(atm);
+
+            }
+        });
+
+
+
+    }
+
     public void deleteAttachment(User user,Long id){
 
        List<Attachment> attachments=allPictures(user);
@@ -189,6 +207,9 @@ public class TelegramService {
 
     //SendFiles
 
+
+
+
     public List<Attachment> allSendPictures(User user) {
         List<Client> clients = clientRepository.findByUserAndState(user, EntityStatus.ACTIVE);
         List<Attachment> attachments = new ArrayList<>();
@@ -258,7 +279,8 @@ public class TelegramService {
             attachment.setOpen(true);
             attachmentRepository.save(attachment);
             if (attachments.contains(attachment)) {
-                Path file = AppConstants.botFiles.resolve(attachment.getFileUrl());
+                Path file = AppConstants.botFileSend.resolve(attachment.getFileUrl());
+                System.out.println(AppConstants.botFileSend.resolve(attachment.getFileUrl()));
                 try {
                     Resource resource = new UrlResource(file.toUri());
                     if (resource.exists() || resource.isReadable()) {
@@ -331,5 +353,6 @@ public class TelegramService {
     public Optional<Client> clientOpt(Long id) {
         return clientRepository.findById(id);
     }
+
 
 }

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <!--Telegram content-->
+        <th:block  th:fragment="telegram">
+            <li class="treeview " th:classappend="${#httpServletRequest.requestURI== '/telegram/picture'||
+             #httpServletRequest.requestURI== '/telegram/document'}? 'active': ''">
+                <a href="#">
+                    <i class="fa fa-paper-plane"></i>
+                    <span>Telegram</span>
+                    <span class="pull-right-container">
+                        <span class="label label-primary pull-right tmAll"></span>
+                    </span>
+                </a>
+                <ul class="treeview-menu "       >
+                    <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                        <li>
+                            <a href="/admin/client/">
+                                <i class="fa fa-minus-circle"></i>
+                               Clients
+
+                                <!--<span class="label label-danger pull-right tmPicture"></span>-->
+
+                            </a>
+                        </li>
+                    </th:block>
+
+                    <!--File Send-->
+                    <th:block sec:authorize="hasRole('ROLE_FILESEND')">
+                        <li>
+                            <a href="/telegram/send">
+                                <i class="fa fa-minus-circle"></i>
+                                Fayl yuborish
+
+                                <!--<span class="label label-danger pull-right tmPicture"></span>-->
+
+                            </a>
+                        </li>
+                    </th:block>
+
+
+                    <li>
+                        <a href="/telegram/picture">
+                            <i class="fa fa-minus-circle"></i>
+                            Rasmlar
+
+                            <span class="label label-danger pull-right tmPicture"></span>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/telegram/document">
+                            <i class="fa fa-minus-circle"></i>
+                            Hujjatlar <span class="label label-warning pull-right tmDocument"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/telegram/message">
+                            <i class="fa fa-minus-circle"></i>
+                            Xabarlar <span class="label label-warning pull-right "></span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+        </th:block>
+
+    </body>
+</html>

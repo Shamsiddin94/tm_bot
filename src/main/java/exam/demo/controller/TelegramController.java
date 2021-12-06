@@ -93,7 +93,7 @@ public class TelegramController {
     @GetMapping(value = {"/send/get/{id}"})
     @ResponseBody
     public ResponseEntity<Resource> getDocSend(@PathVariable("id") Long id, @CurrentUser User user) {
-        ResultModel resultModel = telegramService.getDoc(id, user);
+        ResultModel resultModel = telegramService.getSendDoc(id, user);
         System.out.println(resultModel.toString());
         if (resultModel.getSuccess()) {
 
@@ -106,7 +106,7 @@ public class TelegramController {
         Resource file = (Resource) resultModel.getObject();
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + URLEncoder.encode(resultModel.getMessage()))
-                .contentType(MediaType.parseMediaType("application/octet-stream") )
+                .contentType(!resultModel.getData().get("type").isEmpty() ? MediaType.parseMediaType(resultModel.getData().get("type")) : MediaType.ALL)
                 .body(file);
     }
 
@@ -115,7 +115,7 @@ public class TelegramController {
     @GetMapping(value = {"/send/delete/{id}"})
 
     public String  sendDelete(@PathVariable("id") Long id, @CurrentUser User user,Model model) {
-        telegramService.deleteAttachment(user, id);
+        telegramService.deleteSendAttachment(user, id);
         model.addAttribute("documents", telegramService.getAllSendDocs(user));
         model.addAttribute( new Result(false , ""));
         return  "telegram/send/index";

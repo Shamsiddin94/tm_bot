@@ -33,7 +33,7 @@ public class AuthenticationSuccess implements AuthenticationSuccessHandler {
         } else if (roles.contains("ROLE_KADR")) {
             httpServletResponse.sendRedirect("/kadr");
         }else {
-            httpServletResponse.sendRedirect("/index");
+            httpServletResponse.sendRedirect("/quiz");
         }
     }
 }

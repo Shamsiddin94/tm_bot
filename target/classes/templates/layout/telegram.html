@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
     <body>
         <!--Telegram content-->
-        <th:block  th:fragment="telegram">
+        <th:block  th:fragment="telegram" sec:authorize="isAuthenticated()">
             <li class="treeview " th:classappend="${#httpServletRequest.requestURI== '/telegram/picture'||
              #httpServletRequest.requestURI== '/telegram/document'}? 'active': ''">
                 <a href="#">

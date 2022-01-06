@@ -15,9 +15,9 @@ public interface AppConstants {
 
 
     //String botToken="1717566005:AAFllcz2SrdGX-6U9LrI_c5AHyQHPEVzW3U";
-    String botToken="1603310063:AAFK4wl7Dn-aHLX4EnqsDBTB4Gfm0sBTMQQ";
+    String botToken="1947308210:AAGJr7riu3VN_SHTiW2gzGdTwVHiJNp0kYA";
    // String botName="omqpBot";
-    String botName="OmqpFileBot";
+    String botName="omqpkpiBot";
 
     String error_file="Ushbu fayl qabul qilinmadi. Fayl xajmi 20 mb dan oshmasligi zarur !!!";
     String error_picture="Ushbu rasm qabul qilinmadi. Rasm xajmi 5 mb dan oshmasligi zarur !!!";

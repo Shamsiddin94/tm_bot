@@ -7,6 +7,7 @@ import exam.demo.service.admin.AdminSercive;
 import exam.demo.utils.AppConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,15 @@ public class AdminController {
 
     @Autowired
     private AdminSercive adminSercive;
+
+
+    @GetMapping("/api/users")
+    @ResponseBody
+    public ResponseEntity<?> getData() {
+        //System.out.println(userService.getAll().toString());
+        return  ResponseEntity.status(200).body(adminSercive.findAll());
+    }
+
 
 
     @GetMapping(value = {"","/"})

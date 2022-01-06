@@ -5,6 +5,8 @@
 *.log
 /botFiles/received
 /botFiles/send
+/src/main/java/exam/demo/utils/AppConstants.java
+/src/main/resources/application.properties
 # BlueJ files
 *.ctxt
 
@@ -27,3 +29,4 @@ hs_err_pid*
 =======
 target/classes/META-INF/demo.kotlin_module
 >>>>>>> Stashed changes
+*.xml

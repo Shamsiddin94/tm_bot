@@ -7,5 +7,13 @@
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://localhost:5432/dms</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="demo/Hibernate" uuid="082a7216-8ac3-4489-aee7-6977246ad8ef">
+      <driver-ref>greenplum</driver-ref>
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <remarks>Hibernate</remarks>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/dms</jdbc-url>
+    </data-source>
   </component>
 </project>

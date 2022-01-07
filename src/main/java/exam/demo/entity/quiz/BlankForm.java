@@ -6,9 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
@@ -19,11 +17,17 @@ import java.util.List;
 public class BlankForm extends AbsEntity {
     private String name;
 
-    private QuizType type;
-
     private String description;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+
+
+    @Enumerated(EnumType.STRING)
+    private QuizState blankState;
+
+
+
+    //@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY)
     private List<BlankQuestion> questions;
 
 }

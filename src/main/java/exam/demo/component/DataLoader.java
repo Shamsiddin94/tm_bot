@@ -45,7 +45,7 @@ public class DataLoader implements CommandLineRunner {
             BlankForm blankForm=new  BlankForm();
             blankForm.setDescription("description"+i);
             blankForm.setName("name"+i);
-            blankForm.setType(QuizType.SHORT);
+          
             blankFormRepository.save(blankForm);
 
         }

@@ -35,6 +35,20 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+<<<<<<< Updated upstream
+=======
+        for (int i=0;i<=10;i++){
+            BlankForm blankForm=new  BlankForm();
+            blankForm.setDescription("description"+i);
+            blankForm.setName("name"+i);
+
+            blankFormRepository.save(blankForm);
+
+        }
+
+
+
+>>>>>>> Stashed changes
       if (initialMode.equals("always")) {
           PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         User user = new User("Shamsiddin xushbaqtov", "shamsiddin",passwordEncoder.encode("12345"), roleRepository.findByName(RoleName.ROLE_ADMIN));

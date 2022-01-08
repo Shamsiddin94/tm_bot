@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
@@ -26,14 +25,19 @@
         <link rel="stylesheet" href="/assets/dist/css/AdminLTE.min.css">
         <!-- AdminLTE Skins. Choose a skin from the css/skins
              folder instead of downloading all of them to reduce the load. -->
-
+        <!-- iCheck for checkboxes and radio inputs -->
+        <link rel="stylesheet" href="/assets/plugins/iCheck/all.css">
         <!-- bootstrap datepicker -->
-        <link rel="stylesheet" href="/assets/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+        <link rel="stylesheet"
+              href="/assets/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
 
         <link rel="stylesheet" href="/assets/dist/css/skins/_all-skins.min.css">
         <!-- bootstrap wysihtml5 - text editor -->
         <link rel="stylesheet" href="/assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
         <link rel="stylesheet" href="/assets/bower_components/select2/dist/css/select2.min.css">
+
+
+        <link rel="stylesheet" href="/assets/alert/style.css">
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -51,17 +55,26 @@
         </th:block>
 
     </head>
-    <body class="hold-transition skin-blue sidebar-mini">
+    <body  th:classappend="${#strings.contains(#httpServletRequest.requestURL,'quiz')}?'sidebar-collapse':''" class="hold-transition skin-blue sidebar-mini" style="height: auto; min-height: 100%;">
         <div class="wrapper">
 
             <header class="main-header">
                 <!-- Logo -->
                 <a href="/" class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini"><b><i class="fa fa-home"></i>  tm.uz</b>
+                    <span class="logo-mini">
+                        <b>
+                            <i class="fa fa-home"></i>
+                            tm.uz
+                        </b>
                     </span>
                     <!-- logo for regular state and mobile devices -->
-                    <span class="logo-lg"><b><i class="fa fa-home"></i>   tm</b>.uz
+                    <span class="logo-lg">
+                        <b>
+                            <i class="fa fa-home"></i>
+                            tm
+                        </b>
+                        .uz
                     </span>
                 </a>
                 <!-- Header Navbar: style can be found in header.less -->
@@ -77,7 +90,7 @@
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
-                <section class="content-header">
+                <section sec:authorize="isAuthenticated()" class="content-header">
                     <h1>
                         tm
                         <small th:text="${#httpServletRequest.requestURI}"></small>
@@ -94,78 +107,89 @@
                 </section>
 
                 <!-- Main content -->
-                <section class="content">
+                <div class="content">
+                    <th:block   sec:authorize="isAuthenticated()">
+                        <!-- Small boxes (Stat box) -->
+                        <div class="row">
+                            <div class="col-lg-3 col-xs-6">
+                                <!-- small box -->
+                                <div class="small-box bg-aqua">
+                                    <div class="inner">
+                                        <h3 id="newDoc">0</h3>
 
-                    <!-- Small boxes (Stat box) -->
-                    <div class="row">
-                        <div class="col-lg-3 col-xs-6">
-                            <!-- small box -->
-                            <div class="small-box bg-aqua">
-                                <div class="inner">
-                                    <h3 id="newDoc">0</h3>
-
-                                    <p>Yangi hujjatlar</p>
+                                        <p>Yangi hujjatlar</p>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="ion ion-document-text"></i>
+                                    </div>
+                                    <a href="/" class="small-box-footer">Ko'rsatish
+                                        <i class="fa fa-arrow-circle-right"></i>
+                                    </a>
                                 </div>
-                                <div class="icon">
-                                    <i class="ion ion-document-text"></i>
-                                </div>
-                                <a href="/" class="small-box-footer">Ko'rsatish <i class="fa fa-arrow-circle-right"></i></a>
                             </div>
-                        </div>
-                        <!-- ./col -->
-                        <div class="col-lg-3 col-xs-6">
-                            <!-- small box -->
-                            <div class="small-box bg-green">
-                                <div class="inner">
-                                    <h3 id="newImg">0<!--<sup style="font-size: 20px">%</sup>--></h3>
+                            <!-- ./col -->
+                            <div class="col-lg-3 col-xs-6">
+                                <!-- small box -->
+                                <div class="small-box bg-green">
+                                    <div class="inner">
+                                        <h3 id="newImg">0<!--<sup style="font-size: 20px">%</sup>--></h3>
 
-                                    <p>Yangi rasmlar</p>
+                                        <p>Yangi rasmlar</p>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="ion ion-image"></i>
+                                    </div>
+                                    <a href="/" class="small-box-footer">Ko'rsatish
+                                        <i class="fa fa-arrow-circle-right"></i>
+                                    </a>
                                 </div>
-                                <div class="icon">
-                                    <i class="ion ion-image"></i>
-                                </div>
-                                <a href="/" class="small-box-footer">Ko'rsatish <i class="fa fa-arrow-circle-right"></i></a>
                             </div>
-                        </div>
-                        <!-- ./col -->
-                        <div class="col-lg-3 col-xs-6">
-                            <!-- small box -->
-                            <div class="small-box bg-aqua">
-                                <div class="inner">
-                                    <h3 id="allDoc">0</h3>
+                            <!-- ./col -->
+                            <div class="col-lg-3 col-xs-6">
+                                <!-- small box -->
+                                <div class="small-box bg-aqua">
+                                    <div class="inner">
+                                        <h3 id="allDoc">0</h3>
 
-                                    <p>Barcha hujjatlar</p>
+                                        <p>Barcha hujjatlar</p>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="ion ion-document-text"></i>
+                                    </div>
+                                    <a href="/telegram/document" class="small-box-footer">Ko'rsatish
+                                        <i class="fa fa-arrow-circle-right"></i>
+                                    </a>
                                 </div>
-                                <div class="icon">
-                                    <i class="ion ion-document-text"></i>
-                                </div>
-                                <a href="/telegram/document" class="small-box-footer">Ko'rsatish <i class="fa fa-arrow-circle-right"></i></a>
                             </div>
-                        </div>
-                        <!-- ./col -->
-                        <div class="col-lg-3 col-xs-6">
-                            <!-- small box -->
-                            <div class="small-box bg-green">
-                                <div class="inner">
-                                    <h3 id="allImg">0</h3>
+                            <!-- ./col -->
+                            <div class="col-lg-3 col-xs-6">
+                                <!-- small box -->
+                                <div class="small-box bg-green">
+                                    <div class="inner">
+                                        <h3 id="allImg">0</h3>
 
-                                    <p>Barcha rasmlar</p>
+                                        <p>Barcha rasmlar</p>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="ion ion-images"></i>
+                                    </div>
+                                    <a href="/telegram/picture" class="small-box-footer">Ko'rsatish
+                                        <i class="fa fa-arrow-circle-right"></i>
+                                    </a>
                                 </div>
-                                <div class="icon">
-                                    <i class="ion ion-images"></i>
-                                </div>
-                                <a href="/telegram/picture" class="small-box-footer">Ko'rsatish <i class="fa fa-arrow-circle-right"></i></a>
                             </div>
+                            <!-- ./col -->
                         </div>
-                        <!-- ./col -->
-                    </div>
-                    <!-- /.row -->
+                        <!-- /.row -->
+                    </th:block>
+
+
                     <div class="content" layout:fragment="page_content">
 
                     </div>
 
 
-                </section>
+                </div>
                 <!-- /.content -->
             </div>
             <!-- /.content-wrapper -->
@@ -174,7 +198,7 @@
                     <b>tm</b>
                     .uz
                 </div>
-                <strong> &copy; 2020-2021 <!-- <a href="#">  Admin murojaat</a>.-->
+                <strong>&copy; 2020-2021 <!-- <a href="#">  Admin murojaat</a>.-->
                 </strong>
 
             </footer>
@@ -198,10 +222,11 @@
         <script src="/assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
         <!-- Slimscroll -->
         <script src="/assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-         <!-- Select2 -->
+        <!-- Select2 -->
         <script src="/assets/bower_components/select2/dist/js/select2.full.js"></script>
         <!-- FastClick -->
         <script src="/assets/bower_components/fastclick/lib/fastclick.js"></script>
+        <script src="/assets/plugins/iCheck/icheck.min.js"></script>
         <!-- AdminLTE App -->
         <script src="/assets/dist/js/adminlte.min.js"></script>
 
@@ -209,13 +234,19 @@
         <!-- AdminLTE for demo purposes -->
         <script src="/assets/dist/js/demo.js"></script>
 
-                <!--Call table-->
+        <!--Call table-->
         <script src="/assets/tableLabels.js"></script>
-        <script type="text/javascript">
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<!--Toaster-->
+        <script src="/assets/alert/cute-alert.js"></script>
+
+        <script type="text/javascript" sec:authorize="isAuthenticated()">
 
 
             $(document).ready(function () {
-var pages=['/telegram/picture','/telegram/document'];
+                var pages = ['/telegram/picture', '/telegram/document'];
 
                 if (localStorage.getItem('data')) {
                     var data = JSON.parse(localStorage.getItem('data'));
@@ -231,28 +262,28 @@ var pages=['/telegram/picture','/telegram/document'];
                 }
 
                 setInterval(function () {
-                        var jami=$('#tmAll').text();
+                        var jami = $('#tmAll').text();
 
 
                         $.ajax({
                             url: "/telegram/getJson",
                             method: "GET",
                             success: function (data) {
-                               console.log(data);
-                                if (data!==null) {
-                                    localStorage.setItem('data',JSON.stringify(data));
+                                console.log(data);
+                                if (data !== null) {
+                                    localStorage.setItem('data', JSON.stringify(data));
                                     $('.tmAll').text(data.tJami);
                                     $('.tmDocument').text(data.tHujjat);
                                     $('.tmPicture').text(data.tRasm);
-                                  //  $('#link1').attr('href',"/data/"+data.tSoni);
+                                    //  $('#link1').attr('href',"/data/"+data.tSoni);
                                     $('#newImg').text(data.tRasm);
                                     $('#newDoc').text(data.tHujjat);
                                     $('#allDoc').text(data.allDoc);
                                     $('#allImg').text(data.allImg);
                                 }
 
-                                if (jami!=='' && data.tJami!==jami){
-                                    if (pages.includes(window.location.pathname)){
+                                if (jami !== '' && data.tJami !== jami) {
+                                    if (pages.includes(window.location.pathname)) {
                                         console.log(jami);
                                         console.log(window.location.pathname);
                                         window.location.reload();
@@ -266,28 +297,27 @@ var pages=['/telegram/picture','/telegram/document'];
                         });
 
 
-                },
+                    },
                     10000);
+            });
+
+
+            $(document).ready(function () {
+                $("select").select2({
+                    placeholder: "Tanlang ..."
                 });
+            });
+
+            $(document).ready(function () {
+                //Date picker
 
 
+                $('.sanaselect').datepicker({
+                    format: 'yyyy-mm-dd',
+                    autoclose: true
 
-                $(document).ready(function () {
-                    $("select").select2({
-                        placeholder:"Tanlang ..."
-                    });
                 });
-
-                $(document).ready(function () {
-                    //Date picker
-
-
-                    $('.sanaselect').datepicker({
-                        format: 'yyyy-mm-dd',
-                        autoclose: true
-
-                    });
-                });
+            });
 
 
         </script>

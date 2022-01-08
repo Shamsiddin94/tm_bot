@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/core}">
+<th:block  layout:fragment="title">
+   fraksiya
+</th:block>
+
+<th:block layout:fragment="styles">
+
+</th:block>
+
+
+
+<div layout:fragment="page_content">
+
+<div class="box box-success">
+    <div class="box-header">
+        <div class="box-header with-border">
+            <h3 class="box-title">Add fraksiya</h3>
+        </div>
+    </div>
+    <form th:action="${savePath}" class="form-horizontal" method="post" th:object="${fraksiyaRequest}">
+    <div class="box-body">
+        <div th:if="${result.success}">
+            <div class="alert alert-warning alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-warning"></i> Ogohlantirish!</h4>
+                <p th:text="${result.message}"></p>
+            </div>
+        </div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="name" class="col-sm-2 control-label">fraksiya Name</label>
+            <div class="col-sm-10">
+                <input type="text" th:field="*{name}" class="form-control" id="name" placeholder="Enter full Name">
+                <span class="help-block" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+
+
+    </div>
+
+    <div class="box-footer">
+        <a href="/admin/fraksiya/" class="btn btn-info">Oldingi saxifa</a>
+        <button type="submit" class="btn btn-info pull-right">Saqlash</button>
+    </div>
+    </form>
+</div>
+
+
+</div>
+
+<th:block layout:fragment="scripts">
+
+</th:block>
+
+</html>

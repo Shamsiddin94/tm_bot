@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/core}">
+<th:block layout:fragment="title">
+    Savolllar
+</th:block>
+<th:block layout:fragment="styles">
+    <!-- Dashboard styles-->
+</th:block>
+
+<div class="content" layout:fragment="page_content" id="app">
+    <h1> So'rovnoma</h1>
+
+
+    <div class="box">
+        <div class="box-body">
+
+
+            <div v-for="user in users" class="">
+                <div class="col-md-6">
+
+                    <div class="box  ">
+                        <div class="box-header with-border bg-green-active">
+                            <h3 class="box-title">{{ user.id }}- savol</h3>
+                        </div>
+                        <div class="box-body">
+                            <label :for="'msg_'+user.id" class="col-sm-12 control-label">{{user.password}}</label>
+                            <input :id="'msg_'+user.id" class="form-control" type="text" placeholder="Default input">
+
+                            <br>
+                            <!-- checkbox -->
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" class="icheckbox_flat-green">
+                                </label>
+                                <label>
+                                    <input type="checkbox" class="icheckbox_flat-green ">
+                                </label>
+                                <label>
+                                    <input type="checkbox" class="icheckbox_flat-green">
+                                    Tanlash uchun
+                                </label>
+                            </div>
+
+                            <!-- radio -->
+                            <div class="form-group">
+                                <label>
+                                    <input type="radio" :name="'r_'+user.id" class="iradio_minimal-green">
+                                </label>
+                                <label>
+                                    <input type="radio" :name="'r_'+user.id" class="iradio_minimal-green">
+                                </label>
+                                <label>
+                                    <input type="radio" :name="'r_'+user.id" class="iradio_minimal-green">
+                                    Tanlash uchun radio button
+                                </label>
+                            </div>
+
+                            <!-- Minimal red style -->
+
+                            <!-- checkbox -->
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" class="minimal-red" checked>
+                                </label>
+                                <label>
+                                    <input type="checkbox" class="minimal-red">
+                                </label>
+                                <label>
+                                    <input type="checkbox" class="minimal-red">
+                                    Tanlash uchun
+                                </label>
+                            </div>
+
+
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+<th:block layout:fragment="scripts">
+
+
+    <!-- Actual Vue.js script -->
+    <script type="text/javascript">
+
+        //iCheck for checkbox and radio inputs
+        $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+            checkboxClass: 'icheckbox_minimal-blue',
+            radioClass: 'iradio_minimal-blue'
+        });
+        //Red color scheme for iCheck
+        $('input[type="checkbox"].minimal-red, input[type="radio"].minimal-red').iCheck({
+            checkboxClass: 'icheckbox_minimal-red',
+            radioClass: 'iradio_minimal-red'
+        });
+        //Flat red color scheme for iCheck
+        $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+            checkboxClass: 'icheckbox_flat-green',
+            radioClass: 'iradio_flat-green'
+        });
+
+
+        var app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    users: null
+                }
+            },
+            mounted() {
+                axios.get("/quiz/api")
+                    .then(response => (
+                        this.users = response.data.sort(function (a, b) {
+                            return parseInt(a.id) - parseInt(b.id);
+                        })));
+                console.log(this.users);
+            },
+            methods:{
+
+
+            }
+
+
+        })
+    </script>
+    <!--my scripts-->
+</th:block>
+
+
+</html>

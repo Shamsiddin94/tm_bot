@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http
-                .authorizeRequests().antMatchers("/login/**").permitAll()
+                .authorizeRequests().antMatchers("/login/**","/quiz","/quiz/api/**").permitAll()
                 .antMatchers("/admin/**").access("hasRole('ADMIN')")
                 .antMatchers("/rahbariyat/**").access("hasRole('RAHBARIYAT')")
                 .antMatchers("/murojaat/**").access("hasRole('MUROJAAT')")
@@ -60,13 +60,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .rememberMe().rememberMeParameter("remember-me").key("uniqueAndSecret");
-        CharacterEncodingFilter filter = new CharacterEncodingFilter();
+        http.csrf().disable();
+        /*CharacterEncodingFilter filter = new CharacterEncodingFilter();
         filter.setEncoding("UTF-8");
         filter.setForceEncoding(true);
-        http.addFilterBefore(filter, CsrfFilter.class);
+        http.addFilterBefore(filter, CsrfFilter.class);*/
     }
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/assets/**");
+        web.ignoring().antMatchers("/assets/**","/webjars/**");
     }
 }

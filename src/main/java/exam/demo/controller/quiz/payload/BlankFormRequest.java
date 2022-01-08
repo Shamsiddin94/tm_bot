@@ -17,17 +17,13 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BlankFormModel {
+public class BlankFormRequest {
 
-    @NotEmpty
+    @NotEmpty(message = "Ushbu maydon to'ldirilishi kerak")
     private String name;
 
-    @NotEmpty
+    @NotEmpty(message = "Ushbu maydon to'ldirilishi kerak")
     private String description;
-
-
-   @NotEmpty
-    private QuizType type;
 
 
     private QuizState blankState;

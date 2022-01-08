@@ -60,11 +60,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .rememberMe().rememberMeParameter("remember-me").key("uniqueAndSecret");
-        http.csrf().disable();
-        /*CharacterEncodingFilter filter = new CharacterEncodingFilter();
+        CharacterEncodingFilter filter = new CharacterEncodingFilter();
         filter.setEncoding("UTF-8");
         filter.setForceEncoding(true);
-        http.addFilterBefore(filter, CsrfFilter.class);*/
+        http.addFilterBefore(filter, CsrfFilter.class);
     }
     @Override
     public void configure(WebSecurity web) throws Exception {

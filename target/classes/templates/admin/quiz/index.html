@@ -3,11 +3,11 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/core}" xmlns="http://www.w3.org/1999/html">
+      layout:decorate="~{layout/core}">
 
 
 <th:block layout:fragment="title">
- Quiz
+ fraksiya
 </th:block>
 
 
@@ -22,83 +22,75 @@
 
 
 
-    <div class="box" id="app">
+    <div class="box">
         <div class="box-header">
-            <button v-on:click="showApp()"  class="btn btn-success">Savol qo'shish<i class="fa fa-plus"></i></button>
-            <button id="info"  class="btn btn-success">Variyant  qo'shish<i class="fa fa-plus"></i></button><br>
+            <a href="/admin/fraksiya/add" class="btn btn-success"><i class="fa fa-plus"></i></a><br>
         </div>
         <!-- /.card-header -->
-        <div class="box-body" >
+        <div class="box-body">
+            <th:block th:if="${fraksiyaPage!=null and !fraksiyaPage.isEmpty()}">
+            <div class="btn-group">
+                <button class="btn btn-info dropdown-toggle"
+                        data-toggle="dropdown">
+                    page-   <th:block th:text="${fraksiyaPage.size}" ></th:block> <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" >
+                    <li><a   href="?size=1">1</a></li>
+                    <li><a   href="?size=2">2</a></li>
+                    <li><a   href="?size=3">3</a></li>
+                    <li><a   href="?size=4">4</a></li>
 
-
-            <div v-if="visible">
-                <div class="box box-primary">
-                    <div class="box-header bg-green-active">
-                        <h3 class="box-title">Savol qo'shish</h3>
-                    </div>
-                    <!-- /.box-header -->
-                    <!-- form start -->
-                    <div role="form">
-                        <div class="box-body">
-                            <div class="form-group">
-                                <label  for="name">Forma nomini kirting</label>
-                                <input type="email"v-model="name" class="form-control" id="name" placeholder="Enter name">
-                            </div>
-                            <div class="form-group">
-                                <label for="description">Qisqacha tarif</label>
-                                <input type="text" v-model="description" class="form-control" id="description" placeholder="Description">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="formType">Forma turi</label>
-                                <select class="form-control" id="formType" v-model="type" >
-                                    <option value="">Tanlang..</option>
-                                    <option value="SHORT">Qisqacha matn</option>
-                                    <option value="SELECT">Tanlash</option>
-                                    <option value="CHECKBOX">Bir nechta tanlash</option>
-                                </select>
-                            </div>
-
-                        </div>
-                        <!-- /.box-body -->
-
-                        <div class="box-footer">
-                            <button v-on:click="send()" class="btn btn-primary">Submit</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.box -->
+                </ul>
             </div>
+            </th:block>
 
+            <table class="table table-bordered table-hover ">
 
+                <thead class="text-primary">
+                <tr>
 
+                    <form action="/admin/fraksiya/" >
+                        <th><input type="text" name="search" class="form-control"id="fullName" ></th>
+                        <th><button type="submit" class="btn btn-info form-control"><i class="fa fa-search"></i></button></th>
+                        <th> </th>
+                        <th> </th>
+                    </form>
+                </tr>
+                <tr>
+                    <th> Fraksiya  name</th>
 
+                    <th> Operation</th>
+                </tr>
+                               </thead>
+                <tbody class="table-responsive">
+                <tr th:each="fraksiya:${fraksiyaPage.content}">
+                    <td th:text="${fraksiya.name}"></td>
 
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover table-responsive" id="stable">
-                            <thead class="text-primary">
-                            <tr>
-                                <th>Id</th>
-                                <th>Fayl nomi</th>
-                                <th>Kelgan Sana</th>
-                                <th> Turi</th>
-                                <th> O'lchami</th>
-                                <th>Yuklash</th>
-                            </tr>
-                            </thead>
+                    <td>
+                        <a th:href="${'/admin/fraksiya/edit/'+fraksiya.id}"
+                           class="btn btn-warning btn-sm"> Edit </a>
 
+                        <a th:href="${'/admin/fraksiya/delete/'+fraksiya.id}"
+                           class="btn btn-danger btn-sm"> Delete </a>
+                    </td>
+                </tr>
+                </tbody>
 
-                        </table>
+            </table>
 
+            <th:block th:if="${fraksiyaPage!=null and !fraksiyaPage.isEmpty()}">
+            <nav aria-label="Page navigation example">
 
-
-                    </div>
-
-
-
-        </div>
-
-
+                <ul class="pagination justify-content-end">
+                    <li  th:if="${fraksiyaPage.totalPages > 0}"
+                        th:each="pageNumber : ${pageNumber}"
+                        th:class="${pageNumber==fraksiyaPage.number + 1} ? 'page-item active':'page-item'">
+                        <a th:href="@{/admin/fraksiya/(size=${fraksiyaPage.size}, page=${pageNumber}-1)}"
+                           th:text="${pageNumber}" class="page-link"></a>
+                    </li>
+                </ul>
+            </nav>
+            </th:block>
             <a href="javascript:history.go(-1)" title="Return to the previous page">&laquo; Go back</a>
         </div>
         <!-- /.card-body -->
@@ -110,116 +102,6 @@
 
 <!--Scripts-->
 <th:block layout:fragment="scripts">
-
-
-
-    <script>
-        $(document).ready(function() {
-            $('#stable').DataTable( {
-                "processing": true,
-                "serverSide": true,
-                "ajax": "/quiz/api"
-            } );
-        } );
-
-
-        Vue.component('button-counter', {
-            props:['test'],
-            data: function () {
-                return {
-                    count: 0
-                }
-            },
-            mounted() {
-            console.log('chizildi+'+this.count);
-            if (this.count==0){
-                this.count=(localStorage.getItem("count"))?parseInt(localStorage.getItem("count")):0;
-            }
-                },
-            methods: {
-                countAdd:function () {
-                    this.count++;
-                    localStorage.setItem("count",this.count)
-                    console.log(this.count);
-                }
-            },
-            template: '<button v-on:click="countAdd()"  >You clicked me {{ count }} times.</button> '
-        });
-
-        Vue.component('spantest',{
-            props:['test'],
-            data:function(){
-                return{
-                    obj:'Salom dunyo'
-                }
-            },
-            methods:{
-                testDemo:function () {
-                    console.log(this.obj);
-                    this.obj="Assalomu eleykum";
-                }
-            },
-            template:'<span v-on:click="testDemo()">{{obj}}</span>'
-
-
-        });
-        var info = document.getElementById("info");
-        info.addEventListener("click", ()=>{
-            cuteAlert({
-                type: "info",
-                title: "Info Title",
-                message: "Info Message",
-                buttonText: "Okay"
-            })
-        })
-        var app = new Vue({
-            el: '#app',
-            data() {
-                return {
-                    name:null,
-                    description:null,
-                    type:'SHORT',
-                    visible:false,
-                    blanks:null,
-                }
-            },
-            mounted() {
-
-                axios.get("/admin/quiz/api/allBlanks")
-                    .then(response => (
-                        this.blanks = response.data.sort(function (a, b) {
-                            return parseInt(a.id) - parseInt(b.id);
-                        })));
-                console.log(this.blanks);
-
-            },
-            methods: {
-                send(){
-                    if (this.name){
-
-                    }
-
-
-                    const res =  axios.post('/admin/quiz/add', { name:this.name,description:this.description,type:this.type});
-
-                       console.log(res);
-
-                },
-                showApp(){
-                    this.visible=!this.visible;
-                    console.log(this.blanks);
-                },
-                getBlankType() {
-                    axios.get("/admin/quiz/api/allBlanks")
-                        .then(response => (
-                            this.blanks = response.data.sort(function (a, b) {
-                                return parseInt(a.id) - parseInt(b.id);
-                            })));
-                    console.log(this.blanks);
-                }
-            }
-        });
-    </script>
 
 <!--
 

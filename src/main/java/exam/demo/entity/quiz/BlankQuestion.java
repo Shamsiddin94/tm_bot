@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
@@ -17,9 +19,6 @@ public class BlankQuestion  extends AbsEntity {
     private Long id;
 
     private Long num;
-
-    @Enumerated(EnumType.STRING)
-    private QuizType type;
 
     private String text;
 

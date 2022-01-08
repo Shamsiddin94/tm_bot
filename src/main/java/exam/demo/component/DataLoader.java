@@ -4,13 +4,10 @@ import exam.demo.entity.Country;
 import exam.demo.entity.User;
 import exam.demo.entity.bot.Client;
 import exam.demo.entity.enums.RoleName;
-import exam.demo.entity.quiz.BlankForm;
-import exam.demo.entity.quiz.QuizType;
 import exam.demo.repository.RoleRepository;
 import exam.demo.repository.UserRepository;
 import exam.demo.repository.bot.AttachmentRepository;
 import exam.demo.repository.bot.ClientRepository;
-import exam.demo.repository.quiz.BlankFormRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -35,23 +32,9 @@ public class DataLoader implements CommandLineRunner {
     @Autowired
     private ClientRepository clientRepository;
 
-    @Autowired
-    private BlankFormRepository blankFormRepository;
-
 
     @Override
     public void run(String... args) throws Exception {
-        for (int i=0;i<=10;i++){
-            BlankForm blankForm=new  BlankForm();
-            blankForm.setDescription("description"+i);
-            blankForm.setName("name"+i);
-            blankForm.setType(QuizType.SHORT);
-            blankFormRepository.save(blankForm);
-
-        }
-
-
-
       if (initialMode.equals("always")) {
           PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         User user = new User("Shamsiddin xushbaqtov", "shamsiddin",passwordEncoder.encode("12345"), roleRepository.findByName(RoleName.ROLE_ADMIN));

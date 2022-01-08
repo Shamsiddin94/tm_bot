@@ -41,7 +41,7 @@
                         <!--MAin control-->
                         <th:block sec:authorize="hasRole('ROLE_ADMIN')">
                             <li class=" treeview"
-                                th:classappend="${#strings.contains(#httpServletRequest.requestURL,'admin/users')}?'active':''">
+                                th:classappend="${#strings.contains(#httpServletRequest.requestURL,'admin')}?'active':''">
                                 <a href="#">
                                     <i class="fa fa-users"></i>
                                     <span>Users</span>
@@ -103,44 +103,6 @@
                                             Lavozim
                                         </a>
                                     </li>
-                                </ul>
-                            </li>
-                                            <!--///-->
-                            <!-- Tizim-->
-                            <li class="treeview" th:classappend="${#strings.contains(#httpServletRequest.requestURL,'admin/quiz')}?'active':''">
-                                <a href="#">
-                                    <i class="fa fa-question"></i>
-                                    <span>Quiz</span>
-                                    <span class="pull-right-container">
-                                        <i class="fa fa-angle-left pull-right"></i>
-                                    </span>
-                                </a>
-                                <ul class="treeview-menu">
-                                    <li>
-                                        <a href="/admin/quiz/">
-                                            <i class="fa fa-minus"></i>
-                                            Info
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="/admin/quiz/blank/">
-                                            <i class="fa fa-minus"></i>
-                                            Blank
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="/admin/quiz/question">
-                                            <i class="fa fa-minus"></i>
-                                            Question
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="/admin/quiz/answer">
-                                            <i class="fa fa-minus"></i>
-                                            Answer
-                                        </a>
-                                    </li>
-
                                 </ul>
                             </li>
 

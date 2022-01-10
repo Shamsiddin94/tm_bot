@@ -14,9 +14,9 @@ import java.util.List;
 @Entity
 public class BlankQuestion  extends AbsEntity {
 
-    private Long id;
-
     private Long num;
+
+    private String textNumber;
 
     @Enumerated(EnumType.STRING)
     private QuizType type;

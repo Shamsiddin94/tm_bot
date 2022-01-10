@@ -1,7 +1,6 @@
 package exam.demo.controller.quiz;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import exam.demo.controller.quiz.payload.BlankFormRequest;
 import exam.demo.entity.quiz.BlankForm;
 import exam.demo.entity.quiz.QuizType;
@@ -12,9 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -27,20 +28,20 @@ public class AdminQuizController {
     @Autowired
     private QuizService quizService;
 
-
+    /*Blankform*/
     @GetMapping(value = {"", "/"})
     public String index(Model model) {
-        model.addAttribute("blankForms",quizService.getAll());
+        model.addAttribute("blankForms", quizService.getAll());
 
         return "admin/quiz/index";
     }
 
     @GetMapping("/add")
     public String addBlankForm(Model model) {
-        model.addAttribute("blankFormRequest",new BlankFormRequest());
-        model.addAttribute("savePath","/admin/quiz/add");
+        model.addAttribute("blankFormRequest", new BlankFormRequest());
+        model.addAttribute("savePath", "/admin/quiz/add");
         //model.addAttribute("users",quizService.getAll());
-        model.addAttribute("result",new Result(false,""));
+        model.addAttribute("result", new Result(false, ""));
         return "admin/quiz/add";
     }
 
@@ -48,19 +49,28 @@ public class AdminQuizController {
     @PostMapping("/add")
 
     public String addQuiz(@Valid BlankFormRequest blankFormRequest,
-                          BindingResult bindingResult,Model model) {
-        if (bindingResult.hasErrors()){
-            model.addAttribute("savePath","/admin/quiz/add");
-            model.addAttribute("result",new Result(false,""));
+                          BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("savePath", "/admin/quiz/add");
+            model.addAttribute("result", new Result(false, ""));
             return "admin/quiz/add";
         }
-        model.addAttribute("blankFormRequest",new BlankFormRequest());
-        ResultModel resultModel=quizService.saveBlankForm(blankFormRequest);
-        model.addAttribute("savePath","/admin/quiz/add");
-        model.addAttribute("result",resultModel);
+        model.addAttribute("blankFormRequest", new BlankFormRequest());
+        ResultModel resultModel = quizService.saveBlankForm(blankFormRequest);
+        model.addAttribute("savePath", "/admin/quiz/add");
+        model.addAttribute("result", resultModel);
 
 
         return "admin/quiz/add";
+    }
+
+    /* //Blank form*/
+
+    /*    Question*/
+    @GetMapping("/question")
+    public String questionIndex(Model model) {
+
+        return "admin/quiz/question/index";
     }
 
 
@@ -81,7 +91,7 @@ public class AdminQuizController {
     @GetMapping("/api/all")
     @ResponseBody
     public List<BlankForm> getDataAll() {
-List<BlankForm> blankForms=quizService.getAll();
+        List<BlankForm> blankForms = quizService.getAll();
         return blankForms;
     }
 

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/core}">
+<th:block layout:fragment="title">
+    Savolllar
+</th:block>
+<th:block layout:fragment="styles">
+    <!-- Dashboard styles-->
+</th:block>
+
+<div class="content" layout:fragment="page_content" id="app">
+    <h1> Savollar</h1>
+
+
+    <div class="box">
+        <div class="box-header">
+            <a href="#" class="btn btn-success"><i class="fa fa-plus"></i></a><br>
+        </div>
+        <div class="box-body">
+
+
+            <div class="box bg-info" v-if="visible">
+                <div class="box-header bg-gray-light">
+                    <h5>gegdfgdgd</h5>
+                </div>
+                <div class="box-body">
+                    <div class="form-group col-md-3">
+                        <label for="25331 ">Savol matnini kiriting</label>
+                        <input id="25331 " class="form-control" type="text" v-model="name">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="25332 ">Savol matnini kiriting</label>
+                        <input id="25332 " class="form-control" type="text" v-model="name">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="25333 ">Savol matnini kiriting</label>
+                        <input id="25333 " class="form-control" type="text" v-model="name">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="25334 ">Savol matnini kiriting</label>
+                        <input id="25334 " class="form-control" type="text" v-model="name">
+                    </div>
+                </div>
+            </div>
+
+            <table class="table table-bordered table-hover text-center ">
+                <thead class="text-primary bg-info">
+                <tr>
+                    <th> Id</th>
+                    <th> Nomi</th>
+                    <th>Turi</th>
+                    <th>Sana</th>
+                    <th>Savollar soni</th>
+                    <th>Action</th>
+
+                </tr>
+                <tr>
+                    <th><input class="form-control" type="text"></th>
+                    <th><input class="form-control" type="text"></th>
+                    <th><input class="form-control" type="text"></th>
+                    <th><input class="form-control" type="text"></th>
+                    <th><input class="form-control" type="text"></th>
+                    <th></th>
+
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="question in questions" :id="'row_'+question.id" v-on:click="trClick(question.id)"
+                    :key-="question.id">
+
+                    <td>{{question.id}}</td>
+                    <td>{{question.name}}</td>
+                    <td>{{question.type}}</td>
+                    <td>{{question.createdAt}}</td>
+                    <td>{{question.answers}}</td>
+                    <td>
+                        <button class="btn btn-success">Edit</button>
+                        <button class="btn btn-danger">Delete</button>
+                    </td>
+
+
+                </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+<th:block layout:fragment="scripts">
+
+
+    <!-- Actual Vue.js script -->
+    <script type="text/javascript">
+        $.toast('Here you can put the text of the toast');
+
+        var app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    name: 'eeeeeeeee',
+
+                    visible: false,
+                    questions: null
+                }
+            },
+            mounted() {
+                axios.get("/admin/quiz/api/all")
+                    .then(response => (
+                        this.questions = response.data.sort(function (a, b) {
+                            return parseInt(a.id) - parseInt(b.id);
+                        })));
+                console.log(this.questions);
+            },
+            methods: {
+                trClick(id) {
+
+                    var d=document.getElementById('tr_')
+                    this.visible = !this.visible;
+                    console.log(id);
+                },
+
+            }
+
+
+        })
+    </script>
+    <!--my scripts-->
+</th:block>
+
+
+</html>

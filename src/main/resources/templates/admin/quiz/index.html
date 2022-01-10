@@ -24,26 +24,7 @@
         <!-- /.card-header -->
         <div class="box-body">
             <div class="table-responsive">
-                <table class="table table-bordered table-hover text-center " id="example">
-                    <thead>
-                    <tr>
-                        <th> Id</th>
-                        <th> Nomi</th>
-                        <th>Ma'lumotlar</th>
-                        <th>Holati</th>
-                        <th>Ma'lumotlar</th>
-                        <th>Holati</th>
-                        <th>Ma'lumotlar</th>
-                        <th>Holati</th>
-                        <th>Ma'lumotlar</th>
-                        <th>Holati</th>
-                    </tr>
-                    </thead>
-                    <tbody>
 
-                    </tbody>
-
-                </table>
 
                 <table class="table table-bordered table-hover text-center " id="exam1">
                     <thead class="text-primary">
@@ -89,33 +70,7 @@
 
 <!--Scripts-->
 <th:block layout:fragment="scripts">
-    <script>
-        $(document).ready(function () {
 
-            $('#example').dataTable({
-                processing: true,
-                serverSide: true,
-                ajax: "/admin/quiz/api/all",
-                dataSrc: '',
-
-                columns: [
-                    {data: 0},
-                    {data: 1},
-                    {data: 2},
-                    {data: 3},
-                    {data: 4},
-                    {data: 5},
-                    {data: 6},
-                    {data: 7},
-                    {data: 8},
-                    {data: 9}
-                ],
-
-            });
-
-
-        });
-    </script>
 </th:block>
 
 

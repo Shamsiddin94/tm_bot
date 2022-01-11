@@ -1,6 +1,7 @@
 package exam.demo.controller.quiz;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import exam.demo.controller.quiz.payload.BlankFormRequest;
 import exam.demo.entity.quiz.BlankForm;
 import exam.demo.entity.quiz.QuizType;
@@ -87,7 +88,7 @@ public class AdminQuizController {
         return ResponseEntity.status(200).body(types);
     }
 
-    @JsonBackReference
+@JsonIgnoreProperties
     @GetMapping("/api/all")
     @ResponseBody
     public List<BlankForm> getDataAll() {

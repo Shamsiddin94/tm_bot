@@ -23,7 +23,7 @@ public class BlankQuestion  extends AbsEntity {
 
     private String text;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<BlankAnswer> answers;
 
 }

@@ -50,41 +50,37 @@
                 <thead class="text-primary bg-info">
                 <tr>
                     <th> Id</th>
-                    <th>Nomer</th>
-                    <th>Nomer</th>
                     <th> Nomi</th>
                     <th>Turi</th>
-                    <th>Savollar soni</th>
                     <th>Sana</th>
+                    <th>Savollar soni</th>
+
+
                 </tr>
                 <tr>
-                    <th><input class="form-control" type="number" v-model="searchId" @change="getData()"></th>
-                    <th><input class="form-control" type="number" v-model="searchNum" @change="getData()"></th>
-                    <th><input class="form-control" type="text" v-model="searchTextNumber" @change="getData()"></th>
-                    <th><input class="form-control" type="text" v-model="searchText" @change="getData()"></th>
-                    <th><input class="form-control" type="text" v-model="searchType" @change="getData()"></th>
+                    <th><input class="form-control" type="text"></th>
+                    <th><input class="form-control" type="text" v-model="searchName" @change="getData()"></th>
+                    <th><input class="form-control" type="text"></th>
+                    <th><input class="form-control" type="text"></th>
+                    <th><input class="form-control" type="text" ></th>
                     <th></th>
-                    <th></th>
-
 
 
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="question in qFilter" :id="'row_'+question.id" v-on:click="trClick(question.id)"
+                <tr v-for="question in questions" :id="'row_'+question.id" v-on:click="trClick(question.id)"
                     :key-="question.id">
 
                     <td>{{question.id}}</td>
-                    <td>{{question.num}}</td>
-                    <td>{{question.textNumber}}</td>
-                    <td>{{question.text}}</td>
+                    <td>{{question.name}}</td>
                     <td>{{question.type}}</td>
-                    <td>{{question.answers.length}}</td>
                     <td>{{question.createdAt}}</td>
-                    <!-- <td>
-                         <button class="btn btn-success">Edit</button>
-                         <button class="btn btn-danger">Delete</button>
-                     </td>-->
+                    <td>{{question.answers}}</td>
+                   <!-- <td>
+                        <button class="btn btn-success">Edit</button>
+                        <button class="btn btn-danger">Delete</button>
+                    </td>-->
 
 
                 </tr>
@@ -113,55 +109,38 @@
             el: '#app',
             data() {
                 return {
-                   //search
-                    searchId:'',
-                    searchNum:'',
-                    searchTextNumber:'',
-                    searchText:'',
-                    searchType:'',
-
                     name: 'eeeeeeeee',
-
+                    searchName:'',
                     data:null,
                     visible: false,
                     questions: null
                 }
             },
             mounted() {
-                axios.get("/admin/quiz/api/question/all")
+                axios.get("/admin/quiz/api/all")
                     .then(response => (
 
-                        this.questions = response.data
-
-                            /*.sort(function (a, b) {
+                        this.questions = response.data.sort(function (a, b) {
                             return parseInt(a.id) - parseInt(b.id);
-                        })
-                        */
-                        ));
-
+                        })));
                 console.log(this.questions);
             },
             methods: {
                 getData(e){
-
-                    axios.post("/admin/quiz/api/question/search",
-                        {
-                            id: this.searchId,
-                            num: this.searchNum,
-                            textNumber: this.searchTextNumber,
-                            text: this.searchText,
-                            type: this.searchType
-                        })
-                        .then(response => (
-
-                            this.questions = response.data ));
                     console.log(this.searchName);
-                    console.log(this.questions);
+                    let matchingStrings = [];
 
+                   this.questions.forEach((list) => {
+                        if (list.name.toLocaleLowerCase().search(this.searchName.toLocaleLowerCase()) > -1) {
+                            matchingStrings.push(list)
+                        }
+                    })
+                    this.questions=matchingStrings;
+                    console.log(matchingStrings);
                 },
                 trClick(id) {
 
-                    var temp=this.questions.find(i=>i.id==id);
+                        var temp=this.questions.find(i=>i.id==id);
 
 
 
@@ -172,19 +151,13 @@
                 },
 
             },
-            watch:{
-                searchName: function (newV,oldV) {
-                    console.log('eski='+oldV+' yangi='+newV);
-                }
-            },
-            computed: {
-                qFilter() {
-                    const {searchName, questions} = this
 
-                    console.log(searchName);
-                    return this.questions;
-                        //.filter(person => person.name.toLowerCase().indexOf(searchName.toLowerCase()) > -1)
-                    //.filter(person => person.age === age)
+            computed: {
+                filteredPeople() {
+                    const {name, questions} = this
+                    return this.questions
+                        .filter(person => person.name.toLowerCase().indexOf(searchName.toLowerCase()) > -1)
+                        //.filter(person => person.age === age)
                 },
             }
 

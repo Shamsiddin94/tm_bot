@@ -1,12 +1,16 @@
 package exam.demo.service.quizService;
 
 import exam.demo.controller.quiz.payload.BlankFormRequest;
+import exam.demo.controller.quiz.payload.SearchQuestionModel;
 import exam.demo.entity.enums.EntityStatus;
 import exam.demo.entity.quiz.BlankForm;
+import exam.demo.entity.quiz.BlankQuestion;
 import exam.demo.entity.quiz.QuizState;
+import exam.demo.entity.quiz.QuizType;
 import exam.demo.payload.ResponseType;
 import exam.demo.payload.ResultModel;
 import exam.demo.repository.quiz.BlankFormRepository;
+import exam.demo.repository.quiz.BlankQuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +22,9 @@ import java.util.List;
 public class QuizService {
     @Autowired
     private BlankFormRepository blankFormRepository;
+
+    @Autowired
+    private BlankQuestionRepository questionRepository;
 
     /*BlankForm*/
     @Transactional
@@ -42,4 +49,22 @@ public class QuizService {
 
     }
 
+    public List<BlankQuestion> questionSearch(SearchQuestionModel sq) {
+
+        String id = (sq.getId() != null) ? sq.getId() : "";
+        String num = (sq.getNum() != null) ? String.valueOf(sq.getNum()) : "";
+        String textNumber = (sq.getTextNumber() != null) ? sq.getTextNumber() : "";
+        String text = (sq.getText() != null) ? sq.getText() : "";
+        String type = (sq.getType() != null) ? sq.getType() : "";
+        List<BlankQuestion> blankQuestions = questionRepository.searchAllFields(id, num, textNumber, text, type);
+
+        return blankQuestions;
+    }
+
+    public List<BlankQuestion> getAllQuestions() {
+
+
+
+        return questionRepository.getAllByState(EntityStatus.ACTIVE);
+    }
 }

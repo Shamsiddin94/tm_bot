@@ -5,12 +5,14 @@ import exam.demo.entity.User;
 import exam.demo.entity.bot.Client;
 import exam.demo.entity.enums.RoleName;
 import exam.demo.entity.quiz.BlankForm;
+import exam.demo.entity.quiz.BlankQuestion;
 import exam.demo.entity.quiz.QuizType;
 import exam.demo.repository.RoleRepository;
 import exam.demo.repository.UserRepository;
 import exam.demo.repository.bot.AttachmentRepository;
 import exam.demo.repository.bot.ClientRepository;
 import exam.demo.repository.quiz.BlankFormRepository;
+import exam.demo.repository.quiz.BlankQuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -38,18 +40,30 @@ public class DataLoader implements CommandLineRunner {
     @Autowired
     private BlankFormRepository blankFormRepository;
 
+    @Autowired
+    private BlankQuestionRepository questionRepository;
+
+
 
     @Override
     public void run(String... args) throws Exception {
-        for (int i=0;i<=10;i++){
+       /* for (int i=0;i<=10;i++){
             BlankForm blankForm=new  BlankForm();
             blankForm.setDescription("description"+i);
             blankForm.setName("name"+i);
           
             blankFormRepository.save(blankForm);
 
-        }
+        }*/
+        for (int i=0;i<=10000;i++){
+            BlankQuestion blankQuestion=new BlankQuestion();
+            blankQuestion.setNum((long) (10+i));
+            blankQuestion.setTextNumber("number"+i);
+            blankQuestion.setText("Textsdrfsf_"+i);
+            blankQuestion.setType(QuizType.SHORT);
+            questionRepository.save(blankQuestion);
 
+        }
 
 
       if (initialMode.equals("always")) {

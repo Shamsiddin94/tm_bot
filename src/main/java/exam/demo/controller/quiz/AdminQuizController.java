@@ -3,7 +3,9 @@ package exam.demo.controller.quiz;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import exam.demo.controller.quiz.payload.BlankFormRequest;
+import exam.demo.controller.quiz.payload.SearchQuestionModel;
 import exam.demo.entity.quiz.BlankForm;
+import exam.demo.entity.quiz.BlankQuestion;
 import exam.demo.entity.quiz.QuizType;
 import exam.demo.payload.Result;
 import exam.demo.payload.ResultModel;
@@ -13,10 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -88,7 +87,7 @@ public class AdminQuizController {
         return ResponseEntity.status(200).body(types);
     }
 
-@JsonIgnoreProperties
+     @JsonIgnoreProperties
     @GetMapping("/api/all")
     @ResponseBody
     public List<BlankForm> getDataAll() {
@@ -96,4 +95,21 @@ public class AdminQuizController {
         return blankForms;
     }
 
+    @JsonIgnoreProperties
+    @GetMapping("/api/question/all")
+    @ResponseBody
+    public List<BlankQuestion> getAllQuestions() {
+
+        return quizService.getAllQuestions();
+    }
+
+
+    @JsonIgnoreProperties
+    @PostMapping("/api/question/search")
+    @ResponseBody
+    public List<BlankQuestion> getQuestionSearch(@RequestBody SearchQuestionModel searchQuestionModel) {
+        System.out.println(searchQuestionModel.toString());
+        List<BlankQuestion> blankQuestions = quizService.questionSearch(searchQuestionModel);
+        return blankQuestions;
+    }
 }

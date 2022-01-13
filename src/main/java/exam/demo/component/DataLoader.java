@@ -55,7 +55,7 @@ public class DataLoader implements CommandLineRunner {
             blankFormRepository.save(blankForm);
 
         }*/
-        for (int i=0;i<=10000;i++){
+        for (int i=0;i<=10;i++){
             BlankQuestion blankQuestion=new BlankQuestion();
             blankQuestion.setNum((long) (10+i));
             blankQuestion.setTextNumber("number"+i);

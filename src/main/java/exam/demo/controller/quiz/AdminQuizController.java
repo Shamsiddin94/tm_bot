@@ -10,7 +10,9 @@ import exam.demo.entity.quiz.QuizType;
 import exam.demo.payload.Result;
 import exam.demo.payload.ResultModel;
 import exam.demo.service.quizService.QuizService;
+import exam.demo.utils.AppConstants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -98,7 +100,11 @@ public class AdminQuizController {
     @JsonIgnoreProperties
     @GetMapping("/api/question/all")
     @ResponseBody
-    public List<BlankQuestion> getAllQuestions() {
+    public Page<BlankQuestion> getAllQuestions( @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+                                                @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size) {
+
+        page=(page<0)?0:page;
+        size=(size>AppConstants.MAX_PAGE_SIZE)?AppConstants.MAX_PAGE_SIZE:size;
 
         return quizService.getAllQuestions();
     }
@@ -107,9 +113,16 @@ public class AdminQuizController {
     @JsonIgnoreProperties
     @PostMapping("/api/question/search")
     @ResponseBody
-    public List<BlankQuestion> getQuestionSearch(@RequestBody SearchQuestionModel searchQuestionModel) {
+    public Page<BlankQuestion> getQuestionSearch(@RequestBody SearchQuestionModel searchQuestionModel,
+                                                 @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+                                                 @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size) {
+
+        page=(page<0)?0:page;
+        size=(size>AppConstants.MAX_PAGE_SIZE)?AppConstants.MAX_PAGE_SIZE:size;
+
+
         System.out.println(searchQuestionModel.toString());
-        List<BlankQuestion> blankQuestions = quizService.questionSearch(searchQuestionModel);
+        Page<BlankQuestion> blankQuestions = quizService.questionSearch(searchQuestionModel);
         return blankQuestions;
     }
 }

@@ -8,12 +8,12 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class EventPublisher implements ApplicationListener<HttpSessionDestroyedEvent> {
+public class SessionDestroyListener implements ApplicationListener<HttpSessionDestroyedEvent> {
 
     @Override
     public void onApplicationEvent(HttpSessionDestroyedEvent httpEvent) {
         httpEvent.getSecurityContexts().stream().forEach(securityContext -> {
-           log.error(securityContext.getAuthentication().getPrincipal().toString());
+           log.error("Session destroyed"+securityContext.getAuthentication().getPrincipal().toString());
         });
     }
 }

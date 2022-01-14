@@ -33,11 +33,11 @@
                     </div>
                     <div class="form-group col-md-3">
                         <label for="25332 ">Savol matnini kiriting</label>
-                        <input id="25332 " class="form-control" type="text" >
+                        <input id="25332 " class="form-control" type="text">
                     </div>
                     <div class="form-group col-md-3">
                         <label for="25333 ">Savol matnini kiriting</label>
-                        <input id="25333 "  class="form-control" type="text" v-model="name">
+                        <input id="25333 " class="form-control" type="text" v-model="name">
                     </div>
                     <div class="form-group col-md-3">
                         <label for="25334 ">Savol matnini kiriting</label>
@@ -67,19 +67,18 @@
                     <th></th>
 
 
-
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="question in qFilter" :id="'row_'+question.id"
+                <tr v-for="question in questions" :id="'row_'+question.id"
                     :key-="question.id">
 
                     <td>{{question.id}}</td>
                     <td>{{question.num}}</td>
                     <td>{{question.textNumber}}</td>
-                    <td v-on:click="trClick(question.id)" >{{question.text}} :key-="question.id"> </td>
+                    <td v-on:click="trClick(question.id)" >{{question.text}}</td>
                     <td>{{question.type}}</td>
-                    <td>{{question.answers.length}}</td>
+                    <td>{{question.answers}}</td>
                     <td>{{question.createdAt}}</td>
                     <!-- <td>
                          <button class="btn btn-success">Edit</button>
@@ -91,32 +90,65 @@
 
                 </tbody>
             </table>
+            <nav aria-label="Page navigation example" class="">
 
+                <ul class="pagination pull-left">
+                    <li class="page-item">
+                       <span class=" page-link" aria-label="Previous">
+                           <span aria-hidden="true">pages - {{totalPages}}</span>
+
+                       </span>
+                    </li>
+
+                </ul>
+                <ul class="pagination pull-left">
+                    <li class="page-item">
+                       <span class=" page-link" aria-label="Previous">
+                           <span aria-hidden="true">Elements - {{totalElements}}</span>
+
+                       </span>
+                    </li>
+
+                </ul>
+
+                <ul class="pagination pull-right">
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true">First</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+
+                    <li class="page-item"><a class="page-link " href="#">1</a></li>
+
+                    <li class="page-item active"><a class="page-link " href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" v-on:click="nextPage()"  aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true">Last</span>
+
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
 
 
     </div>
 
-
-    <nav aria-label="Page navigation example">
-        <ul class="pagination">
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                    <span class="sr-only">Previous</span>
-                </a>
-            </li>
-            <li class="page-item"><a class="page-link " href="#">1</a></li>
-            <li class="page-item active"><a class="page-link " href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+<!--
 
     <pagination
             type="text/x-template"
@@ -190,9 +222,9 @@
             </li>
         </ul>
     </pagination>
+-->
 
 </div>
-
 
 
 </div>
@@ -203,7 +235,7 @@
     <!-- Actual Vue.js script -->
     <script type="text/javascript">
 
-        Vue.component('pagination',{
+        Vue.component('pagination', {
             template: '#pagination',
             props: {
                 maxVisibleButtons: {
@@ -249,7 +281,7 @@
                 pages() {
                     const range = [];
 
-                    for (let i = this.startPage; i <= this.endPage; i+= 1 ) {
+                    for (let i = this.startPage; i <= this.endPage; i += 1) {
                         range.push({
                             name: i,
                             isDisabled: i === this.currentPage
@@ -289,53 +321,59 @@
         });
 
 
-
         $.toast('Here you can put the text of the toast');
 
         var app = new Vue({
 
             el: '#app',
-            data: {
-
+            data() {
+                return {
+                    size: 20,
+                    page: 1,
                     currentPage: 1,
-                   //search
-                    searchId:'',
-                    searchNum:'',
-                    searchTextNumber:'',
-                    searchText:'',
-                    searchType:'',
+                    totalPages:0,
+                    totalElements:0,
+                    //search
+                    searchId: '',
+                    searchNum: '',
+                    searchTextNumber: '',
+                    searchText: '',
+                    searchType: '',
 
                     name: 'eeeeeeeee',
 
-                    data:null,
+                    data: null,
                     visible: false,
                     questions: null
+                }
 
             },
             mounted() {
                 axios.get("/admin/quiz/api/question/all")
-                    .then(response => (
+                    .then(response => {
 
-                        this.questions = response.data
+                        this.questions = response.data.content
+                        this.totalPages = response.data.totalPages
+                        this.totalElements=response.data.totalElements
+                    });
 
-                            /*.sort(function (a, b) {
-                            return parseInt(a.id) - parseInt(b.id);
-                        })
-                        */
-                        ));
-
-                console.log(this.questions);
+               // console.log(this.questions);
             },
             methods: {
                 onPageChange(page) {
                     console.log(page)
                     this.currentPage = page;
                 },
-                getPage(){
+                nextPage() {
+                    this.page++;
+                    console.log(this.page);
+                    this.getData();
                 },
-                getData(e){
+                perviousPage() {
+                },
+                getData(e) {
 
-                    axios.post("/admin/quiz/api/question/search",
+                    axios.post("/admin/quiz/api/question/search?size=" + this.size + "&page=" + this.page,
                         {
                             id: this.searchId,
                             num: this.searchNum,
@@ -343,19 +381,20 @@
                             text: this.searchText,
                             type: this.searchType
                         })
-                        .then(response => (
+                        .then(response => {
 
-                            this.questions = response.data ));
-                    console.log(this.searchName);
+                            this.questions = response.data.content
+                            this.totalPages = response.data.totalPages
+                            this.totalElements=response.data.totalElements
+                        });
+
+                    console.log("click next page =="+this.questions.length);
                     console.log(this.questions);
 
                 },
                 trClick(id) {
 
-                    var temp=this.questions.find(i=>i.id==id);
-
-
-
+                    var temp = this.questions.find(i => i.id == id);
 
 
                     this.visible = !this.visible;
@@ -363,18 +402,18 @@
                 },
 
             },
-            watch:{
-                searchName: function (newV,oldV) {
-                    console.log('eski='+oldV+' yangi='+newV);
+            watch: {
+                searchName: function (newV, oldV) {
+                    console.log('eski=' + oldV + ' yangi=' + newV);
                 }
             },
             computed: {
                 qFilter() {
                     const {searchName, questions} = this
 
-                    console.log(searchName);
+                    console.log(this.questions);
                     return this.questions;
-                        //.filter(person => person.name.toLowerCase().indexOf(searchName.toLowerCase()) > -1)
+                    //.filter(person => person.name.toLowerCase().indexOf(searchName.toLowerCase()) > -1)
                     //.filter(person => person.age === age)
                 },
             }

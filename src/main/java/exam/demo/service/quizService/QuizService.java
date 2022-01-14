@@ -11,7 +11,11 @@ import exam.demo.payload.ResponseType;
 import exam.demo.payload.ResultModel;
 import exam.demo.repository.quiz.BlankFormRepository;
 import exam.demo.repository.quiz.BlankQuestionRepository;
+import exam.demo.utils.AppConstants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,22 +53,23 @@ public class QuizService {
 
     }
 
-    public List<BlankQuestion> questionSearch(SearchQuestionModel sq) {
+    public Page<BlankQuestion> questionSearch(SearchQuestionModel sq) {
 
+        Pageable pageable= PageRequest.of(0, AppConstants.MAX_PAGE_SIZE);
         String id = (sq.getId() != null) ? sq.getId() : "";
         String num = (sq.getNum() != null) ? String.valueOf(sq.getNum()) : "";
         String textNumber = (sq.getTextNumber() != null) ? sq.getTextNumber() : "";
         String text = (sq.getText() != null) ? sq.getText() : "";
         String type = (sq.getType() != null) ? sq.getType() : "";
-        List<BlankQuestion> blankQuestions = questionRepository.searchAllFields(id, num, textNumber, text, type);
+        Page<BlankQuestion> blankQuestions = questionRepository.searchAllFields(id, num, textNumber, text, type,EntityStatus.ACTIVE,pageable);
 
         return blankQuestions;
     }
 
-    public List<BlankQuestion> getAllQuestions() {
+    public Page<BlankQuestion> getAllQuestions() {
 
+        Pageable pageable= PageRequest.of(0, AppConstants.MAX_PAGE_SIZE);
 
-
-        return questionRepository.getAllByState(EntityStatus.ACTIVE);
+        return questionRepository.getAllByState(EntityStatus.ACTIVE,pageable);
     }
 }

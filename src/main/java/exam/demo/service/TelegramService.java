@@ -108,6 +108,7 @@ public class TelegramService {
     @Transactional
     public List<Attachment> allPictures(User user) {
         List<Client> clients = clientRepository.findByUserAndState(user, EntityStatus.ACTIVE);
+        System.out.println(clients.toString());
         List<Attachment> attachments = new ArrayList<>();
        if (clients.size()!=0) {
            clients.forEach(client -> {

@@ -9,7 +9,7 @@ import exam.demo.payload.Result;
 import exam.demo.payload.ResultModel;
 import exam.demo.security.CurrentUser;
 import exam.demo.service.TelegramService;
-import exam.demo.service.kanselyariya.HujjatService;
+import exam.demo.service.workplan.WorkPlanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -20,7 +20,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 
 import javax.validation.Valid;
 import java.io.FileNotFoundException;
@@ -35,7 +34,7 @@ public class TelegramController {
     @Autowired
     private TelegramService telegramService;
     @Autowired
-    private HujjatService service;
+    private WorkPlanService service;
     @Autowired
     private BotService botService;
 

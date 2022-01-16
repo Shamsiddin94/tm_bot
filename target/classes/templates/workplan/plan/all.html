@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/core}">
+
+
+<th:block layout:fragment="title">
+    kanselyariya
+</th:block>
+
+
+<th:block layout:fragment="styles">
+    <link rel="stylesheet" href="/assets/bower_components/Ionicons/css/ionicons.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="/assets/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <!-- DataTables -->
+
+</th:block>
+
+
+<th:block layout:fragment="page_content">
+
+
+
+
+
+    <div class="box">
+        <div class="box-header">
+            <a href="/kanselyariya/plan/add" class="btn btn-success"><i class="fa fa-plus"></i></a><br>
+        </div>
+        <!-- /.card-header -->
+        <div class="box-body">
+
+            <table class="table table-bordered table-hover " id="exam1">
+                <thead class="text-primary">
+
+                <tr>
+                    <th>Id</th>
+                    <th>Hujjat raqami</th>
+                    <th> Tashkilotdagi nomeri</th>
+                    <th> Hujjat Mazmuni</th>
+                    <th> Tashkiloti</th>
+                    <th> Tasnifi</th>
+                    <th>Action</th>
+                </tr>
+                               </thead>
+                <tbody class="table-responsive">
+                <th:block th:if="${hujjatlar!=null}">
+                <tr th:each="plan:${hujjatlar}">
+
+                    <td th:text="${plan.id}"></td>
+                    <td th:text="${plan.regNumber}"></td>
+                    <td th:text="${plan.docNumber}"></td>
+                    <td th:text="${plan.mazmuni}"></td>
+                    <td th:text="${plan.tashkilot.name}"></td>
+                    <td th:text="${plan.tasnif.name}"></td>
+
+
+                    <td>
+                   <a th:href="${'/kanselyariya/plan/edit/'+plan.id}" target="_blank"
+                           class="btn btn-warning  btn-sm "> Edit </a>
+
+                        <a th:href="${'/kanselyariya/plan/edit/'+plan.id}"
+                           class="btn btn-danger btn-sm"> Delete </a>
+                    </td>
+                </tr>
+                </th:block>
+                </tbody>
+
+            </table>
+
+
+        </div>
+        <!-- /.card-body -->
+    </div>
+
+
+</th:block>
+
+
+<!--Scripts-->
+<th:block layout:fragment="scripts">
+
+  <!--  <script>
+        $(function () {
+            $('#example2').DataTable()
+        })
+    </script>-->
+
+<!--
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#tbs1").keyup(function () {
+            var tbs1 = $(this).val();
+
+
+            $.ajax({
+                url: "/admin/users?search="+tbs1,
+                method: "GET",
+
+                success: function (data) {
+                    console.log(data);
+
+
+                }
+
+            });
+           console.log(tbs1);
+
+        });
+    });
+
+</script>
+-->
+
+<!--    $.get("/admin/users", {term: $('#tbs1').val()}, function(data) {
+    // do your data manipulation and transformation here
+    });-->
+
+</th:block>
+
+
+</html>

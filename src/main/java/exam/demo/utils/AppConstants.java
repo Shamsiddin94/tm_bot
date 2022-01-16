@@ -10,6 +10,9 @@ public interface AppConstants {
     int MAX_PAGE_SIZE = 20;
     Path hujjat = Paths.get("storage/hujjat");
 
+    //Files for plans
+    Path plan = Paths.get("storage/plan");
+
     Path botFiles = Paths.get("botFiles/received");
     Path botFileSend = Paths.get("botFiles/send");
 

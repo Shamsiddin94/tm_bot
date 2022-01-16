@@ -58,155 +58,27 @@
 
         <th:block layout:fragment="styles">
         </th:block>
+<style>
+    body{
+        background-image: url('/assets/login/images/bg-01.jpg');
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-attachment: fixed;
+        background-size: cover;
+    }
 
+</style>
     </head>
-    <body  th:classappend="${#strings.contains(#httpServletRequest.requestURL,'plan')}?'sidebar-collapse':''" class="hold-transition skin-blue sidebar-mini" style="height: auto; min-height: 100%;">
-        <div class="wrapper">
-
-            <header class="main-header">
-                <!-- Logo -->
-                <a href="/" class="logo">
-                    <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini">
-                        <b>
-                            <i class="fa fa-home"></i>
-                            tm.uz
-                        </b>
-                    </span>
-                    <!-- logo for regular state and mobile devices -->
-                    <span class="logo-lg">
-                        <b>
-                            <i class="fa fa-home"></i>
-                            tm
-                        </b>
-                        .uz
-                    </span>
-                </a>
-                <!-- Header Navbar: style can be found in header.less -->
-                <th:block th:replace="layout/header.html::navbar">
-
-                </th:block>
-            </header>
-            <!-- Left side column. contains the logo and sidebar -->
-            <th:block th:replace="layout/sideBar.html::sideBar">
-
-            </th:block>
-
-            <!-- Content Wrapper. Contains page content -->
-            <div class="content-wrapper">
-                <!-- Content Header (Page header) -->
-                <section sec:authorize="isAuthenticated()" class="content-header">
-                    <h1>
-                        tm
-                        <small th:text="${#httpServletRequest.requestURI}"></small>
-                    </h1>
-                    <ol class="breadcrumb">
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-telegram"></i>
-                                tm
-                            </a>
-                        </li>
-                        <li class="active">Home</li>
-                    </ol>
-                </section>
-
-                <!-- Main content -->
-                <div class="content">
-                    <th:block   sec:authorize="isAuthenticated()">
-                        <!-- Small boxes (Stat box) -->
-                        <div class="row">
-                            <div class="col-lg-3 col-xs-6">
-                                <!-- small box -->
-                                <div class="small-box bg-aqua">
-                                    <div class="inner">
-                                        <h3 id="newDoc">0</h3>
-
-                                        <p>Yangi hujjatlar</p>
-                                    </div>
-                                    <div class="icon">
-                                        <i class="ion ion-document-text"></i>
-                                    </div>
-                                    <a href="/" class="small-box-footer">Ko'rsatish
-                                        <i class="fa fa-arrow-circle-right"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <!-- ./col -->
-                            <div class="col-lg-3 col-xs-6">
-                                <!-- small box -->
-                                <div class="small-box bg-green">
-                                    <div class="inner">
-                                        <h3 id="newImg">0<!--<sup style="font-size: 20px">%</sup>--></h3>
-
-                                        <p>Yangi rasmlar</p>
-                                    </div>
-                                    <div class="icon">
-                                        <i class="ion ion-image"></i>
-                                    </div>
-                                    <a href="/" class="small-box-footer">Ko'rsatish
-                                        <i class="fa fa-arrow-circle-right"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <!-- ./col -->
-                            <div class="col-lg-3 col-xs-6">
-                                <!-- small box -->
-                                <div class="small-box bg-aqua">
-                                    <div class="inner">
-                                        <h3 id="allDoc">0</h3>
-
-                                        <p>Barcha hujjatlar</p>
-                                    </div>
-                                    <div class="icon">
-                                        <i class="ion ion-document-text"></i>
-                                    </div>
-                                    <a href="/telegram/document" class="small-box-footer">Ko'rsatish
-                                        <i class="fa fa-arrow-circle-right"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <!-- ./col -->
-                            <div class="col-lg-3 col-xs-6">
-                                <!-- small box -->
-                                <div class="small-box bg-green">
-                                    <div class="inner">
-                                        <h3 id="allImg">0</h3>
-
-                                        <p>Barcha rasmlar</p>
-                                    </div>
-                                    <div class="icon">
-                                        <i class="ion ion-images"></i>
-                                    </div>
-                                    <a href="/telegram/picture" class="small-box-footer">Ko'rsatish
-                                        <i class="fa fa-arrow-circle-right"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <!-- ./col -->
-                        </div>
-                        <!-- /.row -->
-                    </th:block>
+    <body >
+        <div class="container-fluid">
 
 
-                    <div class="content" layout:fragment="page_content">
+
+
+
+                    <div class="content" style="align-content: center" layout:fragment="page_content">
 
                     </div>
-
-
-                </div>
-                <!-- /.content -->
-            </div>
-            <!-- /.content-wrapper -->
-            <footer class="main-footer">
-                <div class="pull-right hidden-xs">
-                    <b>tm</b>
-                    .uz
-                </div>
-                <strong>&copy; 2020-2021 <!-- <a href="#">  Admin murojaat</a>.-->
-                </strong>
-
-            </footer>
 
 
         </div>

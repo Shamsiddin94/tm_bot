@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/core}">
+<th:block  layout:fragment="title">
+   kanselyariya
+</th:block>
+
+<th:block layout:fragment="styles">
+
+</th:block>
+
+
+
+<div layout:fragment="page_content">
+
+<div class="box box-success">
+    <div class="box-header">
+        <div class="box-header with-border">
+            <h3 class="box-title">Yangi plan</h3>
+        </div>
+    </div>
+    <form th:action="${savePath}" class="form-horizontal" th:method="post" th:object="${planRequest}" enctype="multipart/form-data">
+    <div class="box-body">
+        <div th:if="${result.success}">
+            <div class="alert alert-warning alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-warning"></i> Ogohlantirish!</h4>
+                <p th:text="${result.message}"></p>
+            </div>
+        </div>
+
+<div class="row">
+    <div class="col-xs-6">
+
+        <div class="form-group">
+            <label for="docNumber" class="col-sm-2 control-label">Hujjat  Nomeri</label>
+            <div class="col-sm-10">
+                <input type="text" th:field="*{docNumber}" class="form-control" id="docNumber" placeholder="Enter full Name">
+                <span class="text-red" th:if="${#fields.hasErrors('docNumber')}" th:errors="*{docNumber}"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="regNumber" class="col-sm-2 control-label">Registratsiya nomeri</label>
+
+            <div class="col-sm-10">
+                <input type="text" th:field="*{regNumber}" class="form-control" id="regNumber" >
+                <span class="text-red" th:if="${#fields.hasErrors('regNumber')}" th:errors="*{regNumber}"></span>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="mazmuni" class="col-sm-2 control-label">Mazmuni</label>
+
+            <div class="col-sm-10">
+                <textarea th:field="*{mazmuni}" class="form-control" id="mazmuni" cols="4" rows="3">
+                </textarea>
+                <span class="text-red" th:if="${#fields.hasErrors('mazmuni')}" th:errors="*{mazmuni}"></span>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="timestamp" class="col-sm-2 control-label">Tizimga kiritish Sanasi</label>
+
+            <div class="col-sm-10">
+                <span  th:text="${#dates.format(#dates.createNow(), 'dd MMM yyyy HH:mm')}" class="form-control" id="timestamp">
+
+                </span>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="outDate" class="col-sm-2 control-label">Chiqish sana</label>
+
+            <div class="col-sm-10">
+                <input type="date"  class="form-control " th:field="*{outDate}" id="outDate" >
+                <span class="text-red" th:if="${#fields.hasErrors('outDate')}" th:errors="*{outDate}"></span>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-6">
+
+        <div class="form-group">
+            <label for="tashkilot" class="col-sm-2 control-label">Tashkilot</label>
+            <div class="col-sm-10">
+                <select class="form-control" th:field="*{tashkilot}" id="tashkilot"  >
+                    <option value="">Tanlang..</option>
+                    <option th:each="tash:${tashkilot}" th:value="${tash.id}" th:text="${tash.name}"></option>
+                </select>
+                <p class="text-red" th:if="${#fields.hasErrors('tashkilot')}" th:errors="*{tashkilot}" ></p>
+            </div>
+
+
+        </div>
+
+        <div class="form-group">
+            <label for="tasnif" class="col-sm-2 control-label">Tasnifi</label>
+            <div class="col-sm-10">
+                <select class="form-control" th:field="*{tasnif}" id="tasnif" >
+                    <option value="">Tanlang..</option>
+                    <option th:each="tas:${tasnif}" th:value="${tas.id}" th:text="${tas.name}"></option>
+                </select>
+                <p class="text-red" th:if="${#fields.hasErrors('tasnif')}" th:errors="*{tasnif}" ></p>
+            </div>
+
+
+        </div>
+
+        <div class="form-group">
+            <label for="bajaruvchi" class="col-sm-2 control-label">bajaruvchi</label>
+            <div class="col-sm-10">
+                <select class="form-control" th:field="*{bajaruvchi}" id="bajaruvchi" >
+                    <option value="">Tanlang..</option>
+                    <option th:each="user:${users}" th:value="${user.id}" th:text="${user.fullName}"></option>
+                </select>
+                <p class="text-red" th:if="${#fields.hasErrors('bajaruvchi')}" th:errors="*{bajaruvchi}" ></p>
+            </div>
+
+
+        </div>
+
+        <div class="form-group">
+            <label for="files" class="col-sm-2 control-label">Faylni yuklash</label>
+
+            <div class="col-sm-10">
+                <input type="file" class="form-control" th:field="*{files}" id="files" multiple>
+               <span class="danger" th:if="${#fields.hasErrors('files')}" th:errors="*{files}"></span>
+
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+
+    </div>
+
+    <div class="box-footer">
+        <a href="/kanselyariya/" class="btn btn-info">Oldingi saxifa</a>
+        <button type="submit" class="btn btn-info pull-right">Saqlash</button>
+    </div>
+    </form>
+</div>
+
+
+</div>
+
+<th:block layout:fragment="scripts">
+
+</th:block>
+
+</html>

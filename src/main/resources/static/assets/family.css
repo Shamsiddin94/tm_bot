@@ -1,6 +1,82 @@
 /* cyrillic-ext */
 
 
+.plan1{
+    background-color: #0b97c4;
+
+}
+.plan1Body{
+
+
+}
+
+.plan2{
+    background-color: #4571cb;
+}
+
+.plan2Body{
+    background-color: #a4ddef;
+}
+
+
+.plan3{
+    background-color: #ece697;
+}
+
+.plan3Body{
+    background-color: #ece3ba;
+}
+
+
+.plan4{
+    background-color: #eaec84;
+}
+
+.plan4Body{
+    background-color: #ece3ba;
+}
+
+
+.plan5{
+    background-color: #eaec84;
+}
+
+.plan5Body{
+    background-color: #ece3ba;
+}
+
+
+.plan6{
+    background-color: #eaec84;
+}
+
+.plan6Body{
+    background-color: #ece3ba;
+}
+
+
+
+.plan7{
+    background-color: #eaec84;
+}
+
+.plan7Body{
+    background-color: #ece3ba;
+}
+
+
+.plan8{
+    background-color: #eaec84;
+}
+
+.plan8Body{
+    background-color: #ece3ba;
+}
+
+
+
+
+
 
 @-webkit-keyframes invalid {
     from { background-color: red; }

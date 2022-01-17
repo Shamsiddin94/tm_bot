@@ -7,4 +7,5 @@ public enum FileType {
     SENDPIC,
     SEND_DOCUMENT,
     SEND_PICTURE
+
 }

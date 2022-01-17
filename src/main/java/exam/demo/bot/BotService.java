@@ -1,19 +1,26 @@
 package exam.demo.bot;
 
+import com.google.gson.Gson;
 import exam.demo.entity.User;
 import exam.demo.entity.bot.Attachment;
 import exam.demo.entity.bot.Client;
 import exam.demo.entity.bot.Message;
 import exam.demo.entity.enums.EntityStatus;
 import exam.demo.entity.enums.FileType;
+import exam.demo.entity.hujjat.Bajarish;
+import exam.demo.entity.hujjat.Hujjat;
+import exam.demo.entity.hujjat.HujjatFile;
 import exam.demo.exception.StorageException;
 import exam.demo.payload.AttachmentRequest;
 import exam.demo.payload.Result;
 import exam.demo.payload.ResultModel;
+import exam.demo.payload.kanselyariya.HujjatRequest;
 import exam.demo.repository.bot.AttachmentRepository;
 import exam.demo.repository.bot.ClientRepository;
 import exam.demo.repository.bot.MessageRepository;
 import exam.demo.utils.AppConstants;
+import jdk.nashorn.internal.parser.JSONParser;
+import net.bytebuddy.asm.Advice;
 import org.apache.commons.io.FilenameUtils;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +32,13 @@ import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.sql.Date;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static exam.demo.bot.TelegramBot.botToken;
 import static exam.demo.bot.TelegramBot.upPath;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -41,6 +50,7 @@ import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import javax.activation.MimetypesFileTypeMap;
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 @Service

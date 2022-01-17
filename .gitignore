@@ -6,9 +6,7 @@
 /botFiles/received
 /botFiles/send
 src/main/java/exam/demo/utils/AppConstants.java
-/src/main/java/exam/demo/utils/AppConstants.java
 src/main/resources/application.properties
-/src/main/resources/application.properties
 # BlueJ files
 *.ctxt
 

@@ -122,7 +122,7 @@ public class AdminQuizController {
 
 
         System.out.println(searchQuestionModel.toString());
-        Page<BlankQuestion> blankQuestions = quizService.questionSearch(searchQuestionModel);
+        Page<BlankQuestion> blankQuestions = quizService.questionSearch(page,searchQuestionModel);
         return blankQuestions;
     }
 }

@@ -111,6 +111,16 @@
 
                 </ul>
 
+                <ul class="pagination pull-left">
+                    <li class="page-item">
+                       <span class=" page-link" aria-label="Previous">
+                           <span aria-hidden="true">Current Page - {{currentPage}}</span>
+
+                       </span>
+                    </li>
+
+                </ul>
+
                 <ul class="pagination pull-right">
                     <li class="page-item">
                         <a class="page-link" href="#" aria-label="Previous">
@@ -130,8 +140,8 @@
                     <li class="page-item active"><a class="page-link " href="#">2</a></li>
                     <li class="page-item"><a class="page-link" href="#">3</a></li>
                     <li class="page-item">
-                        <a class="page-link" v-on:click="nextPage()"  aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
+                        <a class="page-link" v-on:click="nextPage(page+1)"  aria-label="Next">
+                            <span aria-hidden="true">&raquo;1</span>
                             <span class="sr-only">Next</span>
                         </a>
                     </li>
@@ -329,8 +339,8 @@
             data() {
                 return {
                     size: 20,
-                    page: 1,
-                    currentPage: 1,
+                    page: 0,
+                    currentPage: 0,
                     totalPages:0,
                     totalElements:0,
                     //search
@@ -349,9 +359,15 @@
 
             },
             mounted() {
-                axios.get("/admin/quiz/api/question/all")
-                    .then(response => {
-
+                axios.post("/admin/quiz/api/question/search",
+                    {
+                        id: this.searchId,
+                        num: this.searchNum,
+                        textNumber: this.searchTextNumber,
+                        text: this.searchText,
+                        type: this.searchType
+                    }).then(response => {
+                        this.currentPage=response.data.number
                         this.questions = response.data.content
                         this.totalPages = response.data.totalPages
                         this.totalElements=response.data.totalElements
@@ -364,14 +380,14 @@
                     console.log(page)
                     this.currentPage = page;
                 },
-                nextPage() {
-                    this.page++;
+                nextPage(page) {
+                    this.page=page;
                     console.log(this.page);
                     this.getData();
                 },
                 perviousPage() {
                 },
-                getData(e) {
+                getData() {
 
                     axios.post("/admin/quiz/api/question/search?size=" + this.size + "&page=" + this.page,
                         {
@@ -382,7 +398,7 @@
                             type: this.searchType
                         })
                         .then(response => {
-
+                            this.currentPage=response.data.number
                             this.questions = response.data.content
                             this.totalPages = response.data.totalPages
                             this.totalElements=response.data.totalElements
@@ -390,6 +406,7 @@
 
                     console.log("click next page =="+this.questions.length);
                     console.log(this.questions);
+
 
                 },
                 trClick(id) {
@@ -416,6 +433,8 @@
                     //.filter(person => person.name.toLowerCase().indexOf(searchName.toLowerCase()) > -1)
                     //.filter(person => person.age === age)
                 },
+
+                
             }
 
         })

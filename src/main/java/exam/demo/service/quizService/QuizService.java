@@ -53,9 +53,9 @@ public class QuizService {
 
     }
 
-    public Page<BlankQuestion> questionSearch(SearchQuestionModel sq) {
+    public Page<BlankQuestion> questionSearch(int page, SearchQuestionModel sq) {
 
-        Pageable pageable= PageRequest.of(0, AppConstants.MAX_PAGE_SIZE);
+        Pageable pageable= PageRequest.of(page, AppConstants.MAX_PAGE_SIZE);
         String id = (sq.getId() != null) ? sq.getId() : "";
         String num = (sq.getNum() != null) ? String.valueOf(sq.getNum()) : "";
         String textNumber = (sq.getTextNumber() != null) ? sq.getTextNumber() : "";

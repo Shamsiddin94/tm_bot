@@ -1,6 +1,7 @@
 package exam.demo.component;
 
 import exam.demo.entity.Country;
+import exam.demo.entity.Role;
 import exam.demo.entity.User;
 import exam.demo.entity.bot.Client;
 import exam.demo.entity.enums.RoleName;
@@ -67,6 +68,19 @@ public class DataLoader implements CommandLineRunner {
 
 
       if (initialMode.equals("always")) {
+
+          if ((!roleRepository.existsByName(RoleName.ROLE_ADMIN))) {
+              roleRepository.save(new Role(10, RoleName.ROLE_ADMIN));
+          }
+          if ((!roleRepository.existsByName(RoleName.ROLE_USER))) {
+              roleRepository.save(new Role(20, RoleName.ROLE_USER));
+          }
+          if ((!roleRepository.existsByName(RoleName.ROLE_KADR))) {
+              roleRepository.save(new Role(30, RoleName.ROLE_KADR));
+          }
+          if ((!roleRepository.existsByName(RoleName.ROLE_KANSELYARIYA))) {
+              roleRepository.save(new Role(40, RoleName.ROLE_KANSELYARIYA));
+          }
           PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         User user = new User("Shamsiddin xushbaqtov", "shamsiddin",passwordEncoder.encode("12345"), roleRepository.findByName(RoleName.ROLE_ADMIN));
         User user1 = new User("Shamsiddin xushbaqtov", "user",passwordEncoder.encode("12345"), roleRepository.findByName(RoleName.ROLE_USER));
@@ -75,14 +89,14 @@ public class DataLoader implements CommandLineRunner {
         User user4 = new User("kanselyariya", "kanselyariya",passwordEncoder.encode("12345"), roleRepository.findByName(RoleName.ROLE_KANSELYARIYA));
         User user5 = new User("spiker", "spiker",passwordEncoder.encode("12345"), roleRepository.findByName(RoleName.ROLE_SPIKER));
         User user6 = new User("kadr", "kadr",passwordEncoder.encode("12345"), roleRepository.findByName(RoleName.ROLE_KADR));
-
+/*
           userRepository.save(user);
           userRepository.save(user1);
           userRepository.save(user2);
           userRepository.save(user3);
           userRepository.save(user4);
           userRepository.save(user5);
-          userRepository.save(user6);
+          userRepository.save(user6);*/
           Client client=new Client();
           List<Client> clients=new ArrayList<>();
           client.setChatId((long) 551695315);
@@ -91,7 +105,7 @@ public class DataLoader implements CommandLineRunner {
           client.setUserName("");
           client.setUser(user);
           clients.add(client);
-          clientRepository.save(client);
+         // clientRepository.save(client);
         /* Optional<User>  userOptional=userRepository.findByUserName(user.getUsername());
           if (userOptional.isPresent()){
               User userTem=userOptional.get();

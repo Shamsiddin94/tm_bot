@@ -41,8 +41,8 @@
         <link rel="stylesheet" href="/assets/bower_components/select2/dist/css/select2.min.css">
 
 
-        <link rel="stylesheet" href="/assets/alert/style.css">
-        <link rel="stylesheet" href="/assets/toast/dist/jquery.toast.min.css">
+
+        <link rel="stylesheet" href="/assets/vue/lib/toast/dist/jquery.toast.min.css">
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -66,7 +66,7 @@
 
             <header class="main-header">
                 <!-- Logo -->
-                <a href="/" class="logo">
+                <a sec:authorize="isAuthenticated()" href="/" class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
                     <span class="logo-mini">
                         <b>
@@ -240,13 +240,13 @@
         <!-- AdminLTE for demo purposes -->
         <script src="/assets/dist/js/demo.js"></script>
 
-        <script src="/assets/toast/dist/jquery.toast.min.js"></script>
+        <script src="/assets/vue/lib/toast/dist/jquery.toast.min.js"></script>
 
         <!--Call table-->
         <script src="/assets/tableLabels.js"></script>
 
-        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="/assets/vue/lib/vue.js"></script>
+        <script src="/assets/vue/lib/axios.min.js"></script>
 
 
         <script type="text/javascript" sec:authorize="isAuthenticated()">

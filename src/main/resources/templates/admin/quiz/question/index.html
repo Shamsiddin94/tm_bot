@@ -23,25 +23,30 @@
 
 
             <div class="box bg-info" v-if="visible">
-                <div class="box-header bg-gray-light">
-                    <h5>gegdfgdgd</h5>
+                <div class="box-header bg-gray">
+                    <span>gegdfgdgd</span>
+                    <button v-on:click="visible=false" class="btn btn-danger pull-right">X</button>
                 </div>
                 <div class="box-body">
-                    <div class="form-group col-md-3">
-                        <label for="25331 ">Savol matnini kiriting</label>
-                        <input id="25331 " class="form-control" type="text" v-model="name">
+                    <div class="form-group col-md-2">
+                        <label for="25331 ">Savol nomerini kiriting</label>
+                        <input id="25331 " class="form-control" type="text" v-model="question.num">
                     </div>
                     <div class="form-group col-md-3">
                         <label for="25332 ">Savol matnini kiriting</label>
-                        <input id="25332 " class="form-control" type="text">
+                        <textarea id="25332 " class="form-control" type="text" v-model="question.textNumber">
+                        </textarea>
                     </div>
                     <div class="form-group col-md-3">
-                        <label for="25333 ">Savol matnini kiriting</label>
-                        <input id="25333 " class="form-control" type="text" v-model="name">
+                        <label for="25333 ">Qo'shimcha matnini kiriting</label>
+                        <textarea id="25333 " class="form-control" type="text" v-model="question.text"></textarea>
                     </div>
-                    <div class="form-group col-md-3">
-                        <label for="25334 ">Savol matnini kiriting</label>
-                        <input id="25334 " class="form-control" type="text">
+                    <div class="form-group col-md-2">
+                        <label for="25334 ">Savol turi</label>
+                        <input id="25334 " class="form-control" type="text"  v-model="question.type">
+                    </div>
+                    <div class="form-group col-md-2"><br>
+                       <button class="btn btn-success form-control">Saqlash</button>
                     </div>
                 </div>
             </div>
@@ -73,11 +78,11 @@
                 <tr v-for="question in questions" :id="'row_'+question.id"
                     :key-="question.id">
 
-                    <td>{{question.id}}</td>
-                    <td>{{question.num}}</td>
-                    <td>{{question.textNumber}}</td>
+                    <td v-on:click="trClick(question.id)">{{question.id}}</td>
+                    <td v-on:click="trClick(question.id)">{{question.num}}</td>
+                    <td v-on:click="trClick(question.id)">{{question.textNumber}}</td>
                     <td v-on:click="trClick(question.id)" >{{question.text}}</td>
-                    <td>{{question.type}}</td>
+                    <td v-on:click="trClick(question.id)">{{question.type}}</td>
                     <td>{{question.answers}}</td>
                     <td>{{question.createdAt}}</td>
                     <!-- <td>
@@ -122,35 +127,38 @@
                 </ul>
 
                 <ul class="pagination pull-right">
-                    <li class="page-item">
+                    <!--<li class="page-item">
                         <a class="page-link" href="#" aria-label="Previous">
                             <span aria-hidden="true">First</span>
                             <span class="sr-only">Previous</span>
                         </a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
+                    </li>-->
+                    <li class="page-item" :class="isInFirstPage?'disabled':''">
+                        <a class="page-link"  v-on:click="changePage(page-1)" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                             <span class="sr-only">Previous</span>
                         </a>
                     </li>
 
-                    <li class="page-item"><a class="page-link " href="#">1</a></li>
+                    <li class="page-item" :class="isInFirstPage?'disabled':''">
+                        <a class="page-link " v-on:click="changePage(page-1)"  >{{currentPage-1}}</a></li>
 
-                    <li class="page-item active"><a class="page-link " href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" v-on:click="nextPage(page+1)"  aria-label="Next">
-                            <span aria-hidden="true">&raquo;1</span>
+                    <li class="page-item active"><a class="page-link " href="#">{{currentPage}}</a></li>
+                    <li class="page-item" :class="isInLastPage?'disabled':''">
+                        <a class="page-link" v-on:click="changePage(page+1)">{{currentPage+1}}</a>
+                    </li>
+                    <li class="page-item" :class="isInLastPage?'disabled':''">
+                        <a class="page-link "  v-on:click="changePage(page+1)"   aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
                             <span class="sr-only">Next</span>
                         </a>
                     </li>
-                    <li class="page-item">
+                   <!-- <li class="page-item">
                         <a class="page-link" href="#" aria-label="Previous">
                             <span aria-hidden="true">Last</span>
 
                         </a>
-                    </li>
+                    </li>-->
                 </ul>
             </nav>
         </div>
@@ -245,90 +253,6 @@
     <!-- Actual Vue.js script -->
     <script type="text/javascript">
 
-        Vue.component('pagination', {
-            template: '#pagination',
-            props: {
-                maxVisibleButtons: {
-                    type: Number,
-                    required: false,
-                    default: 4
-                },
-                totalPages: {
-                    type: Number,
-                    required: true
-                },
-                total: {
-                    type: Number,
-                    required: true
-                },
-                perPage: {
-                    type: Number,
-                    required: true
-                },
-                currentPage: {
-                    type: Number,
-                    required: true
-                },
-            },
-            computed: {
-                startPage() {
-                    if (this.currentPage === 1) {
-                        return 1;
-                    }
-
-                    if (this.currentPage === this.totalPages) {
-                        return this.totalPages - this.maxVisibleButtons + 1;
-                    }
-
-                    return this.currentPage - 1;
-
-                },
-                endPage() {
-
-                    return Math.min(this.startPage + this.maxVisibleButtons - 1, this.totalPages);
-
-                },
-                pages() {
-                    const range = [];
-
-                    for (let i = this.startPage; i <= this.endPage; i += 1) {
-                        range.push({
-                            name: i,
-                            isDisabled: i === this.currentPage
-                        });
-                    }
-
-                    return range;
-                },
-
-                isInFirstPage() {
-                    return this.currentPage === 1;
-                },
-                isInLastPage() {
-                    return this.currentPage === this.totalPages;
-                },
-            },
-            methods: {
-                onClickFirstPage() {
-                    this.$emit('pagechanged', 1);
-                },
-                onClickPreviousPage() {
-                    this.$emit('pagechanged', this.currentPage - 1);
-                },
-                onClickPage(page) {
-                    this.$emit('pagechanged', page);
-                },
-                onClickNextPage() {
-                    this.$emit('pagechanged', this.currentPage + 1);
-                },
-                onClickLastPage() {
-                    this.$emit('pagechanged', this.totalPages);
-                },
-                isPageActive(page) {
-                    return this.currentPage === page;
-                },
-            }
-        });
 
 
         $.toast('Here you can put the text of the toast');
@@ -340,7 +264,7 @@
                 return {
                     size: 20,
                     page: 0,
-                    currentPage: 0,
+                    currentPage: 1,
                     totalPages:0,
                     totalElements:0,
                     //search
@@ -349,8 +273,8 @@
                     searchTextNumber: '',
                     searchText: '',
                     searchType: '',
-
-                    name: 'eeeeeeeee',
+                    //Save questions
+                    question: { num:'1', textNumber:'2', text:'3', type:'4'   },
 
                     data: null,
                     visible: false,
@@ -367,7 +291,7 @@
                         text: this.searchText,
                         type: this.searchType
                     }).then(response => {
-                        this.currentPage=response.data.number
+                        this.currentPage=response.data.number+1
                         this.questions = response.data.content
                         this.totalPages = response.data.totalPages
                         this.totalElements=response.data.totalElements
@@ -380,15 +304,18 @@
                     console.log(page)
                     this.currentPage = page;
                 },
-                nextPage(page) {
+                changePage(page) {
+                    this.page=page;
+
+                    this.getData();
+                },
+                perviousPage() {
                     this.page=page;
                     console.log(this.page);
                     this.getData();
                 },
-                perviousPage() {
-                },
                 getData() {
-
+                        this.currentPage=1;
                     axios.post("/admin/quiz/api/question/search?size=" + this.size + "&page=" + this.page,
                         {
                             id: this.searchId,
@@ -398,7 +325,7 @@
                             type: this.searchType
                         })
                         .then(response => {
-                            this.currentPage=response.data.number
+                            this.currentPage=response.data.number+1
                             this.questions = response.data.content
                             this.totalPages = response.data.totalPages
                             this.totalElements=response.data.totalElements
@@ -408,13 +335,14 @@
                     console.log(this.questions);
 
 
+
                 },
                 trClick(id) {
 
                     var temp = this.questions.find(i => i.id == id);
 
 
-                    this.visible = !this.visible;
+                    this.visible = true;
                     console.log(id);
                 },
 
@@ -425,16 +353,14 @@
                 }
             },
             computed: {
-                qFilter() {
-                    const {searchName, questions} = this
 
-                    console.log(this.questions);
-                    return this.questions;
-                    //.filter(person => person.name.toLowerCase().indexOf(searchName.toLowerCase()) > -1)
-                    //.filter(person => person.age === age)
+                isInFirstPage() {
+                    return this.currentPage === 1;
+                },
+                isInLastPage() {
+                    return this.currentPage === this.totalPages;
                 },
 
-                
             }
 
         })

@@ -33,20 +33,3 @@ li span.active {
 p:hover, h1:hover, a:hover {
     background-color: yellow;
 }
-
-.plan1{
-    background-color: #6599e5;
-
-}
-.plan1Body{
-
-
-}
-
-.plan2{
-    background-color: #4a88e0;
-}
-
-.plan2Body{
-    background-color: #78a2f6;
-}

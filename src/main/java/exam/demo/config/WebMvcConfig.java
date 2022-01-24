@@ -11,7 +11,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+import javax.annotation.PostConstruct;
+import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
@@ -27,6 +30,14 @@ public class WebMvcConfig implements WebMvcConfigurer {
         return resolver;
 
       //  return resolver;
+    }
+
+    @PostConstruct
+    public void init() {
+
+        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Tashkent"));
+
+        System.out.println("Date in UTC: " + new Date().toString());
     }
 
     @Override

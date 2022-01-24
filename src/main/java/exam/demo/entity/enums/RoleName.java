@@ -1,6 +1,6 @@
 package exam.demo.entity.enums;
 
-public enum RoleName {
+public enum   RoleName {
     ROLE_USER,
     ROLE_ADMIN,
     ROLE_RAHBARIYAT,

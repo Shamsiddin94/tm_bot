@@ -22,6 +22,7 @@ $(document).ready(function() {
 
   });
 });
+
 $(document).ready(function() {
   $('#exam5 ').DataTable({
     stateSave: true,

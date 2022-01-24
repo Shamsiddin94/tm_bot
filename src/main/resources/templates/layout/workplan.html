@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout ">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        <title>
+            <th:block layout:fragment="title">
+
+            </th:block>
+        </title>
+        <!-- Tell the browser to be responsive to screen width -->
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <!-- Bootstrap 3.3.7 -->
+        <link rel="stylesheet" href="/assets/bower_components/bootstrap/dist/css/bootstrap.min.css"
+              th:href="@{'/assets/bower_components/bootstrap/dist/css/bootstrap.min.css'}">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css">
+        <!-- Ionicons -->
+        <link rel="stylesheet" href="/assets/bower_components/Ionicons/css/ionicons.min.css">
+
+        <!-- Ionicons -->
+        <link rel="stylesheet" href="/assets/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+        <!-- Theme style -->
+        <link rel="stylesheet" href="/assets/dist/css/AdminLTE.min.css">
+        <!-- AdminLTE Skins. Choose a skin from the css/skins
+             folder instead of downloading all of them to reduce the load. -->
+        <!-- iCheck for checkboxes and radio inputs -->
+        <link rel="stylesheet" href="/assets/plugins/iCheck/all.css">
+        <!-- bootstrap datepicker -->
+        <link rel="stylesheet"
+              href="/assets/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+
+        <link rel="stylesheet" href="/assets/dist/css/skins/_all-skins.min.css">
+        <link rel="stylesheet" href="/assets/dist/css/skins/_all-skins.min.css">
+        <!-- bootstrap wysihtml5 - text editor -->
+        <link rel="stylesheet" href="/assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+        <link rel="stylesheet" href="/assets/bower_components/select2/dist/css/select2.min.css">
+
+
+        <link rel="stylesheet" href="/assets/alert/style.css">
+        <link rel="stylesheet" href="/assets/toast/dist/jquery.toast.min.css">
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="/assets/html5shiv.js"></script>
+        <script src="/assets/respond.min.js"></script>
+        <![endif]-->
+
+        <!-- Google Font -->
+        <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">-->
+        <link rel="stylesheet" href="/assets/family.css">
+
+
+        <th:block layout:fragment="styles">
+        </th:block>
+<style>
+    body{
+        background-image: url('/assets/login/images/bg-01.jpg');
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-attachment: fixed;
+        background-size: cover;
+    }
+
+</style>
+    </head>
+    <body >
+        <div class="container-fluid">
+
+
+
+
+
+                    <div class="content" style="align-content: center" layout:fragment="page_content">
+
+                    </div>
+
+
+        </div>
+        <!-- ./wrapper -->
+
+        <!-- jQuery 3 -->
+        <script src="/assets/bower_components/jquery/dist/jquery.min.js"></script>
+
+        <!-- Bootstrap 3.3.7 -->
+        <script src="/assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+        <script src="/assets/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script src="/assets/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+        <!-- bootstrap datepicker -->
+        <script src="/assets/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+
+        <!-- Bootstrap WYSIHTML5 -->
+        <script src="/assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+        <!-- Slimscroll -->
+        <script src="/assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+        <!-- Select2 -->
+        <script src="/assets/bower_components/select2/dist/js/select2.full.js"></script>
+        <!-- FastClick -->
+        <script src="/assets/bower_components/fastclick/lib/fastclick.js"></script>
+        <script src="/assets/plugins/iCheck/icheck.min.js"></script>
+        <!-- AdminLTE App -->
+        <script src="/assets/dist/js/adminlte.min.js"></script>
+
+
+        <!-- AdminLTE for demo purposes -->
+        <script src="/assets/dist/js/demo.js"></script>
+
+        <script src="/assets/toast/dist/jquery.toast.min.js"></script>
+
+        <!--Call table-->
+        <script src="/assets/tableLabels.js"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+
+        <script type="text/javascript" sec:authorize="isAuthenticated()">
+
+
+            $(document).ready(function () {
+                var pages = ['/telegram/picture', '/telegram/document'];
+
+                if (localStorage.getItem('data')) {
+                    var data = JSON.parse(localStorage.getItem('data'));
+
+                    $('.tmAll').text(data.tJami);
+                    $('.tmDocument').text(data.tHujjat);
+                    $('.tmPicture').text(data.tRasm);
+
+                    $('#newImg').text(data.tRasm);
+                    $('#newDoc').text(data.tHujjat);
+                    $('#allDoc').text(data.allDoc);
+                    $('#allImg').text(data.allImg);
+                }
+
+                setInterval(function () {
+                        var jami = $('#tmAll').text();
+
+
+                        $.ajax({
+                            url: "/telegram/getJson",
+                            method: "GET",
+                            success: function (data) {
+                                console.log(data);
+                                if (data !== null) {
+                                    localStorage.setItem('data', JSON.stringify(data));
+                                    $('.tmAll').text(data.tJami);
+                                    $('.tmDocument').text(data.tHujjat);
+                                    $('.tmPicture').text(data.tRasm);
+                                    //  $('#link1').attr('href',"/data/"+data.tSoni);
+                                    $('#newImg').text(data.tRasm);
+                                    $('#newDoc').text(data.tHujjat);
+                                    $('#allDoc').text(data.allDoc);
+                                    $('#allImg').text(data.allImg);
+                                }
+
+                                if (jami !== '' && data.tJami !== jami) {
+                                    if (pages.includes(window.location.pathname)) {
+                                        console.log(jami);
+                                        console.log(window.location.pathname);
+                                        window.location.reload();
+                                    }
+
+                                }
+                            },
+                            error: function (e) {
+                                console.log(e);
+                            }
+                        });
+
+
+                    },
+                    10000);
+            });
+
+
+            $(document).ready(function () {
+                $("select").select2({
+                    placeholder: "Tanlang ..."
+                });
+            });
+
+            $(document).ready(function () {
+                //Date picker
+
+
+                $('.sanaselect').datepicker({
+                    format: 'yyyy-mm-dd',
+                    autoclose: true
+
+                });
+            });
+
+
+        </script>
+
+        <th:block layout:fragment="scripts">
+        </th:block>
+    </body>
+</html>

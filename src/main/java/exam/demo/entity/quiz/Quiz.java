@@ -21,7 +21,7 @@ public class Quiz extends AbsEntity {
     @Column(nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Timestamp timestamp;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     private List<BlankForm> blankForms;
 
 

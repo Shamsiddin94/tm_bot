@@ -17,6 +17,7 @@ import java.util.List;
 public class BlankForm extends AbsEntity {
     private String name;
 
+    @Lob
     private String description;
 
 

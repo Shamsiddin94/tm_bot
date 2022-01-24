@@ -1,10 +1,3 @@
-insert into role(id, name) values (10,'ROLE_ADMIN');
-insert into role(id, name) values (20,'ROLE_RAHBARIYAT');
-insert into role(id, name) values (30,'ROLE_KANSELYARIYA');
-insert into role(id, name) values (40,'ROLE_MUROJAAT');
-insert into role(id, name) values (50,'ROLE_SPIKER');
-insert into role(id, name) values (60,'ROLE_KADR');
-insert into role(id, name) values (70,'ROLE_USER');
 
 
 INSERT INTO tashkilot ( name) VALUES ( 'Президенти Aдминистрацияси'),('Олий Мажлис Сенати'),( 'Вазирлар Маҳкамаси'),

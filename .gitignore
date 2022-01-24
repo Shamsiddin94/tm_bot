@@ -6,7 +6,9 @@
 /botFiles/received
 /botFiles/send
 src/main/java/exam/demo/utils/AppConstants.java
+/src/main/java/exam/demo/utils/AppConstants.java
 src/main/resources/application.properties
+/src/main/resources/application.properties
 # BlueJ files
 *.ctxt
 
@@ -31,3 +33,4 @@ target/classes/META-INF/demo.kotlin_module
 >>>>>>> Stashed changes
 *.xml
 
+*.xml

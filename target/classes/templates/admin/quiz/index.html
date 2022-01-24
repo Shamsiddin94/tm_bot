@@ -7,7 +7,7 @@
 
 
 <th:block layout:fragment="title">
- Quiz
+    Quiz
 </th:block>
 
 
@@ -17,241 +17,59 @@
 
 
 <th:block layout:fragment="page_content">
-
-
-
-
-
-    <div class="box" id="app">
+    <div class="box">
         <div class="box-header">
-            <button v-on:click="showApp()"  class="btn btn-success">Savol qo'shish<i class="fa fa-plus"></i></button>
-            <button id="info"  class="btn btn-success">Variyant  qo'shish<i class="fa fa-plus"></i></button><br>
+            <a href="/admin/quiz/add" class="btn btn-success"><i class="fa fa-plus"></i></a><br>
         </div>
         <!-- /.card-header -->
-        <div class="box-body" >
+        <div class="box-body">
+            <div class="table-responsive">
 
 
-            <div v-if="visible">
-                <div class="box box-primary">
-                    <div class="box-header bg-green-active">
-                        <h3 class="box-title">Savol qo'shish</h3>
-                    </div>
-                    <!-- /.box-header -->
-                    <!-- form start -->
-                    <div role="form">
-                        <div class="box-body">
-                            <div class="form-group">
-                                <label  for="name">Forma nomini kirting</label>
-                                <input type="email"v-model="name" class="form-control" id="name" placeholder="Enter name">
-                            </div>
-                            <div class="form-group">
-                                <label for="description">Qisqacha tarif</label>
-                                <input type="text" v-model="description" class="form-control" id="description" placeholder="Description">
-                            </div>
+                <table class="table table-bordered table-hover text-center " id="exam1">
+                    <thead class="text-primary">
+                    <tr>
+                        <th> Id</th>
+                        <th> Nomi</th>
+                        <th>Ma'lumotlar</th>
+                        <th>Holati</th>
+                        <th>Savollar soni</th>
+                        <th>Yaratilgan sanasi</th>
 
-                            <div class="form-group">
-                                <label for="formType">Forma turi</label>
-                                <select class="form-control" id="formType" v-model="type" >
-                                    <option value="">Tanlang..</option>
-                                    <option value="SHORT">Qisqacha matn</option>
-                                    <option value="SELECT">Tanlash</option>
-                                    <option value="CHECKBOX">Bir nechta tanlash</option>
-                                </select>
-                            </div>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="blank:${blankForms}">
+                        <td th:text="${blank.id}"></td>
+                        <td th:text="${blank.name}"></td>
+                        <td th:text="${blank.description}"></td>
+                        <td th:text="${blank.blankState}"></td>
+                        <td><span th:if="${blank.getQuestions()!=null}" th:text="${blank.getQuestions().size()}"></span>
+                        </td>
+                        <td th:text="${blank.createdAt}"></td>
+                        <td>
+                            <a th:href="${'/admin/quiz/edit/'+blank.id}"
+                               class="btn btn-warning btn-sm"> Edit </a>
 
-                        </div>
-                        <!-- /.box-body -->
+                            <a th:href="${'/admin/quiz/delete/'+blank.id}"
+                               class="btn btn-danger btn-sm"> Delete </a>
+                        </td>
+                    </tr>
+                    </tbody>
 
-                        <div class="box-footer">
-                            <button v-on:click="send()" class="btn btn-primary">Submit</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.box -->
+                </table>
             </div>
 
 
-
-
-
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover table-responsive" id="stable">
-                            <thead class="text-primary">
-                            <tr>
-                                <th>Id</th>
-                                <th>Fayl nomi</th>
-                                <th>Kelgan Sana</th>
-                                <th> Turi</th>
-                                <th> O'lchami</th>
-                                <th>Yuklash</th>
-                            </tr>
-                            </thead>
-
-
-                        </table>
-
-
-
-                    </div>
-
-
-
-        </div>
-
-
-            <a href="javascript:history.go(-1)" title="Return to the previous page">&laquo; Go back</a>
         </div>
         <!-- /.card-body -->
     </div>
-
 
 </th:block>
 
 
 <!--Scripts-->
 <th:block layout:fragment="scripts">
-
-
-
-    <script>
-        $(document).ready(function() {
-            $('#stable').DataTable( {
-                "processing": true,
-                "serverSide": true,
-                "ajax": "/quiz/api"
-            } );
-        } );
-
-
-        Vue.component('button-counter', {
-            props:['test'],
-            data: function () {
-                return {
-                    count: 0
-                }
-            },
-            mounted() {
-            console.log('chizildi+'+this.count);
-            if (this.count==0){
-                this.count=(localStorage.getItem("count"))?parseInt(localStorage.getItem("count")):0;
-            }
-                },
-            methods: {
-                countAdd:function () {
-                    this.count++;
-                    localStorage.setItem("count",this.count)
-                    console.log(this.count);
-                }
-            },
-            template: '<button v-on:click="countAdd()"  >You clicked me {{ count }} times.</button> '
-        });
-
-        Vue.component('spantest',{
-            props:['test'],
-            data:function(){
-                return{
-                    obj:'Salom dunyo'
-                }
-            },
-            methods:{
-                testDemo:function () {
-                    console.log(this.obj);
-                    this.obj="Assalomu eleykum";
-                }
-            },
-            template:'<span v-on:click="testDemo()">{{obj}}</span>'
-
-
-        });
-        var info = document.getElementById("info");
-        info.addEventListener("click", ()=>{
-            cuteAlert({
-                type: "info",
-                title: "Info Title",
-                message: "Info Message",
-                buttonText: "Okay"
-            })
-        })
-        var app = new Vue({
-            el: '#app',
-            data() {
-                return {
-                    name:null,
-                    description:null,
-                    type:'SHORT',
-                    visible:false,
-                    blanks:null,
-                }
-            },
-            mounted() {
-
-                axios.get("/admin/quiz/api/allBlanks")
-                    .then(response => (
-                        this.blanks = response.data.sort(function (a, b) {
-                            return parseInt(a.id) - parseInt(b.id);
-                        })));
-                console.log(this.blanks);
-
-            },
-            methods: {
-                send(){
-                    if (this.name){
-
-                    }
-
-
-                    const res =  axios.post('/admin/quiz/add', { name:this.name,description:this.description,type:this.type});
-
-                       console.log(res);
-
-                },
-                showApp(){
-                    this.visible=!this.visible;
-                    console.log(this.blanks);
-                },
-                getBlankType() {
-                    axios.get("/admin/quiz/api/allBlanks")
-                        .then(response => (
-                            this.blanks = response.data.sort(function (a, b) {
-                                return parseInt(a.id) - parseInt(b.id);
-                            })));
-                    console.log(this.blanks);
-                }
-            }
-        });
-    </script>
-
-<!--
-
-<script type="text/javascript">
-
-    $(document).ready(function () {
-        $("#tbs1").keyup(function () {
-            var tbs1 = $(this).val();
-
-
-            $.ajax({
-                url: "/admin/fraksiya?search="+tbs1,
-                method: "GET",
-
-                success: function (data) {
-                    console.log(data);
-
-
-                }
-
-            });
-           console.log(tbs1);
-
-        });
-    });
-
-</script>
--->
-
-<!--    $.get("/admin/fraksiya", {term: $('#tbs1').val()}, function(data) {
-    // do your data manipulation and transformation here
-    });-->
 
 </th:block>
 

@@ -1,9 +1,7 @@
 package exam.demo.entity.quiz;
 
 import exam.demo.entity.identity.AbsEntity;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -12,18 +10,22 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Getter
+@Setter
 public class BlankQuestion  extends AbsEntity {
 
-    private Long id;
-
     private Long num;
+
+    private String textNumber;
+
+    private String text;
 
     @Enumerated(EnumType.STRING)
     private QuizType type;
 
-    private String text;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<BlankAnswer> answers;
 
 }

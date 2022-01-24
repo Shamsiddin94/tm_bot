@@ -21,6 +21,9 @@
         <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css">
         <!-- Ionicons -->
         <link rel="stylesheet" href="/assets/bower_components/Ionicons/css/ionicons.min.css">
+
+        <!-- Ionicons -->
+        <link rel="stylesheet" href="/assets/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
         <!-- Theme style -->
         <link rel="stylesheet" href="/assets/dist/css/AdminLTE.min.css">
         <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -32,12 +35,14 @@
               href="/assets/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
 
         <link rel="stylesheet" href="/assets/dist/css/skins/_all-skins.min.css">
+        <link rel="stylesheet" href="/assets/dist/css/skins/_all-skins.min.css">
         <!-- bootstrap wysihtml5 - text editor -->
         <link rel="stylesheet" href="/assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
         <link rel="stylesheet" href="/assets/bower_components/select2/dist/css/select2.min.css">
 
 
-        <link rel="stylesheet" href="/assets/alert/style.css">
+
+        <link rel="stylesheet" href="/assets/vue/lib/toast/dist/jquery.toast.min.css">
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -51,16 +56,17 @@
         <link rel="stylesheet" href="/assets/family.css">
 
 
+
         <th:block layout:fragment="styles">
         </th:block>
 
     </head>
-    <body  th:classappend="${#strings.contains(#httpServletRequest.requestURL,'quiz')}?'sidebar-collapse':''" class="hold-transition skin-blue sidebar-mini" style="height: auto; min-height: 100%;">
+    <body  th:classappend="${#strings.contains(#httpServletRequest.requestURL,'plan')}?'sidebar-collapse':''" class="hold-transition skin-blue sidebar-mini" style="height: auto; min-height: 100%;">
         <div class="wrapper">
 
             <header class="main-header">
                 <!-- Logo -->
-                <a href="/" class="logo">
+                <a sec:authorize="isAuthenticated()" href="/" class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
                     <span class="logo-mini">
                         <b>
@@ -234,13 +240,14 @@
         <!-- AdminLTE for demo purposes -->
         <script src="/assets/dist/js/demo.js"></script>
 
+        <script src="/assets/vue/lib/toast/dist/jquery.toast.min.js"></script>
+
         <!--Call table-->
         <script src="/assets/tableLabels.js"></script>
 
-        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<!--Toaster-->
-        <script src="/assets/alert/cute-alert.js"></script>
+        <script src="/assets/vue/lib/vue.js"></script>
+        <script src="/assets/vue/lib/axios.min.js"></script>
+
 
         <script type="text/javascript" sec:authorize="isAuthenticated()">
 

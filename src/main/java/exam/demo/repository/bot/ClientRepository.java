@@ -5,6 +5,7 @@ import exam.demo.entity.bot.Client;
 import exam.demo.entity.enums.EntityStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,5 +13,6 @@ import java.util.Optional;
 @Repository
 public interface ClientRepository extends JpaRepository<Client,Long> {
   Optional<Client>  findByChatId(Long chatId);
+ @Transactional
   List<Client> findByUserAndState(User user, EntityStatus entityStatus);
 }

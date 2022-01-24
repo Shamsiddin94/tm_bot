@@ -19,6 +19,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 
 import org.springframework.core.io.Resource;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.net.MalformedURLException;
 import java.nio.file.Path;
@@ -104,12 +105,16 @@ public class TelegramService {
 
 
     //ReceiveFiles
+    @Transactional
     public List<Attachment> allPictures(User user) {
         List<Client> clients = clientRepository.findByUserAndState(user, EntityStatus.ACTIVE);
+        System.out.println(clients.toString());
         List<Attachment> attachments = new ArrayList<>();
-        clients.forEach(client -> {
-            attachments.addAll(attachmentRepository.findByClientAndTypeAndDelete(client, FileType.PICTURE,false));
-        });
+       if (clients.size()!=0) {
+           clients.forEach(client -> {
+               attachments.addAll(attachmentRepository.findByClientAndTypeAndDelete(client, FileType.PICTURE, false));
+           });
+       }
         return attachments;
     }
 

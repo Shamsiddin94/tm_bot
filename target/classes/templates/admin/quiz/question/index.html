@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/core}">
+<th:block layout:fragment="title">
+    Savolllar
+</th:block>
+<th:block layout:fragment="styles">
+    <!-- Dashboard styles-->
+</th:block>
+
+<div class="content" layout:fragment="page_content" id="app">
+    <h1> Savollar</h1>
+
+
+    <div class="box">
+        <div class="box-header">
+            <a href="#" class="btn btn-success"><i class="fa fa-plus"></i></a><br>
+        </div>
+        <div class="box-body">
+
+
+            <div class="box bg-info" v-if="visible">
+                <div class="box-header bg-gray">
+                    <span>gegdfgdgd</span>
+                    <button v-on:click="visible=false" class="btn btn-danger pull-right">X</button>
+                </div>
+                <div class="box-body">
+                    <div class="form-group col-md-2">
+                        <label for="25331 ">Savol nomerini kiriting</label>
+                        <input id="25331 " class="form-control" type="text" v-model="question.num">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="25332 ">Savol matnini kiriting</label>
+                        <textarea id="25332 " class="form-control" type="text" v-model="question.textNumber">
+                        </textarea>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="25333 ">Qo'shimcha matnini kiriting</label>
+                        <textarea id="25333 " class="form-control" type="text" v-model="question.text"></textarea>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="25334 ">Savol turi</label>
+                        <input id="25334 " class="form-control" type="text"  v-model="question.type">
+                    </div>
+                    <div class="form-group col-md-2"><br>
+                       <button class="btn btn-success form-control">Saqlash</button>
+                    </div>
+                </div>
+            </div>
+
+            <table class="table table-bordered table-hover text-center ">
+                <thead class="text-primary bg-info">
+                <tr>
+                    <th> Id</th>
+                    <th>Nomer</th>
+                    <th>Nomer</th>
+                    <th> Nomi</th>
+                    <th>Turi</th>
+                    <th>Savollar soni</th>
+                    <th>Sana</th>
+                </tr>
+                <tr>
+                    <th><input class="form-control" type="number" v-model="searchId" @change="getData()"></th>
+                    <th><input class="form-control" type="number" v-model="searchNum" @change="getData()"></th>
+                    <th><input class="form-control" type="text" v-model="searchTextNumber" @change="getData()"></th>
+                    <th><input class="form-control" type="text" v-model="searchText" @change="getData()"></th>
+                    <th><input class="form-control" type="text" v-model="searchType" @change="getData()"></th>
+                    <th></th>
+                    <th></th>
+
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="question in questions" :id="'row_'+question.id"
+                    :key-="question.id">
+
+                    <td v-on:click="trClick(question.id)">{{question.id}}</td>
+                    <td v-on:click="trClick(question.id)">{{question.num}}</td>
+                    <td v-on:click="trClick(question.id)">{{question.textNumber}}</td>
+                    <td v-on:click="trClick(question.id)" >{{question.text}}</td>
+                    <td v-on:click="trClick(question.id)">{{question.type}}</td>
+                    <td>{{question.answers}}</td>
+                    <td>{{question.createdAt}}</td>
+                    <!-- <td>
+                         <button class="btn btn-success">Edit</button>
+                         <button class="btn btn-danger">Delete</button>
+                     </td>-->
+
+
+                </tr>
+
+                </tbody>
+            </table>
+            <nav aria-label="Page navigation example" class="">
+
+                <ul class="pagination pull-left">
+                    <li class="page-item">
+                       <span class=" page-link" aria-label="Previous">
+                           <span aria-hidden="true">pages - {{totalPages}}</span>
+
+                       </span>
+                    </li>
+
+                </ul>
+                <ul class="pagination pull-left">
+                    <li class="page-item">
+                       <span class=" page-link" aria-label="Previous">
+                           <span aria-hidden="true">Elements - {{totalElements}}</span>
+
+                       </span>
+                    </li>
+
+                </ul>
+
+                <ul class="pagination pull-left">
+                    <li class="page-item">
+                       <span class=" page-link" aria-label="Previous">
+                           <span aria-hidden="true">Current Page - {{currentPage}}</span>
+
+                       </span>
+                    </li>
+
+                </ul>
+
+                <ul class="pagination pull-right">
+                    <!--<li class="page-item">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true">First</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>-->
+                    <li class="page-item" :class="isInFirstPage?'disabled':''">
+                        <a class="page-link"  v-on:click="changePage(page-1)" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+
+                    <li class="page-item" :class="isInFirstPage?'disabled':''">
+                        <a class="page-link " v-on:click="changePage(page-1)"  >{{currentPage-1}}</a></li>
+
+                    <li class="page-item active"><a class="page-link " href="#">{{currentPage}}</a></li>
+                    <li class="page-item" :class="isInLastPage?'disabled':''">
+                        <a class="page-link" v-on:click="changePage(page+1)">{{currentPage+1}}</a>
+                    </li>
+                    <li class="page-item" :class="isInLastPage?'disabled':''">
+                        <a class="page-link "  v-on:click="changePage(page+1)"   aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+                   <!-- <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true">Last</span>
+
+                        </a>
+                    </li>-->
+                </ul>
+            </nav>
+        </div>
+
+
+    </div>
+
+<!--
+
+    <pagination
+            type="text/x-template"
+            id="pagination"
+            :total-pages="11"
+            :total="113"
+            :per-page="10"
+            :current-page="currentPage"
+            @pagechanged="onPageChange"
+    >
+        <ul class="pagination">
+            <li
+                    class="pagination-item"
+            >
+                <button
+                        type="button"
+                        @click="onClickFirstPage"
+                        :disabled="isInFirstPage"
+                        aria-label="Go to first page"
+                >
+                    First
+                </button>
+            </li>
+
+            <li
+                    class="pagination-item"
+            >
+                <button
+                        type="button"
+                        @click="onClickPreviousPage"
+                        :disabled="isInFirstPage"
+                        aria-label="Go to previous page"
+                >
+                    Previous
+                </button>
+            </li>
+
+            <li v-for="page in pages" class="pagination-item">
+                <button
+                        type="button"
+                        @click="onClickPage(page.name)"
+                        :disabled="page.isDisabled"
+                        :class="{ active: isPageActive(page.name) }"
+                        :aria-label="`Go to page number ${page.name}`"
+
+                >
+                    {{ page.name }}
+                </button>
+            </li>
+
+            <li class="pagination-item">
+                <button
+                        type="button"
+                        @click="onClickNextPage"
+                        :disabled="isInLastPage"
+                        aria-label="Go to next page"
+                >
+                    Next
+                </button>
+            </li>
+
+            <li class="pagination-item">
+                <button
+                        type="button"
+                        @click="onClickLastPage"
+                        :disabled="isInLastPage"
+                        aria-label="Go to last page"
+                >
+                    Last
+                </button>
+            </li>
+        </ul>
+    </pagination>
+-->
+
+</div>
+
+
+</div>
+
+<th:block layout:fragment="scripts">
+
+
+    <!-- Actual Vue.js script -->
+    <script type="text/javascript">
+
+
+
+        $.toast('Here you can put the text of the toast');
+
+        var app = new Vue({
+
+            el: '#app',
+            data() {
+                return {
+                    size: 20,
+                    page: 0,
+                    currentPage: 1,
+                    totalPages:0,
+                    totalElements:0,
+                    //search
+                    searchId: '',
+                    searchNum: '',
+                    searchTextNumber: '',
+                    searchText: '',
+                    searchType: '',
+                    //Save questions
+                    question: { num:'1', textNumber:'2', text:'3', type:'4'   },
+
+                    data: null,
+                    visible: false,
+                    questions: null
+                }
+
+            },
+            mounted() {
+                axios.post("/admin/quiz/api/question/search",
+                    {
+                        id: this.searchId,
+                        num: this.searchNum,
+                        textNumber: this.searchTextNumber,
+                        text: this.searchText,
+                        type: this.searchType
+                    }).then(response => {
+                        this.currentPage=response.data.number+1
+                        this.questions = response.data.content
+                        this.totalPages = response.data.totalPages
+                        this.totalElements=response.data.totalElements
+                    });
+
+               // console.log(this.questions);
+            },
+            methods: {
+                onPageChange(page) {
+                    console.log(page)
+                    this.currentPage = page;
+                },
+                changePage(page) {
+                    this.page=page;
+
+                    this.getData();
+                },
+                perviousPage() {
+                    this.page=page;
+                    console.log(this.page);
+                    this.getData();
+                },
+                getData() {
+                        this.currentPage=1;
+                    axios.post("/admin/quiz/api/question/search?size=" + this.size + "&page=" + this.page,
+                        {
+                            id: this.searchId,
+                            num: this.searchNum,
+                            textNumber: this.searchTextNumber,
+                            text: this.searchText,
+                            type: this.searchType
+                        })
+                        .then(response => {
+                            this.currentPage=response.data.number+1
+                            this.questions = response.data.content
+                            this.totalPages = response.data.totalPages
+                            this.totalElements=response.data.totalElements
+                        });
+
+                    console.log("click next page =="+this.questions.length);
+                    console.log(this.questions);
+
+
+
+                },
+                trClick(id) {
+
+                    var temp = this.questions.find(i => i.id == id);
+
+
+                    this.visible = true;
+                    console.log(id);
+                },
+
+            },
+            watch: {
+                searchName: function (newV, oldV) {
+                    console.log('eski=' + oldV + ' yangi=' + newV);
+                }
+            },
+            computed: {
+
+                isInFirstPage() {
+                    return this.currentPage === 1;
+                },
+                isInLastPage() {
+                    return this.currentPage === this.totalPages;
+                },
+
+            }
+
+        })
+    </script>
+    <!--my scripts-->
+</th:block>
+
+
+</html>

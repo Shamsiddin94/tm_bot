@@ -27,4 +27,9 @@ li span:hover:not(.active) {
 li span.active {
     color: white;
     background-color: #4CAF50;
+    padding: 50px;
+}
+
+p:hover, h1:hover, a:hover {
+    background-color: yellow;
 }

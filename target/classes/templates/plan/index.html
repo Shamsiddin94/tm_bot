@@ -22,16 +22,16 @@
                     <h2><img src="/assets/icon/number-one.png" height="80" width="80"></img> Қонун ижодкорлиги ва
                         парламент назоратини амалга оширишнинг амалдаги механизмларини такомиллаштириш </h2>
                 </div>
-                <div class="box-body customPlan plan1Body ">
+                <div class="box-body customPlan plan1Body " id="plan_1">
 
-                   <span class="col-md-6" onclick="handleButtonClick(1)">
+                   <span class="col-md-6" onclick="handleButtonClick(1,this)">
                         <p>
                     <h4><i class="fa fa-check-square-o"></i>
                         Қонун лойиҳасини кўриб чиқиш тартибини янада такомиллаштириш.
                     </h4>
                          </p>
                     </span>
-                  <span class="col-md-6" onclick="handleButtonClick(2)">
+                  <span class="col-md-6" onclick="handleButtonClick(2,this)">
                         <p>
                     <h4><i class="fa fa-check-square-o"></i>
                     Қонун ижодкорлиги фаолияти сифатини тубдан ошириш.
@@ -51,9 +51,9 @@
                     <h2><img src="/assets/icon/number-2.png" height="80" width="80"></img>
                         Парламент назоратини амалга оширишнинг таъсирчанлигини янада ошириш </p></h2>
                 </div>
-                <div class="box-body customPlan plan2Body">
+                <div class="box-body customPlan plan2Body" id="plan_2">
 
-                    <span class="col-md-6" onclick="handleButtonClick(4)">
+                    <span class="col-md-6" onclick="handleButtonClick(4,this)">
                       <p>
                     <h4><i class="fa fa-check-square-o"></i>
                         Жамоатчилик ва парламент назорати тўғрисидаги қонунларни замон талабларидан келиб чиқиб такомиллаштириш.
@@ -61,7 +61,7 @@
                         </p>
                          </span>
 
-                    <span class="col-md-6" onclick="handleButtonClick(6)">
+                    <span class="col-md-6" onclick="handleButtonClick(6,this)">
                         <p>
                     <h4><i class="fa fa-check-square-o"></i>
                        Соғлиқни сақлаш соҳасидаги ислоҳотларнинг амалга оширилиши устидан парламент назоратининг таъсирчанлигини янада ошириш.
@@ -70,7 +70,7 @@
                     </span>
 
 
-                    <span class="col-md-6" onclick="handleButtonClick(5)">
+                    <span class="col-md-6" onclick="handleButtonClick(5,this)">
                         <p>
                         <h4><i class="fa fa-check-square-o"></i>
                            Депутат суровини юбориш институтини такомиллаштириш.
@@ -92,25 +92,25 @@
                         Олий Мажлис Қонунчилик палатаси фаолиятида очиқлик ва шаффофликни таъминлаш ҳамда
                         жамоатчилик <p class="text-center">хабардорлигини ошириш ишларини тизимли йўлга қўйиш </p></h2>
                 </div>
-                <div class="box-body customPlan plan3Body">
+                <div class="box-body customPlan plan3Body" id="plan_3">
 
-                  <span class="col-md-6" onclick="handleButtonClick(7)">
+                  <span class="col-md-6" onclick="handleButtonClick(7,this)">
                         <p>
                         <h4><i class="fa fa-check-square-o"></i>
                             Тадбирларни (мажлисларни) ОАВда кенг ва тизимли ёритишни кучайтириш,
-                            жумладан фракция ва қўмита йиғилишларини жонли эфиргаузатиш амалиётини ўрганиш.
+                            жумладан фракция ва қўмита йиғилишларини жонли эфирга узатиш амалиётини ўрганиш.
                         </h4>
                       </p>
                     </span>
 
-                    <span class="col-md-6" onclick="handleButtonClick(8)">
+                    <span class="col-md-6" onclick="handleButtonClick(8,this)">
                          <p>
                     <h4><i class="fa fa-check-square-o"></i>
                         «Aksent», «Reportaj», «#ParlamentMuxlisi», «Deputat bilan bir kun», «Fokus» каби медиа лойиҳалар тайёрлаш.
                     </h4>
                         </p>
                     </span>
-                    <span class="col-md-6" onclick="handleButtonClick(11)">
+                    <span class="col-md-6" onclick="handleButtonClick(11,this)">
                         <p>
                     <h4><i class="fa fa-check-square-o"></i>
                         «Электрон парламент» концепциясини ҳаётга изчил татбиқ  этиш.
@@ -118,7 +118,7 @@
                         </p>
                     </span>
 
-                    <span class="col-md-6" onclick="handleButtonClick(14)">
+                    <span class="col-md-6" onclick="handleButtonClick(14,this)">
                     <p>
                     <h4><i class="fa fa-check-square-o"></i>
                     Мансабдор шахсларнинг ҳисоботларини эшитишга бағишланган кўмиталар мажлисларини сайёр кўринишда ҳудудларда ўтказии тизими жорий этиш.
@@ -126,7 +126,7 @@
                         </p>
                     </span>
 
-                    <span class="col-md-6" onclick="handleButtonClick(12)">
+                    <span class="col-md-6" onclick="handleButtonClick(12,this)">
                          <p>
                     <h4><i class="fa fa-check-square-o"></i>
                         «Ўзбекистон Республикаси Олий Мажлиси Қонунчилик палатаси депутати- нинг ва Сенати аъзосининг мақоми
@@ -137,7 +137,7 @@
 
 
 
-                    <span class="col-md-6" onclick="handleButtonClick(10)">
+                    <span class="col-md-6" onclick="handleButtonClick(10,this)">
                          <p>
                     <h4><i class="fa fa-check-square-o"></i>
                        Қонунчилик палатаси Регламентини янги таҳрирдаги лойиҳасини ишлаб чикиш.
@@ -145,7 +145,7 @@
                         </p>
                     </span>
 
-                    <span class="col-md-6" onclick="handleButtonClick(13)">
+                    <span class="col-md-6" onclick="handleButtonClick(13,this)">
                          <p>
                     <h4><i class="fa fa-check-square-o"></i>
                        Фуқароларнинг мурожаатлари асосида парламент сўровларини шакллантириш амалиётини йўлга кўйиш.
@@ -153,7 +153,7 @@
                         </p>
                     </span>
 
-                    <span class="col-md-6" onclick="handleButtonClick(9)">
+                    <span class="col-md-6" onclick="handleButtonClick(9,this)">
                          <p>
                     <h4><i class="fa fa-check-square-o"></i>
                         Депутатларининг ижтимоий тармоқдаги фаоллигини янада ошириш.
@@ -167,14 +167,14 @@
             <!--4444444-->
             <div class="box box-default">
                 <div class="box-header plan4 text-left ">
-                    <h2><img src="/assets/icon/number-four.png" height="80" width="80"></img> Олии Мажлис Қонунчилик
+                    <h2><img src="/assets/icon/number-four.png" height="80" width="80"></img> Олий Мажлис Қонунчилик
                         палатаси депутатларининг сайлов округларидаги ва мурожаатлар билан ишлаш борасидаги
                         <p class="text-center">фаолиятини янги босқичга олиб чиқиш </p></h2>
 
                 </div>
-                <div class="box-body customPlan plan4Body">
+                <div class="box-body customPlan plan4Body" id="plan_4">
 
-                    <span class="col-md-6" onclick="handleButtonClick(15)">
+                    <span class="col-md-6" onclick="handleButtonClick(15,this)">
                          <p>
                     <h4><i class="fa fa-check-square-o"></i>
                        Ҳар ойнинг 25 санасидан бошлаб 10 кун давомида депутатлар ва сенаторларнинг ҳудудларга чиккан ҳолда,
@@ -183,7 +183,7 @@
                         </p>
                     </span>
 
-                  <span class="col-md-6" onclick="handleButtonClick(16)">
+                  <span class="col-md-6" onclick="handleButtonClick(16,this)">
                         <p>
                     <h4><i class="fa fa-check-square-o"></i>
                         Қонунчилик палатаси депутати ёрдамчиси институтидан самарали фойдаланиш
@@ -191,7 +191,7 @@
                         </p>
                     </span>
 
-                  <span class="col-md-6" onclick="handleButtonClick(17)">
+                  <span class="col-md-6" onclick="handleButtonClick(17,this)">
                          <p>
                     <h4><i class="fa fa-check-square-o"></i>
                        Жисмоний ва юридик шахсларнинг мурожаатлари билан ишлаш ҳолатини Қонунчилик палатаси томонидан назоратга олиш.
@@ -199,10 +199,10 @@
                         </p>
                     </span>
 
-                  <span class="col-md-6" onclick="handleButtonClick(18)">
+                  <span class="col-md-6" onclick="handleButtonClick(18,this)">
                       <p>
                     <h4><i class="fa fa-check-square-o"></i>
-                        Қонунчилик палатасида жисмоний ва юридик шахсларнинг мурожаатлари билан ишлаш борасида чоратадбирларни такомиллаштириш.
+                        Қонунчилик палатасида жисмоний ва юридик шахсларнинг мурожаатлари билан ишлаш борасида чора тадбирларни такомиллаштириш.
                     </h4>
                         </p>
                          </span>
@@ -222,8 +222,8 @@
                         Қонунчилик палатаси депутатларининг давлат дастурларини амалга оширишдаги ҳамда жамиёт ҳаётидаги энг муҳим масалаларни ҳал этишдаги иштирокини кучайтириш
                     </h2>
                 </div>
-                <div class="box-body customPlan plan6Body">
-                   <span class="col-md-6" onclick="handleButtonClick(19)">
+                <div class="box-body customPlan plan6Body" id="plan_5">
+                   <span class="col-md-6" onclick="handleButtonClick(19,this)">
                       <p>
                     <h4><i class="fa fa-check-square-o"></i>
                         2022 йилда янги иш ўринларини ташкил этиш ва аҳоли бандлигига кўмаклашиш бўйича давлат
@@ -232,7 +232,7 @@
                        </p>
                      </span>
 
-                    <span class="col-md-6" onclick="handleButtonClick(20)">
+                    <span class="col-md-6" onclick="handleButtonClick(20,this)">
                       <p>
                     <h4><i class="fa fa-check-square-o"></i>
                         2022 йилда янги иш ўринларини яратишни таъминлаш бўйича кўрилаётган чоралар тўғрисида тармоқлар ва
@@ -240,7 +240,7 @@
                     </h4>
                         </p>
                      </span>
-                    <span class="col-md-6" onclick="handleButtonClick(21)">
+                    <span class="col-md-6" onclick="handleButtonClick(21,this)">
                       <p>
                     <h4><i class="fa fa-check-square-o"></i>
                         Ёшларга оид давлат сиёсатини амалга оширишга масъул бўлган раҳбарларнинг ҳисоботини эшитиш.
@@ -248,7 +248,7 @@
                         </p>
                      </span>
 
-                    <span class="col-md-6" onclick="handleButtonClick(22)">
+                    <span class="col-md-6" onclick="handleButtonClick(22,this)">
                       <p>
                     <h4><i class="fa fa-check-square-o"></i>
                        Конституциявий ислоҳотларни амалга оширишга доир қонунчилик асосларини яратишда депутатларнинг фаол иштирокини таъминлаш.
@@ -256,7 +256,7 @@
                         </p>
                      </span>
 
-                    <span class="col-md-6" onclick="handleButtonClick(23)">
+                    <span class="col-md-6" onclick="handleButtonClick(23,this)">
                       <p>
                     <h4><i class="fa fa-check-square-o"></i>
                        «Обод маҳалла» ва «Обод қишлоқ» дастурлари ижроси устидан таъсирчан депутатлар назоратини ўрнатиш.
@@ -264,10 +264,10 @@
                         </h4>
                         </p>
                      </span>
-                    <span class="col-md-6" onclick="handleButtonClick(24)">
+                    <span class="col-md-6" onclick="handleButtonClick(24,this)">
                       <p>
                     <h4><i class="fa fa-check-square-o"></i>
-                        Давлат иштирокидаги корхоналарда молиявий натижадорликка эришиш ва давлат мулкидан са марали фойдала ниш устидантаъсирчан назораттизимини йўлга қуйиш.
+                        Давлат иштирокидаги корхоналарда молиявий натижадорликка эришиш ва давлат мулкидан са марали фойдала ниш устидан таъсирчан назорат тизимини йўлга қуйиш.
                         </h4>
                         </p>
                      </span>
@@ -288,10 +288,10 @@
                         Халқаро парламентлараро алоқаларни ривожлантириш, мамлакат хавфсизлигини таъминлашнинг хуқуқий
                         асосларини такомиллаштириш </h2>
                 </div>
-                <div class="box-body customPlan plan5Body">
+                <div class="box-body customPlan plan5Body" id="plan_6">
 
 
-                  <span class="col-md-6" onclick="handleButtonClick(25)">
+                  <span class="col-md-6" onclick="handleButtonClick(25,this)">
                         <p>
                         <h4><i class="fa fa-check-square-o"></i>
                             Хорижий давлатлар парламентлари билан парламентлараро ҳамкорликни ривожлантириш.
@@ -300,27 +300,27 @@
                         </p>
                     </span>
 
-                  <span class="col-md-6" onclick="handleButtonClick(26)">
+                  <span class="col-md-6" onclick="handleButtonClick(26,this)" >
                         <p>
                     <h4><i class="fa fa-check-square-o"></i>
-                       Халқаро парламентларароташкилотлар билан алоқаларни ривожлантириш.
+                       Халқаро парламентлараро ташкилотлар билан алоқаларни ривожлантириш.
 
                     </h4>
                         </p>
                     </span>
 
-                  <span class="col-md-6" onclick="handleButtonClick(27)">
+                  <span class="col-md-6" onclick="handleButtonClick(27,this)">
                          <p>
                     <h4><i class="fa fa-check-square-o"></i>
-                       Хорижийташкилотларнинглойиҳаларини амалга ошириш борасидаги четэл давлатлари парламентлари илғор тажрибасини ўрганиш.
+                       Хорижий ташкилотларнинг лойиҳаларини амалга ошириш борасидаги чет эл давлатлари парламентлари илғор тажрибасини ўрганиш.
                     </h4>
                         </p>
                     </span>
 
-                  <span class="col-md-6" onclick="handleButtonClick( 28)">
+                  <span class="col-md-6" onclick="handleButtonClick( 28,this)">
                       <p>
                     <h4><i class="fa fa-check-square-o"></i>
-                      БМТнинг Барқарор ривожланиш мақсадларининг бажарилиши ҳолати юзасидан мутасадди вазирлик ва идораларнингахборотини қўмиталар мажлисларида эшитиб бориш.
+                      БМТнинг Барқарор ривожланиш мақсадларининг бажарилиши ҳолати юзасидан мутасадди вазирлик ва идораларнинг ахборотини қўмиталар мажлисларида эшитиб бориш.
                     </h4>
                         </p>
                          </span>

@@ -21,6 +21,15 @@ var app=new Vue({
 
 });
 */
+
+//State control object
+var centerData={
+    id:null,
+    state:false,
+    ids:[],
+    }
+
+
 //Knopka idisi
 var mybutton = document.getElementById("myBtn");
 
@@ -43,12 +52,33 @@ function topFunction() {
         var a = document.getElementById(i).classList.remove("planTr");
     }
 
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
+
+    if(centerData.id && centerData.state){
+        var parentElement=document.getElementById(centerData.id);
+        parentElement.scrollIntoView({block: "center", behavior: "smooth"});
+        centerData.state=false;
+    }else {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+
+    }
+        console.log(centerData);
+
 }
 
 
-function handleButtonClick(e) {
+function handleButtonClick(e,item) {
+     if (item){
+        let parentId=item.parentNode.id;
+         centerData.state=!centerData.state;
+         centerData.id= parentId;
+         centerData.ids.push(parentId);
+             //console.log(centerData);
+            // console.log("Item passed");
+
+             }
+
+
 
     for (i = 1; i <= 28; i++) {
         var a = document.getElementById(i).classList.remove("planTr");
